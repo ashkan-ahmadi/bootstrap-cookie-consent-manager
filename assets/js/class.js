@@ -123,19 +123,16 @@ export default class cookieConsent {
 
   // Other Functions
 
-  doesBootstrapExist() {
-    if (!bootstrap) {
-      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
-      return false
-    }
-    return true
+  bootstrapExists() {
+    return typeof bootstrap !== 'undefined'
   }
 
   // INITIALIZE
 
   init() {
     // check if Bootstrap exists before anything else
-    if (!this.doesBootstrapExist()) {
+    if (!this.bootstrapExists()) {
+      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
       return
     }
   }
