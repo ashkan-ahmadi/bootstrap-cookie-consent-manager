@@ -1,8 +1,9 @@
 export default function bootstrapCookieConsentManager(userConsents = [], userConfig = {}) {
   // CONSTS
-  const COOKIE_CONSENT_LOCAL_STORANGE_SET_NAME = 'cookieConsentSet' // the name when it's set
-  const COOKIE_CONSENT_LOCAL_STORANGE_SET_VALUE = 'true' // the value when it's set
-  const COOKIE_CONSENT_LOCAL_STORANGE_PREFIX = 'cookieConsent_' // the name when it's set
+  const LOCAL_STORANGE_PREFIX = 'cookieConsent_' // the global prefix
+  const LOCAL_STORANGE_CONSENT_TYPE_PREFIX = LOCAL_STORANGE_PREFIX + 'consentType_' // the name of the consent type
+  const LOCAL_STORANGE_SET_NAME = LOCAL_STORANGE_PREFIX + 'isSet' // the name when consent is set
+  const LOCAL_STORANGE_SET_VALUE = 'true' // the value when consent is set
 
   // CONSENTS
   const defaultConsents = []
@@ -42,7 +43,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
 
   const config = { ...defaultConfig, ...userConfig }
 
-  const { title, centered, scrollable, animation, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = config || {}
+  const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = config || {}
 
   // MODAL CLASSES
 
@@ -87,7 +88,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
                     </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" role="switch" id="${id}" ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
-                      <label class="form-check-label visually-hidden" for="${COOKIE_CONSENT_LOCAL_STORANGE_PREFIX + id}">ON</label>
+                      <label class="form-check-label visually-hidden" for="${LOCAL_STORANGE_PREFIX + id}">ON</label>
                     </div>
                   </div>
                   <p class="m-0">${description}</p>
@@ -142,7 +143,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
       }
 
       checkboxes.forEach(checkbox => {
-        const name = COOKIE_CONSENT_LOCAL_STORANGE_PREFIX + checkbox?.id
+        const name = LOCAL_STORANGE_CONSENT_TYPE_PREFIX + checkbox?.id
         const value = checkbox?.disabled ? 'true' : 'false' // set to false for all other than the required ones
 
         localStorage.setItem(name, value)
@@ -150,7 +151,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
     } catch (error) {
       console.error(error)
     } finally {
-      localStorage.setItem(COOKIE_CONSENT_LOCAL_STORANGE_SET_NAME, COOKIE_CONSENT_LOCAL_STORANGE_SET_VALUE)
+      localStorage.setItem(LOCAL_STORANGE_SET_NAME, LOCAL_STORANGE_SET_VALUE)
     }
   })
 
@@ -169,7 +170,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
       }
 
       checkboxes.forEach(checkbox => {
-        const name = COOKIE_CONSENT_LOCAL_STORANGE_PREFIX + checkbox?.id
+        const name = LOCAL_STORANGE_CONSENT_TYPE_PREFIX + checkbox?.id
         const value = 'true' // set to false for all other than the required ones
 
         localStorage.setItem(name, value)
@@ -177,7 +178,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
     } catch (error) {
       console.error(error)
     } finally {
-      localStorage.setItem(COOKIE_CONSENT_LOCAL_STORANGE_SET_NAME, COOKIE_CONSENT_LOCAL_STORANGE_SET_VALUE)
+      localStorage.setItem(LOCAL_STORANGE_SET_NAME, LOCAL_STORANGE_SET_VALUE)
     }
   })
 
@@ -196,7 +197,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
       }
 
       checkboxes.forEach(checkbox => {
-        const name = COOKIE_CONSENT_LOCAL_STORANGE_PREFIX + checkbox?.id
+        const name = LOCAL_STORANGE_CONSENT_TYPE_PREFIX + checkbox?.id
         const value = checkbox?.checked ? 'true' : 'false'
 
         localStorage.setItem(name, value)
@@ -204,14 +205,14 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
     } catch (error) {
       console.error(error)
     } finally {
-      localStorage.setItem(COOKIE_CONSENT_LOCAL_STORANGE_SET_NAME, COOKIE_CONSENT_LOCAL_STORANGE_SET_VALUE)
+      localStorage.setItem(LOCAL_STORANGE_SET_NAME, LOCAL_STORANGE_SET_VALUE)
     }
   })
 
   try {
-    const isConsentSet = localStorage.getItem(COOKIE_CONSENT_LOCAL_STORANGE_SET_NAME)
+    const isConsentSet = localStorage.getItem(LOCAL_STORANGE_SET_NAME)
 
-    if (isConsentSet !== COOKIE_CONSENT_LOCAL_STORANGE_SET_VALUE) {
+    if (isConsentSet !== LOCAL_STORANGE_SET_VALUE) {
       modal.show()
     }
   } catch (error) {}
