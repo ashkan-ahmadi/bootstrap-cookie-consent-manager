@@ -44,16 +44,31 @@ export default class cookieConsent {
     return this.PREFIX
   }
 
-  getCookieTypePrefix() {
+  getConsentTypePrefix() {
     return this.CONSENT_TYPE_PREFIX
   }
 
-  getCookieSetName() {
+  getConsentSetName() {
     return this.SET_NAME
   }
 
-  getCookieSetValue() {
+  getConsentSetValue() {
     return this.SET_VALUE
+  }
+
+  isConsentSet() {
+    const consentSetName = this.getConsentSetName()
+    const consentSetValue = this.getConsentSetValue()
+
+    // Gets the item from the localStorage
+    const isConsentSet = localStorage.getItem(consentSetName)
+
+    // Validate if the value stored matches what it should be
+    // In this case, even if the name exists but has a different value, we return false
+    // This makes sure if the value has changed, or tampered with, we correct it
+    const isCookieSet = isConsentSet === consentSetValue
+
+    return isCookieSet
   }
 
   // CONSENTS
