@@ -1,9 +1,9 @@
 export default class cookieConsent {
   constructor(userConsentTypes, userConfigs) {
-    this.LOCAL_STORANGE_PREFIX = 'cookieConsent_' // the global prefix
-    this.LOCAL_STORANGE_CONSENT_TYPE_PREFIX = this.LOCAL_STORANGE_PREFIX + 'consentType_' // the name of the consent type
-    this.LOCAL_STORANGE_SET_NAME = this.LOCAL_STORANGE_PREFIX + 'isSet' // the name when consent is set
-    this.LOCAL_STORANGE_SET_VALUE = 'true' // the value when consent is set
+    this.PREFIX = 'cookieConsent_' // the global prefix - keep the _ at the end
+    this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType_' // the name of the consent type
+    this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
+    this.SET_VALUE = 'true' // the value when consent is set
 
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
@@ -41,19 +41,19 @@ export default class cookieConsent {
   // CONSTANTS
 
   getPrefix() {
-    return this.LOCAL_STORANGE_PREFIX
+    return this.PREFIX
   }
 
   getCookieTypePrefix() {
-    return this.LOCAL_STORANGE_CONSENT_TYPE_PREFIX
+    return this.CONSENT_TYPE_PREFIX
   }
 
   getCookieSetName() {
-    return this.LOCAL_STORANGE_SET_NAME
+    return this.SET_NAME
   }
 
   getCookieSetValue() {
-    return this.LOCAL_STORANGE_SET_VALUE
+    return this.SET_VALUE
   }
 
   // CONSENTS
