@@ -29,6 +29,8 @@ export default class cookieConsent {
 
       showRejectAllButtonOnBanner: true,
 
+      useCookieInsteadOfLocalStorage: false,
+
       // CONTENT
       title: 'Cookie Consent',
       rejectAllButtonText: 'Reject all',
@@ -56,21 +58,6 @@ export default class cookieConsent {
     return this.SET_VALUE
   }
 
-  isConsentSet() {
-    const consentSetName = this.getConsentSetName()
-    const consentSetValue = this.getConsentSetValue()
-
-    // Gets the item from the localStorage
-    const isConsentSet = localStorage.getItem(consentSetName)
-
-    // Validate if the value stored matches what it should be
-    // In this case, even if the name exists but has a different value, we return false
-    // This makes sure if the value has changed, or tampered with, we correct it
-    const isCookieSet = isConsentSet === consentSetValue
-
-    return isCookieSet
-  }
-
   // CONSENTS
 
   getDefaultConsentTypes() {
@@ -88,6 +75,31 @@ export default class cookieConsent {
     const consentTypes = [...defaultConsentTypes, ...userConsentTypes]
 
     return consentTypes
+  }
+
+  isConsentSet() {
+    const consentSetName = this.getConsentSetName()
+    const consentSetValue = this.getConsentSetValue()
+
+    try {
+      // we need configs to decide if user wants to use localStorage (default) or cookies
+      const configs = this.getConfigs()
+
+      if (configs?.useCookieInsteadOfLocalStorage) {
+        // TODO: to be developed to set cookie instead of localStorage
+        console.log('You are opting to use cookies instead of local storage')
+      } else {
+        // Gets the item from the localStorage
+        const consentValue = localStorage.getItem(consentSetName)
+
+        // Validate if the value stored matches what it should be
+        // In this case, even if the name exists but has a different value, we return false
+        // This makes sure if the value has changed, or tampered with, we correct it
+        return consentValue === consentSetValue
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   // CONFIGS
