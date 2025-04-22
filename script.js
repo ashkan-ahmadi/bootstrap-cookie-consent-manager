@@ -9,6 +9,7 @@ const myconfig = {
   // rejectAllButtonText: 'Reject all',
   // acceptAllButtonText: 'Accept all',
   // saveButtonText: 'Save',
+  // useCookieInsteadOfLocalStorage: true,
 }
 
 const consents = [
@@ -47,8 +48,8 @@ const consents = [
 ]
 bootstrapCookieConsentManager(consents, myconfig)
 
-// import cookieConsent from './assets/js/class.js'
+import cookieConsent from './assets/js/class.js'
 
-// const f = new cookieConsent(consents, myconfig)
+const f = new cookieConsent(consents, myconfig)
 
-// console.log(f.getConfigs())
+f.isConsentSet()
