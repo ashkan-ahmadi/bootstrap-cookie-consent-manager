@@ -4,6 +4,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
   const LOCAL_STORANGE_CONSENT_TYPE_PREFIX = LOCAL_STORANGE_PREFIX + 'consentType_' // the name of the consent type
   const LOCAL_STORANGE_SET_NAME = LOCAL_STORANGE_PREFIX + 'isSet' // the name when consent is set
   const LOCAL_STORANGE_SET_VALUE = 'true' // the value when consent is set
+  const SAVE_TO_LOCAL_STORAGE_INSTEAD_OF_COOKIE = true // TODO: this will need to be overridenable in configs
 
   // CONSENTS
   const defaultConsents = []
@@ -78,6 +79,10 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
           <div class="modal-body">
             ${
               consents
+              // filter out all the non-enabled consent types before looping over them
+              .filter(consent => {
+                return consent.enabled === true
+              })
               .map(consent => {
                 const {id, title, description, required, onByDefault} = consent || {}
                 return `
