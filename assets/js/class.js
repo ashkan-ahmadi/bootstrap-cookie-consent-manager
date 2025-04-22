@@ -38,6 +38,9 @@ export default class cookieConsent {
       saveButtonText: 'Save',
     }
     this.userConfigs = userConfigs
+
+    // modalWrap contains the modal
+    this.modalWrap = null
   }
 
   // CONSTANTS
@@ -135,5 +138,22 @@ export default class cookieConsent {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
       return
     }
+  }
+
+  //
+
+  createCookieConsentModal() {
+    // if modalWrap has been modified before, we remove it from DOM and re-set it back to null
+    if (this.modalWrap !== null) {
+      this.modalWrap.remove()
+      this.modalWrap = null
+    }
+
+    // Create a div element to push all the modal HTML into it
+    this.modalWrap = document.createElement('div')
+
+    this.modalWrap.innerHTML = ''
+
+    document.body.append(this.modalWrap)
   }
 }
