@@ -106,7 +106,7 @@ export default class cookieConsent {
 
   // INITIALIZE
 
-  initialize() {
+  init() {
     // check if Bootstrap exists before anything else
     if (!this.doesBootstrapExist()) {
       return
