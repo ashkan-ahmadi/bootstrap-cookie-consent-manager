@@ -149,11 +149,44 @@ export default class cookieConsent {
       this.modalWrap = null
     }
 
+    const configs = this.getConfigs()
+
+    const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
+
+    const modalDialogClasses = []
+
+    if (centered) {
+      modalDialogClasses.push('modal-dialog-centered')
+    }
+
+    if (scrollable) {
+      modalDialogClasses.push('modal-dialog-scrollable')
+    }
+
     // Create a div element to push all the modal HTML into it
     this.modalWrap = document.createElement('div')
 
-    this.modalWrap.innerHTML = ''
+    this.modalWrap.innerHTML = `
+    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''}>
+      <div class="modal-dialog ${modalDialogClasses.join(' ')}">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <p class="modal-title h6">${title}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Body....
+          </div>
+        </div>
+      </div>
+    </div>
+  `
 
     document.body.append(this.modalWrap)
+
+    const modal = new bootstrap.Modal(this.modalWrap.querySelector('.modal'))
+    // const modalHTMLNode = this.modalWrap.querySelector('.modal')
+
+    modal.show()
   }
 }
