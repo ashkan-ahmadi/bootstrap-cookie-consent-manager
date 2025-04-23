@@ -130,6 +130,11 @@ export default class cookieConsent {
     return typeof bootstrap !== 'undefined'
   }
 
+  showModal(modal) {
+    // Pass it: new bootstrap.Modal(selector)
+    modal.show(modal)
+  }
+
   // INITIALIZE
 
   init() {
@@ -138,6 +143,8 @@ export default class cookieConsent {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
       return
     }
+
+    this.createCookieConsentModal()
   }
 
   //
@@ -187,6 +194,6 @@ export default class cookieConsent {
     const modal = new bootstrap.Modal(this.modalWrap.querySelector('.modal'))
     // const modalHTMLNode = this.modalWrap.querySelector('.modal')
 
-    modal.show()
+    this.showModal(modal)
   }
 }
