@@ -39,8 +39,8 @@ export default class cookieConsent {
     }
     this.userConfigs = userConfigs
 
-    // modalWrap contains the modal
-    this.modalWrap = null
+    // this contains the entire modal HTML and its content
+    this.modal = null
   }
 
   // CONSTANTS
@@ -132,36 +132,18 @@ export default class cookieConsent {
 
   showModal(modal) {
     // Pass it: new bootstrap.Modal(selector)
+    // The method works only on bootstrap.Modal
+    // It doesn't work on an HTML element (for example using document.querySelector('...'))
+    // If you have an HTML element, you have to pass to pass it into bootstrap.Modal
+    // For example: new bootstrap.Modal(document.querySelector('.modal'))
     modal.show(modal)
   }
 
-  // INITIALIZE
-
-  init() {
-    // check if Bootstrap exists before anything else
-    if (!this.bootstrapExists()) {
-      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
-      return
-    }
-
-    // This creates the modal's HTML
-    this.modal = this.createCookieConsentModal()
-
-    document.body.append(this.modalWrap)
-
-    const modal = new bootstrap.Modal(this.modalWrap.querySelector('#cookie-consent-modal'))
-    // const modalHTMLNode = this.modalWrap.querySelector('.modal')
-
-    this.showModal(modal)
-  }
-
-  //
-
-  createCookieConsentModal() {
-    // if modalWrap has been modified before, we remove it from DOM and re-set it back to null
-    if (this.modalWrap !== null) {
-      this.modalWrap.remove()
-      this.modalWrap = null
+  createCookieConsentModalHTML() {
+    // if modal has been modified before, we remove it from DOM and re-set it back to null
+    if (this.modal !== null) {
+      this.modal.remove()
+      this.modal = null
     }
 
     const configs = this.getConfigs()
@@ -179,9 +161,9 @@ export default class cookieConsent {
     }
 
     // Create a div element to push all the modal HTML into it
-    this.modalWrap = document.createElement('div')
+    this.modal = document.createElement('div')
 
-    this.modalWrap.innerHTML = `
+    this.modal.innerHTML = `
     <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
       <div class="modal-dialog ${modalDialogClasses.join(' ')}">
         <div class="modal-content">
@@ -196,6 +178,26 @@ export default class cookieConsent {
       </div>
     </div>
   `
-    return this.modalWrap
+    return this.modal
+  }
+
+  // INITIALIZE
+  init() {
+    // check if Bootstrap exists before anything else
+    if (!this.bootstrapExists()) {
+      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
+      return
+    }
+
+    // This creates and returns the modal's HTML
+    this.modal = this.createCookieConsentModalHTML()
+
+    // We add it to the DOM
+    document.body.append(this.modal)
+
+    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
+    const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
+
+    this.showModal(modalAsBSModalObject)
   }
 }
