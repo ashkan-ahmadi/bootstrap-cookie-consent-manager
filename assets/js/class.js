@@ -144,7 +144,15 @@ export default class cookieConsent {
       return
     }
 
-    this.createCookieConsentModal()
+    // This creates the modal's HTML
+    this.modal = this.createCookieConsentModal()
+
+    document.body.append(this.modalWrap)
+
+    const modal = new bootstrap.Modal(this.modalWrap.querySelector('#cookie-consent-modal'))
+    // const modalHTMLNode = this.modalWrap.querySelector('.modal')
+
+    this.showModal(modal)
   }
 
   //
@@ -174,7 +182,7 @@ export default class cookieConsent {
     this.modalWrap = document.createElement('div')
 
     this.modalWrap.innerHTML = `
-    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''}>
+    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
       <div class="modal-dialog ${modalDialogClasses.join(' ')}">
         <div class="modal-content">
           <div class="modal-header bg-light">
@@ -188,12 +196,6 @@ export default class cookieConsent {
       </div>
     </div>
   `
-
-    document.body.append(this.modalWrap)
-
-    const modal = new bootstrap.Modal(this.modalWrap.querySelector('.modal'))
-    // const modalHTMLNode = this.modalWrap.querySelector('.modal')
-
-    this.showModal(modal)
+    return this.modalWrap
   }
 }
