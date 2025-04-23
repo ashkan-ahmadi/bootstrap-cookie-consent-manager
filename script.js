@@ -46,7 +46,7 @@ const consents = [
     description: 'These cookies allow our platform to show related and personalized content to improve your experience such as personalized recommendations or customized content based on your browsing history.',
   },
 ]
-bootstrapCookieConsentManager(consents, myconfig)
+// bootstrapCookieConsentManager(consents, myconfig)
 
 import cookieConsent from './assets/js/class.js'
 
