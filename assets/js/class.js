@@ -189,6 +189,12 @@ export default class cookieConsent {
       return
     }
 
+    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
+    if (this.isConsentSet()) {
+      console.log('consent is set already')
+      return // TODO: not sure what to do here
+    }
+
     // This creates and returns the modal's HTML
     this.modal = this.createCookieConsentModalHTML()
 
