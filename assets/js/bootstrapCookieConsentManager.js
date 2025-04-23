@@ -128,10 +128,9 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
 
   document.body.append(modalWrap)
 
-  const modal = new bootstrap.Modal(modalWrap.querySelector('.modal'))
   const modalHTMLNode = modalWrap.querySelector('.modal')
 
-  if (!modal) {
+  if (!modalHTMLNode) {
     return
   }
 
@@ -221,6 +220,10 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
   })
 
   try {
+    const modal = new bootstrap.Modal(modalWrap.querySelector('.modal'))
+    if (!modal) {
+      return
+    }
     const isConsentSet = localStorage.getItem(LOCAL_STORANGE_SET_NAME)
 
     if (isConsentSet !== LOCAL_STORANGE_SET_VALUE) {
