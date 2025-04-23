@@ -52,4 +52,4 @@ import cookieConsent from './assets/js/class.js'
 
 const f = new cookieConsent(consents, myconfig)
 
-f.createCookieConsentModal()
+f.init()
