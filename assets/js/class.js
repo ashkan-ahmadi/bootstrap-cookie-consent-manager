@@ -181,6 +181,20 @@ export default class cookieConsent {
     return this.modal
   }
 
+  createCookieConsentBannerHTML() {
+    return `
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="cookie-consent-banner">
+        <div class="toast-body">
+          Hello, world! This is a toast message.
+          <div class="mt-2 pt-2 border-top">
+            <button type="button" class="btn btn-primary btn-sm">Take action</button>
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+          </div>
+        </div>
+      </div>
+    `
+  }
+
   // INITIALIZE
   init() {
     // check if Bootstrap exists before anything else
@@ -198,8 +212,8 @@ export default class cookieConsent {
     // This creates and returns the modal's HTML
     this.modal = this.createCookieConsentModalHTML()
 
-    // We add it to the DOM
-    document.body.append(this.modal)
+    // We add it to the DOM - I THINK WE DONT NEED THIS. the .show method already adds it to the DOM
+    // document.body.append(this.modal)
 
     const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
     const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
