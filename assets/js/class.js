@@ -39,6 +39,8 @@ export default class cookieConsent {
     }
     this.userConfigs = userConfigs
 
+    // this contains the entire toast banner HTML and its content
+    this.toastBanner = null
     // this contains the entire modal HTML and its content
     this.modal = null
   }
@@ -183,13 +185,20 @@ export default class cookieConsent {
 
   createCookieConsentBannerHTML() {
     return `
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="cookie-consent-banner">
-        <div class="toast-body">
-          Hello, world! This is a toast message.
-          <div class="mt-2 pt-2 border-top">
-            <button type="button" class="btn btn-primary btn-sm">Take action</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+      <div class="toast-container position-fixed bottom-0 start-0 p-3">
+        <div id="cookie-consent-banner" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto">Customize your cookies</strong>
           </div>
+          <div class="toast-body">
+            We use cookies to enhance your experience on this website. You can accept all cookies, refuse non-essential cookies or customize it. Read our Cookie Policy for more information.
+            <div class="mt-2 pt-2 border-top">
+              <button type="button" class="btn btn-primary" data-function="accept-all-cookies">Accept all</button>
+              <button type="button" class="btn btn-primary" data-function="refuse-all-cookies">Refuse all</button>
+              <button type="button" class="btn btn-primary" data-function="customize-cookies">Customize</button>
+          </div>
+          </div>
+          
         </div>
       </div>
     `
@@ -219,5 +228,27 @@ export default class cookieConsent {
     const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
 
     this.showModal(modalAsBSModalObject)
+  }
+
+  banner() {
+    // if modal has been modified before, we remove it from DOM and re-set it back to null
+    if (this.toastBanner !== null) {
+      this.toastBanner.remove()
+      this.toastBanner = null
+    }
+    // Create a div element to push all the modal HTML into it
+    this.toastBanner = document.createElement('div')
+
+    this.toastBanner.innerHTML = this.createCookieConsentBannerHTML()
+
+    document.body.append(this.toastBanner)
+
+    const banner = bootstrap.Toast.getOrCreateInstance(document.getElementById('cookie-consent-banner'), {
+      // animation: true,
+      autohide: false,
+      // delay: 1000,
+    })
+
+    banner.show()
   }
 }
