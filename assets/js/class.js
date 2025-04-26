@@ -178,6 +178,12 @@ export default class cookieConsent {
     console.log(window.dataLayer)
   }
 
+  gtag() {
+    window.dataLayer = window?.dataLayer || []
+
+    dataLayer.push(arguments)
+  }
+
   showModal(modal) {
     // Pass it: new bootstrap.Modal(selector)
     // The method works only on bootstrap.Modal
