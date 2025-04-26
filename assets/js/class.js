@@ -118,8 +118,12 @@ export default class cookieConsent {
       consentTypes.forEach(type => {
         // verify that the type has an id key
         if (typeof type.id === 'undefined' || !type?.id) {
-          throw Error('id not found on consentType, or empty')
+          console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
+
+          // Returning in a forEach skips the current itiration and goes to the next one
+          return
         }
+
         const name = this.CONSENT_TYPE_PREFIX + type?.id
         const value = this.SET_VALUE // set everything to the default set value (usually true)
 
