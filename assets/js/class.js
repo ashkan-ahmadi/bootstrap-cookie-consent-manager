@@ -216,10 +216,18 @@ export default class cookieConsent {
   }
 
   createCookieConsentBannerHTML() {
-    const div = document.createElement('div')
+    const cookieBannerOuterDiv = document.createElement('div')
 
-    div.innerHTML = `
-      <div class="position-fixed bottom-0 start-0 p-3 w-100 border-top bg-light">
+    cookieBannerOuterDiv.innerHTML = `
+      <div class="position-fixed top-0 bottom-0 start-0 end-0 bg-dark opacity-50 z-1">
+      </div>
+    `
+
+    const banner = document.createElement('div')
+
+    banner.innerHTML = `
+
+      <div class="position-fixed bottom-0 start-0 p-3 w-100 border-top bg-light z-2">
         <div class="container">
           <div class="row g-3 g-md-4 g-xl-5">
             <div class="col-12 col-md-8 col-xl-9">
@@ -241,9 +249,13 @@ export default class cookieConsent {
           </div>
         </div>
       </div>
+
+      </div>
     `
 
-    return div
+    cookieBannerOuterDiv.appendChild(banner)
+
+    return cookieBannerOuterDiv
   }
 
   // INITIALIZE
@@ -258,21 +270,26 @@ export default class cookieConsent {
     if (this.isConsentSet()) {
       console.log('consent is set already')
       return // TODO: not sure what to do here
+
+      // read values from localStorage
+      // fire GA events
     }
 
+    this.showCookieBanner()
+
     // This creates and returns the modal's HTML
-    this.modal = this.createCookieConsentModalHTML()
+    // this.modal = this.createCookieConsentModalHTML()
 
     // We add it to the DOM - I THINK WE DONT NEED THIS. the .show method already adds it to the DOM
     // document.body.append(this.modal)
 
-    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
-    const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
+    // const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
+    // const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
 
-    this.showModal(modalAsBSModalObject)
+    // this.showModal(modalAsBSModalObject)
   }
 
-  banner() {
+  showCookieBanner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.cookieBanner !== null) {
       this.cookieBanner.remove()
@@ -294,7 +311,6 @@ export default class cookieConsent {
     acceptAllButton.addEventListener('click', e => {
       console.log('accept all')
       this.setConsent_acceptAll()
-      this.to
     })
     rejectAllButton.addEventListener('click', e => {
       console.log('reject all')
