@@ -181,7 +181,7 @@ export default function bootstrapCookieConsentManager(userConsents = [], userCon
 
       checkboxes.forEach(checkbox => {
         const name = LOCAL_STORANGE_CONSENT_TYPE_PREFIX + checkbox?.id
-        const value = 'true' // set to false for all other than the required ones
+        const value = 'true' // set to true for everything
 
         localStorage.setItem(name, value)
       })
