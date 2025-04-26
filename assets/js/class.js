@@ -289,6 +289,8 @@ export default class cookieConsent {
     // this.showModal(modalAsBSModalObject)
   }
 
+  showCookieModal() {}
+
   showCookieBanner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.cookieBanner !== null) {
