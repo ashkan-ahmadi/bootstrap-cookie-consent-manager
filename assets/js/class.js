@@ -147,11 +147,8 @@ export default class cookieConsent {
         }
       })
 
+      // Set an item to show that conset is set
       localStorage.setItem(this.SET_NAME, this.SET_VALUE)
-
-      // remove the banner from DOM
-
-      // fire GA events that everything is updated
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
