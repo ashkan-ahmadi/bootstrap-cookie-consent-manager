@@ -40,7 +40,7 @@ export default class cookieConsent {
     this.userConfigs = userConfigs
 
     // this contains the entire toast banner HTML and its content
-    this.toastBanner = null
+    this.cookieBanner = null
     // this contains the entire modal HTML and its content
     this.modal = null
   }
@@ -274,16 +274,16 @@ export default class cookieConsent {
 
   banner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
-    if (this.toastBanner !== null) {
-      this.toastBanner.remove()
-      this.toastBanner = null
+    if (this.cookieBanner !== null) {
+      this.cookieBanner.remove()
+      this.cookieBanner = null
     }
 
-    this.toastBanner = this.createCookieConsentBannerHTML()
+    this.cookieBanner = this.createCookieConsentBannerHTML()
 
-    document.body.append(this.toastBanner)
+    document.body.append(this.cookieBanner)
 
-    const allButtons = this.toastBanner.querySelectorAll('button')
+    const allButtons = this.cookieBanner.querySelectorAll('button')
 
     if (!allButtons) {
       return
@@ -294,6 +294,7 @@ export default class cookieConsent {
     acceptAllButton.addEventListener('click', e => {
       console.log('accept all')
       this.setConsent_acceptAll()
+      this.to
     })
     rejectAllButton.addEventListener('click', e => {
       console.log('reject all')
