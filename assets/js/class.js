@@ -184,24 +184,28 @@ export default class cookieConsent {
   }
 
   createCookieConsentBannerHTML() {
-    return `
+    const div = document.createElement('div')
+
+    div.innerHTML = `
       <div class="toast-container position-fixed bottom-0 start-0 p-3">
         <div id="cookie-consent-banner" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
           <div class="toast-header">
-            <strong class="me-auto">Customize your cookies</strong>
+            <strong class="me-auto">🍪 Customize your cookies</strong>
           </div>
           <div class="toast-body">
-            We use cookies to enhance your experience on this website. You can accept all cookies, refuse non-essential cookies or customize it. Read our Cookie Policy for more information.
+            We use cookies to enhance your experience on this website. You can accept all cookies, refuse non-essential cookies or customize it. Read our <a href="#">Cookie Policy</a> for more information.
             <div class="mt-2 pt-2 border-top">
-              <button type="button" class="btn btn-primary" data-function="accept-all-cookies">Accept all</button>
-              <button type="button" class="btn btn-primary" data-function="refuse-all-cookies">Refuse all</button>
-              <button type="button" class="btn btn-primary" data-function="customize-cookies">Customize</button>
+              <button type="button" class="btn btn-sm btn-primary" data-function="accept-all-cookies">Accept all</button>
+              <button type="button" class="btn btn-sm btn-primary" data-function="refuse-all-cookies">Refuse non-essentials</button>
+              <button type="button" class="btn btn-sm btn-primary" data-function="customize-cookies">Customize</button>
           </div>
           </div>
           
         </div>
       </div>
     `
+
+    return div
   }
 
   // INITIALIZE
@@ -236,10 +240,8 @@ export default class cookieConsent {
       this.toastBanner.remove()
       this.toastBanner = null
     }
-    // Create a div element to push all the modal HTML into it
-    this.toastBanner = document.createElement('div')
 
-    this.toastBanner.innerHTML = this.createCookieConsentBannerHTML()
+    this.toastBanner = this.createCookieConsentBannerHTML()
 
     document.body.append(this.toastBanner)
 
@@ -247,6 +249,24 @@ export default class cookieConsent {
       // animation: true,
       autohide: false,
       // delay: 1000,
+    })
+
+    const allButtons = this.toastBanner.querySelectorAll('button')
+
+    if (!allButtons) {
+      return
+    }
+
+    const [acceptAllButton, rejectAllButton, customizeButton] = allButtons
+
+    acceptAllButton.addEventListener('click', e => {
+      console.log('accept all')
+    })
+    rejectAllButton.addEventListener('click', e => {
+      console.log('reject all')
+    })
+    customizeButton.addEventListener('click', e => {
+      console.log('customize')
     })
 
     banner.show()
