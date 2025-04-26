@@ -9,8 +9,76 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="script.js"></script>
+  <style>
+    body::before {
+      content: 'XSM'; /* default */
+      position: fixed;
+      z-index: 999999999999;
+      bottom: 0.5rem;
+      left: 0.5rem;
+      background-color: rgba(0,0,0,0.25);
+      color:grey;
+      margin: 0;
+      padding: 0.25rem;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @media (min-width: 576px) {
+      body::before {
+        content: 'SM';
+      }
+    }
+
+    @media (min-width: 768px) {
+      body::before {
+        content: 'MD';
+      }
+    }
+
+    @media (min-width: 992px) {
+      body::before {
+        content: 'LG';
+      }
+    }
+
+    @media (min-width: 1200px) {
+      body::before {
+        content: 'XL';
+      }
+    }
+
+    @media (min-width: 1400px) {
+      body::before {
+        content: 'XXL';
+      }
+    }
+  </style>
 </head>
 <body>
+
+  <main class="container py-4">
+    <h1>Cookie Conset Manager</h1>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis assumenda quisquam beatae dolore dolores, id delectus iste eum vel nihil quam, natus aperiam numquam! Totam, distinctio ad. Doloribus, adipisci esse.</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum tempore vel, hic rem doloribus esse.</p>
+
+    <img class="img-fluid mb-3" src="https://placecats.com/800/533" alt="">
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima mollitia doloremque iusto deserunt itaque ad, doloribus adipisci ducimus accusamus pariatur at autem sunt alias odit, consequatur quaerat natus veniam aliquid, quo dolor explicabo quas maiores recusandae dicta! At, eius ullam.</p>
+
+    <h2>Lorem, ipsum.</h2>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nulla nobis soluta, vitae corporis aspernatur, dolore voluptatem laboriosam illum omnis, consequuntur sunt dolorum.</p>
+
+    <img class="img-fluid mb-3" src="https://placecats.com/800/533" alt="">
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, eos!</p>
+  </main>
 
   
 </body>
