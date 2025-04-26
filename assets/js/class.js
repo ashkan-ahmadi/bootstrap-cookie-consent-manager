@@ -132,6 +132,15 @@ export default class cookieConsent {
         this.pushToDataLayer({
           event: `accept_consent_type_${type?.id}`,
         })
+
+        // Verify the key 'onAccept' exists and it's a function
+        // If a callback function exists, we run it
+        // If the key exists but a non-function is passed, we show a warning on Console
+        if (type.onAccept && typeof type.onAccept === 'function') {
+          type.onAccept()
+        } else if (type.onAccept && typeof type.onAccept !== 'function') {
+          console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
+        }
       })
 
       localStorage.setItem(this.SET_NAME, this.SET_VALUE)

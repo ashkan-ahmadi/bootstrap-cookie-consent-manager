@@ -20,6 +20,8 @@ const consents = [
     required: true,
     onByDefault: true,
     description: 'These cookies are necessary for the website to function properly and <b>cannot be switched off</b>. They help with things like logging in and setting your privacy preferences.</p>',
+    onAccept: function () {},
+    onReject: function () {},
   },
   {
     id: 'analytics',
@@ -28,6 +30,8 @@ const consents = [
     required: true,
     onByDefault: true,
     description: 'These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.',
+    onAccept: function () {},
+    onReject: function () {},
   },
   {
     id: 'advertising',
@@ -36,6 +40,8 @@ const consents = [
     required: false,
     onByDefault: true,
     description: 'These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.',
+    onAccept: function () {},
+    onReject: function () {},
   },
   {
     id: 'personalization',
@@ -44,6 +50,8 @@ const consents = [
     required: false,
     onByDefault: true,
     description: 'These cookies allow our platform to show related and personalized content to improve your experience such as personalized recommendations or customized content based on your browsing history.',
+    onAccept: function () {},
+    onReject: function () {},
   },
 ]
 // bootstrapCookieConsentManager(consents, myconfig)
