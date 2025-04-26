@@ -107,6 +107,38 @@ export default class cookieConsent {
     }
   }
 
+  setConsent_acceptAll() {
+    try {
+      const consentTypes = this.getConsentTypes()
+
+      if (!consentTypes || consentTypes?.length === 0) {
+        return
+      }
+
+      console.log(consentTypes)
+
+      consentTypes.forEach(type => {
+        // verify that the type has an id key
+        if (typeof type.id === 'undefined' || !type?.id) {
+          throw Error('id not found on consentType, or empty')
+        }
+        const name = this.CONSENT_TYPE_PREFIX + type?.id
+        const value = this.SET_VALUE // set everything to the default set value (usually true)
+
+        localStorage.setItem(name, value)
+      })
+
+      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+
+      // remove the banner from DOM
+
+      // fire GA events that everything is updated
+    } catch (error) {
+      console.error('There was an error with setConsent_acceptAll()')
+      console.error(error)
+    }
+  }
+
   // CONFIGS
 
   getDefaultConfigs() {
@@ -187,20 +219,26 @@ export default class cookieConsent {
     const div = document.createElement('div')
 
     div.innerHTML = `
-      <div class="toast-container position-fixed bottom-0 start-0 p-3">
-        <div id="cookie-consent-banner" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="toast-header">
-            <strong class="me-auto">🍪 Customize your cookies</strong>
+      <div class="position-fixed bottom-0 start-0 p-3 w-100 border-top bg-light">
+        <div class="container">
+          <div class="row g-3 g-md-4 g-xl-5">
+            <div class="col-12 col-md-8 col-xl-9">
+              <p class="fs-5 fw-bold mb-1">
+                Customize the cookies
+              </p>
+            
+              <p class="mb-0">
+               We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.
+              </p>
+            </div>
+            <div class="col">
+              <div class="row xxl-block flex-column g-1">
+                <button type="button" class="btn btn-primary" data-function="accept-all-cookies">Accept all</button>
+                <button type="button" class="btn btn-primary" data-function="refuse-all-cookies">Refuse non-essentials</button>
+                <button type="button" class="btn btn-primary" data-function="customize-cookies">Customize</button>
+              </div>
+            </div>
           </div>
-          <div class="toast-body">
-            We use cookies to enhance your experience on this website. You can accept all cookies, refuse non-essential cookies or customize it. Read our <a href="#">Cookie Policy</a> for more information.
-            <div class="mt-2 pt-2 border-top">
-              <button type="button" class="btn btn-sm btn-primary" data-function="accept-all-cookies">Accept all</button>
-              <button type="button" class="btn btn-sm btn-primary" data-function="refuse-all-cookies">Refuse non-essentials</button>
-              <button type="button" class="btn btn-sm btn-primary" data-function="customize-cookies">Customize</button>
-          </div>
-          </div>
-          
         </div>
       </div>
     `
@@ -245,12 +283,6 @@ export default class cookieConsent {
 
     document.body.append(this.toastBanner)
 
-    const banner = bootstrap.Toast.getOrCreateInstance(document.getElementById('cookie-consent-banner'), {
-      // animation: true,
-      autohide: false,
-      // delay: 1000,
-    })
-
     const allButtons = this.toastBanner.querySelectorAll('button')
 
     if (!allButtons) {
@@ -261,6 +293,7 @@ export default class cookieConsent {
 
     acceptAllButton.addEventListener('click', e => {
       console.log('accept all')
+      this.setConsent_acceptAll()
     })
     rejectAllButton.addEventListener('click', e => {
       console.log('reject all')
@@ -268,7 +301,5 @@ export default class cookieConsent {
     customizeButton.addEventListener('click', e => {
       console.log('customize')
     })
-
-    banner.show()
   }
 }
