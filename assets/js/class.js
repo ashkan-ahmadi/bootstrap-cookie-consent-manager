@@ -115,8 +115,6 @@ export default class cookieConsent {
         return
       }
 
-      console.log(consentTypes)
-
       consentTypes.forEach(type => {
         // verify that the type has an id key
         if (typeof type.id === 'undefined' || !type?.id) {
@@ -162,6 +160,12 @@ export default class cookieConsent {
 
   bootstrapExists() {
     return typeof bootstrap !== 'undefined'
+  }
+
+  pushToDataLayer(obj) {
+    window.dataLayer = window.dataLayer || []
+
+    window.dataLayer.push(obj)
   }
 
   showModal(modal) {
@@ -311,8 +315,14 @@ export default class cookieConsent {
     const [acceptAllButton, rejectAllButton, customizeButton] = allButtons
 
     acceptAllButton.addEventListener('click', e => {
-      console.log('accept all')
-      this.setConsent_acceptAll()
+      try {
+        console.log('accept all')
+        this.setConsent_acceptAll()
+        this.cookieBanner.remove()
+        this.cookieBanner = null
+      } catch (error) {
+        console.error('There was an issue with callback function of acceptAllButton')
+      }
     })
     rejectAllButton.addEventListener('click', e => {
       console.log('reject all')
