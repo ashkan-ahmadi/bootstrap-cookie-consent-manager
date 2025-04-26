@@ -124,6 +124,14 @@ export default class cookieConsent {
         const value = this.SET_VALUE // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
+
+        // fire one event per consent type
+        // this makes setting up different triggers and tags much easier on GTM
+        // TODO: this could go into a standalone function to be reused when init loads and conset is already set
+        // we still need to fire this on every page
+        this.pushToDataLayer({
+          event: `accept_consent_type_${type?.id}`,
+        })
       })
 
       localStorage.setItem(this.SET_NAME, this.SET_VALUE)
@@ -166,6 +174,8 @@ export default class cookieConsent {
     window.dataLayer = window.dataLayer || []
 
     window.dataLayer.push(obj)
+
+    console.log(window.dataLayer)
   }
 
   showModal(modal) {
@@ -320,6 +330,8 @@ export default class cookieConsent {
         this.setConsent_acceptAll()
         this.cookieBanner.remove()
         this.cookieBanner = null
+
+        this.pushToDataLayer({ event: 'accept_all_consent_types' })
       } catch (error) {
         console.error('There was an issue with callback function of acceptAllButton')
       }
