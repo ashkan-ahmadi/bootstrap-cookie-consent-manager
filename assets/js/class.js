@@ -47,7 +47,9 @@ export default class cookieConsent {
     this.modal = null
   }
 
-  // CONSTANTS
+  // +-------------------------------------+
+  // | CONSTANTS                           |
+  // +-------------------------------------+
 
   getPrefix() {
     return this.PREFIX
@@ -65,7 +67,9 @@ export default class cookieConsent {
     return this.SET_VALUE
   }
 
-  // CONSENTS
+  // +-------------------------------------+
+  // | CONSENTS                            |
+  // +-------------------------------------+
 
   getDefaultConsentTypes() {
     return this.defaultConsentTypes
@@ -165,7 +169,9 @@ export default class cookieConsent {
     console.log('running setConsent_customize')
   }
 
-  // CONFIGS
+  // +-------------------------------------+
+  // | CONFIGS                             |
+  // +-------------------------------------+
 
   getDefaultConfigs() {
     return this.defaultConfigs
@@ -184,7 +190,9 @@ export default class cookieConsent {
     return configs
   }
 
-  // Other Functions
+  // +-------------------------------------+
+  // | OTHER FUNCTIONS                     |
+  // +-------------------------------------+
 
   bootstrapExists() {
     return typeof bootstrap !== 'undefined'
@@ -204,7 +212,10 @@ export default class cookieConsent {
     dataLayer.push(arguments)
   }
 
-  // BANNER
+  // +-------------------------------------+
+  // | BANNER                              |
+  // +-------------------------------------+
+
   createBannerHTML() {
     const cookieBannerOuterDiv = document.createElement('div')
 
@@ -306,7 +317,10 @@ export default class cookieConsent {
     }
   }
 
-  // MODAL
+  // +-------------------------------------+
+  // | MODAL                               |
+  // +-------------------------------------+
+
   createModalHTML() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.modal !== null) {
@@ -359,7 +373,10 @@ export default class cookieConsent {
     modalAsBSModalObject.show()
   }
 
-  // INITIALIZE
+  // +-------------------------------------+
+  // | INITIALIZE                          |
+  // +-------------------------------------+
+
   init() {
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
