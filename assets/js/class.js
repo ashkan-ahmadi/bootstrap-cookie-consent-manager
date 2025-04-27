@@ -194,15 +194,6 @@ export default class cookieConsent {
     dataLayer.push(arguments)
   }
 
-  showModal(modal) {
-    // Pass it: new bootstrap.Modal(selector)
-    // The method works only on bootstrap.Modal
-    // It doesn't work on an HTML element (for example using document.querySelector('...'))
-    // If you have an HTML element, you have to pass to pass it into bootstrap.Modal
-    // For example: new bootstrap.Modal(document.querySelector('.modal'))
-    modal.show(modal)
-  }
-
   createCookieConsentModalHTML() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.modal !== null) {
@@ -306,20 +297,16 @@ export default class cookieConsent {
     }
 
     this.showCookieBanner()
-
-    // This creates and returns the modal's HTML
-    // this.modal = this.createCookieConsentModalHTML()
-
-    // We add it to the DOM - I THINK WE DONT NEED THIS. the .show method already adds it to the DOM
-    // document.body.append(this.modal)
-
-    // const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
-    // const modalHTMLNode = this.modal.querySelector('#cookie-consent-modal')
-
-    // this.showModal(modalAsBSModalObject)
   }
 
-  showCookieModal() {}
+  showCookieModal() {
+    // This creates and returns the modal's HTML
+    this.modal = this.createCookieConsentModalHTML()
+
+    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
+
+    modalAsBSModalObject.show()
+  }
 
   showCookieBanner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
@@ -340,23 +327,42 @@ export default class cookieConsent {
 
     const [acceptAllButton, rejectAllButton, customizeButton] = allButtons
 
-    acceptAllButton.addEventListener('click', e => {
-      try {
-        console.log('accept all')
-        this.setConsent_acceptAll()
-        this.cookieBanner.remove()
-        this.cookieBanner = null
+    if (acceptAllButton) {
+      acceptAllButton.addEventListener('click', e => {
+        try {
+          console.log('accept all')
+          this.setConsent_acceptAll()
+          this.cookieBanner.remove()
+          this.cookieBanner = null
 
-        this.pushToDataLayer({ event: 'accept_all_consent_types' })
-      } catch (error) {
-        console.error('There was an issue with callback function of acceptAllButton')
-      }
-    })
-    rejectAllButton.addEventListener('click', e => {
-      console.log('reject all')
-    })
-    customizeButton.addEventListener('click', e => {
-      console.log('customize')
-    })
+          this.pushToDataLayer({ event: 'accept_all_consent_types' })
+        } catch (error) {
+          console.log('There was an issue with callback function of acceptAllButton')
+          console.error(error)
+        }
+      })
+    }
+
+    if (rejectAllButton) {
+      rejectAllButton.addEventListener('click', e => {
+        console.log('reject all')
+      })
+    }
+
+    if (customizeButton) {
+      customizeButton.addEventListener('click', e => {
+        try {
+          console.log('customize')
+
+          this.cookieBanner.remove()
+          this.cookieBanner = null
+
+          this.showCookieModal()
+        } catch (error) {
+          console.log('There was an issue with callback function of customizeButton')
+          console.error(error)
+        }
+      })
+    }
   }
 }
