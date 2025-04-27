@@ -305,8 +305,8 @@ export default class cookieConsent {
       })
     }
   }
-  // MODAL
 
+  // MODAL
   createModalHTML() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.modal !== null) {
