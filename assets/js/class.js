@@ -48,6 +48,29 @@ export default class cookieConsent {
   }
 
   // +-------------------------------------+
+  // | INITIALIZE                          |
+  // +-------------------------------------+
+
+  init() {
+    // check if Bootstrap exists before anything else
+    if (!this.bootstrapExists()) {
+      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
+      return
+    }
+
+    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
+    if (this.isConsentSet()) {
+      console.log('consent is set already')
+      return // TODO: not sure what to do here
+
+      // read values from localStorage
+      // fire GA events
+    }
+
+    this.showBanner()
+  }
+
+  // +-------------------------------------+
   // | CONSTANTS                           |
   // +-------------------------------------+
 
@@ -188,28 +211,6 @@ export default class cookieConsent {
     const configs = { ...defaultConfigs, ...userConfigs }
 
     return configs
-  }
-
-  // +-------------------------------------+
-  // | OTHER FUNCTIONS                     |
-  // +-------------------------------------+
-
-  bootstrapExists() {
-    return typeof bootstrap !== 'undefined'
-  }
-
-  pushToDataLayer(obj) {
-    window.dataLayer = window.dataLayer || []
-
-    window.dataLayer.push(obj)
-
-    console.log(window.dataLayer)
-  }
-
-  gtag() {
-    window.dataLayer = window?.dataLayer || []
-
-    dataLayer.push(arguments)
   }
 
   // +-------------------------------------+
@@ -374,25 +375,24 @@ export default class cookieConsent {
   }
 
   // +-------------------------------------+
-  // | INITIALIZE                          |
+  // | OTHER FUNCTIONS                     |
   // +-------------------------------------+
 
-  init() {
-    // check if Bootstrap exists before anything else
-    if (!this.bootstrapExists()) {
-      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
-      return
-    }
+  bootstrapExists() {
+    return typeof bootstrap !== 'undefined'
+  }
 
-    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
-    if (this.isConsentSet()) {
-      console.log('consent is set already')
-      return // TODO: not sure what to do here
+  pushToDataLayer(obj) {
+    window.dataLayer = window.dataLayer || []
 
-      // read values from localStorage
-      // fire GA events
-    }
+    window.dataLayer.push(obj)
 
-    this.showBanner()
+    console.log(window.dataLayer)
+  }
+
+  gtag() {
+    window.dataLayer = window?.dataLayer || []
+
+    dataLayer.push(arguments)
   }
 }
