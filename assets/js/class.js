@@ -155,6 +155,14 @@ export default class cookieConsent {
     }
   }
 
+  setConsent_rejectAll() {
+    console.log('running setConsent_rejectAll')
+  }
+
+  setConsent_customize() {
+    console.log('running setConsent_customize')
+  }
+
   // CONFIGS
 
   getDefaultConfigs() {
@@ -194,49 +202,8 @@ export default class cookieConsent {
     dataLayer.push(arguments)
   }
 
-  createCookieConsentModalHTML() {
-    // if modal has been modified before, we remove it from DOM and re-set it back to null
-    if (this.modal !== null) {
-      this.modal.remove()
-      this.modal = null
-    }
-
-    const configs = this.getConfigs()
-
-    const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
-
-    const modalDialogClasses = []
-
-    if (centered) {
-      modalDialogClasses.push('modal-dialog-centered')
-    }
-
-    if (scrollable) {
-      modalDialogClasses.push('modal-dialog-scrollable')
-    }
-
-    // Create a div element to push all the modal HTML into it
-    this.modal = document.createElement('div')
-
-    this.modal.innerHTML = `
-    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
-      <div class="modal-dialog ${modalDialogClasses.join(' ')}">
-        <div class="modal-content">
-          <div class="modal-header bg-light">
-            <p class="modal-title h6">${title}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Body....
-          </div>
-        </div>
-      </div>
-    </div>
-  `
-    return this.modal
-  }
-
-  createCookieConsentBannerHTML() {
+  // BANNER
+  createBannerHTML() {
     const cookieBannerOuterDiv = document.createElement('div')
 
     cookieBannerOuterDiv.innerHTML = `
@@ -279,43 +246,14 @@ export default class cookieConsent {
     return cookieBannerOuterDiv
   }
 
-  // INITIALIZE
-  init() {
-    // check if Bootstrap exists before anything else
-    if (!this.bootstrapExists()) {
-      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
-      return
-    }
-
-    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
-    if (this.isConsentSet()) {
-      console.log('consent is set already')
-      return // TODO: not sure what to do here
-
-      // read values from localStorage
-      // fire GA events
-    }
-
-    this.showCookieBanner()
-  }
-
-  showCookieModal() {
-    // This creates and returns the modal's HTML
-    this.modal = this.createCookieConsentModalHTML()
-
-    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
-
-    modalAsBSModalObject.show()
-  }
-
-  showCookieBanner() {
+  showBanner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
     if (this.cookieBanner !== null) {
       this.cookieBanner.remove()
       this.cookieBanner = null
     }
 
-    this.cookieBanner = this.createCookieConsentBannerHTML()
+    this.cookieBanner = this.createBannerHTML()
 
     document.body.append(this.cookieBanner)
 
@@ -357,12 +295,84 @@ export default class cookieConsent {
           this.cookieBanner.remove()
           this.cookieBanner = null
 
-          this.showCookieModal()
+          this.showModal()
         } catch (error) {
           console.log('There was an issue with callback function of customizeButton')
           console.error(error)
         }
       })
     }
+  }
+  // MODAL
+
+  createModalHTML() {
+    // if modal has been modified before, we remove it from DOM and re-set it back to null
+    if (this.modal !== null) {
+      this.modal.remove()
+      this.modal = null
+    }
+
+    const configs = this.getConfigs()
+
+    const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
+
+    const modalDialogClasses = []
+
+    if (centered) {
+      modalDialogClasses.push('modal-dialog-centered')
+    }
+
+    if (scrollable) {
+      modalDialogClasses.push('modal-dialog-scrollable')
+    }
+
+    // Create a div element to push all the modal HTML into it
+    this.modal = document.createElement('div')
+
+    this.modal.innerHTML = `
+    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
+      <div class="modal-dialog ${modalDialogClasses.join(' ')}">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <p class="modal-title h6">${title}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Body....
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+    return this.modal
+  }
+
+  showModal() {
+    // This creates and returns the modal's HTML
+    this.modal = this.createModalHTML()
+
+    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
+
+    modalAsBSModalObject.show()
+  }
+
+  // INITIALIZE
+  init() {
+    // check if Bootstrap exists before anything else
+    if (!this.bootstrapExists()) {
+      console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
+      return
+    }
+
+    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
+    if (this.isConsentSet()) {
+      console.log('consent is set already')
+      return // TODO: not sure what to do here
+
+      // read values from localStorage
+      // fire GA events
+    }
+
+    this.showBanner()
   }
 }
