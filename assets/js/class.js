@@ -27,9 +27,11 @@ export default class cookieConsent {
       // https://getbootstrap.com/docs/5.3/components/modal/#static-backdrop
       staticBackground: true,
 
+      showCloseButtonOnModal: false,
+
       showRejectAllButtonOnBanner: true,
 
-      useCookieInsteadOfLocalStorage: false,
+      // useCookieInsteadOfLocalStorage: false,
 
       // CONTENT
       title: 'Cookie Consent',
@@ -335,7 +337,8 @@ export default class cookieConsent {
         <div class="modal-content">
           <div class="modal-header bg-light">
             <p class="modal-title h6">${title}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            ${this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
+            
           </div>
           <div class="modal-body">
             Body....

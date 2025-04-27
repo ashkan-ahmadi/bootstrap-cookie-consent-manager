@@ -5,6 +5,7 @@ const myconfig = {
   // centered: true,
   // scrollable: true,
   // animation: true,
+  // showCloseButtonOnModal: false, true|false (default)
   // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
   // rejectAllButtonText: 'Reject all',
   // acceptAllButtonText: 'Accept all',
