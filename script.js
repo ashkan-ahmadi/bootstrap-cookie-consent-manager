@@ -1,6 +1,6 @@
 import cookieConsentManager from './assets/js/class.js'
 
-if (typeof cookieConsentManager !== 'undefined') {
+if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // title: 'Cookie Consent',
