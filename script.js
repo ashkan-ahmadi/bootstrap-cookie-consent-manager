@@ -3,7 +3,6 @@ import cookieConsentManager from './assets/js/class.js'
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
-
     // MODAL
     // title: 'Cookie Consent', // string
     // centered: true, // true(default)|false
@@ -11,18 +10,15 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     // animation: false, // true(default)|false
     // showCloseButtonOnModal: false, true|false(default)
     // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
-
     // BUTTONS
-    acceptAllButtonText: 'Accept all', // string
-    rejectAllButtonText: 'Reject non-essentials', // string
-    customizeButtonText: 'Customize', // string
-    saveButtonText: 'Save', // string
-
+    // acceptAllButtonText: 'Accept all', // string
+    // rejectAllButtonText: 'Reject non-essentials', // string
+    // customizeButtonText: 'Customize', // string
+    // saveButtonText: 'Save', // string
     // useLocalStorage: true, // true(default)|false
-
     // BANNER
-    bannerTitle: 'We respect your privacy',
-    bannerText: `We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.`,
+    // bannerTitle: 'We respect your privacy',
+    // bannerText: `We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.`,
   }
 
   const consents = [
