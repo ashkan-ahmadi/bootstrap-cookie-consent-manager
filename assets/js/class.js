@@ -48,6 +48,7 @@ export default class cookieConsentManager {
     this.userConfigs = userConfigs
 
     // this contains the entire toast banner HTML and its content
+    // TODO: rename this to banner
     this.cookieBanner = null
     // this contains the entire modal HTML and its content
     this.modal = null
@@ -246,9 +247,9 @@ export default class cookieConsentManager {
             </div>
             <div class="col">
               <div class="row xxl-block flex-column g-1">
-                <button type="button" class="btn btn-primary" data-function="accept-all-cookies">${acceptAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary" data-function="refuse-all-cookies">${rejectAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary" data-function="customize-cookies">${customizeButtonText}</button>
+                <button type="button" class="btn btn-primary" data-cookie-button-function="accept-all-cookies">${acceptAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary" data-cookie-button-function="reject-all-cookies">${rejectAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary" data-cookie-button-function="customize-cookies">${customizeButtonText}</button>
               </div>
             </div>
           </div>
@@ -272,14 +273,9 @@ export default class cookieConsentManager {
 
     document.body.append(this.cookieBanner)
 
-    const allButtons = this.cookieBanner.querySelectorAll('button')
-
-    if (!allButtons) {
-      return
-    }
-
-    // TODO: if you implement showRejectAllButtonOnBanner, then you have to use querySelector here, otherwise, rejectAll might become customizeButtonw
-    const [acceptAllButton, rejectAllButton, customizeButton] = allButtons
+    const acceptAllButton = this.cookieBanner.querySelector('[data-cookie-button-function="accept-all-cookies"]')
+    const rejectAllButton = this.cookieBanner.querySelector('[data-cookie-button-function="reject-all-cookies"]')
+    const customizeButton = this.cookieBanner.querySelector('[data-cookie-button-function="customize-cookies"]')
 
     if (acceptAllButton) {
       acceptAllButton.addEventListener('click', e => {
@@ -395,9 +391,9 @@ export default class cookieConsentManager {
             </div> <!-- .modal-body -->
             <div class="modal-footer">
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
-                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
+                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="accept-all-cookies">${acceptAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="reject-all-cookies">${rejectAllButtonText}</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-cookie-button-function="customize-cookies">${saveButtonText}</button>
               </div>
             </div> <!-- .modal-footer -->
           </div>
@@ -410,6 +406,22 @@ export default class cookieConsentManager {
   showModal() {
     // This creates and returns the modal's HTML
     this.modal = this.createModalHTML()
+
+    const acceptAllButton = this.modal.querySelector('[data-cookie-button-function="accept-all-cookies"]')
+    const rejectAllButton = this.modal.querySelector('[data-cookie-button-function="reject-all-cookies"]')
+    const customizeButton = this.modal.querySelector('[data-cookie-button-function="customize-cookies"]')
+
+    if (acceptAllButton) {
+      acceptAllButton.addEventListener('click', e => {
+        try {
+          // this.handleAcceptAllButtonClick()
+          console.log('HANDLE CLICK')
+        } catch (error) {
+          console.log('There was an issue with callback function of acceptAllButton')
+          console.error(error)
+        }
+      })
+    }
 
     const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
 
