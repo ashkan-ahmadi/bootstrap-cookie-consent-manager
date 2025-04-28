@@ -34,10 +34,10 @@ export default class cookieConsentManager {
       useLocalStorage: true,
 
       // CONTENT
-      acceptAllButtonText: 'Def Accept all',
-      rejectAllButtonText: 'Def Reject all',
-      customizeButtonText: 'Def Customize',
-      saveButtonText: 'Def Save',
+      acceptAllButtonText: 'Accept all',
+      rejectAllButtonText: 'Reject all',
+      customizeButtonText: 'Customize',
+      saveButtonText: 'Save',
       // TODO: add accessible label
 
       // BANNER
