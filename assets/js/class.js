@@ -126,7 +126,9 @@ export default class cookieConsentManager {
     }
 
     const enabledConsentTypes = consentTypes.filter(consentType => {
-      return consentType.enabled === true
+      // not false allows us to not pass enabled at all
+      // unless it's enabled:false explicitly, it will show up
+      return consentType.enabled !== false
     })
 
     return enabledConsentTypes
