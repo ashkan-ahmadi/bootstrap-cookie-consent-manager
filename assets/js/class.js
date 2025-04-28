@@ -357,7 +357,7 @@ export default class cookieConsentManager {
 
     acceptAllButton?.addEventListener('click', () => this.handleAcceptAllButtonClick())
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
-    customizeButton.addEventListener('click', () => this.handleCustomizeButtonClick())
+    customizeButton?.addEventListener('click', () => this.handleCustomizeButtonClick())
   }
 
   // +-------------------------------------+
