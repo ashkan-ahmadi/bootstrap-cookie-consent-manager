@@ -11,6 +11,8 @@ export default class cookieConsentManager {
     this.defaultConfigs = {
       // MODAL
 
+      modalTitle: 'Customize the cookies',
+
       // Center the modal vertically
       // https://getbootstrap.com/docs/5.3/components/modal/#vertically-centered
       centered: true,
@@ -32,7 +34,6 @@ export default class cookieConsentManager {
       useLocalStorage: true,
 
       // CONTENT
-      title: 'Cookie Consent',
       acceptAllButtonText: 'Def Accept all',
       rejectAllButtonText: 'Def Reject all',
       customizeButtonText: 'Def Customize',
@@ -336,7 +337,17 @@ export default class cookieConsentManager {
 
     const configs = this.getConfigs()
 
-    const { title, centered, scrollable, animation, staticBackground, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
+    // prettier-ignore
+    const { 
+      modalTitle,
+      centered,
+      scrollable,
+      animation,
+      staticBackground,
+      rejectAllButtonText,
+      acceptAllButtonText,
+      saveButtonText,
+    } = configs || {}
 
     const modalDialogClasses = []
 
@@ -356,9 +367,11 @@ export default class cookieConsentManager {
         <div class="modal-dialog ${modalDialogClasses.join(' ')}">
           <div class="modal-content">
             <div class="modal-header bg-light">
-              <p class="modal-title h6">${title}</p>
-              ${this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
-              
+              <p class="modal-title fw-bolder">${modalTitle}</p>
+              ${
+                // display the X close button conditionally. it's set to false by default
+                this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''
+              }
             </div>
             <div class="modal-body">
               ${
