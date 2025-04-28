@@ -118,6 +118,20 @@ export default class cookieConsentManager {
     return consentTypes
   }
 
+  getEnabledConsentTypes() {
+    const consentTypes = this.getConsentTypes()
+
+    if (!consentTypes) {
+      return
+    }
+
+    const enabledConsentTypes = consentTypes.filter(consentType => {
+      return consentType.enabled === true
+    })
+
+    return enabledConsentTypes
+  }
+
   isConsentSet() {
     const consentSetName = this.getConsentSetName()
     const consentSetValue = this.getConsentSetValue()
@@ -322,10 +336,7 @@ export default class cookieConsentManager {
       this.modal = null
     }
 
-    // get all consent types that are enabled (exclude any type with enabled:false)
-    const consentTypes = this.getConsentTypes().filter(consentType => {
-      return consentType.enabled === true
-    })
+    const enabledConsentTypes = this.getEnabledConsentTypes()
 
     const configs = this.getConfigs()
 
@@ -367,7 +378,7 @@ export default class cookieConsentManager {
             </div>
             <div class="modal-body">
               ${
-                consentTypes
+                enabledConsentTypes
                 .map(consentType => {
                   const {id, title, description, required, onByDefault} = consentType || {}
                   return `
