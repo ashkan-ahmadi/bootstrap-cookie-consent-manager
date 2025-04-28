@@ -489,8 +489,7 @@ export default class cookieConsentManager {
     if (acceptAllButton) {
       acceptAllButton.addEventListener('click', e => {
         try {
-          // this.handleAcceptAllButtonClick()
-          console.log('HANDLE CLICK')
+          this.handleAcceptAllButtonClick()
         } catch (error) {
           console.log('There was an issue with callback function of acceptAllButton')
           console.error(error)
