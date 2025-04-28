@@ -331,6 +331,11 @@ export default class cookieConsentManager {
 
     const configs = this.getConfigs()
 
+    // get all consent types that are enabled (exclude any type with enabled:false)
+    const consentTypes = this.getConsentTypes().filter(consentType => {
+      return consentType.enabled === true
+    })
+
     const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
 
     const modalDialogClasses = []
@@ -356,8 +361,38 @@ export default class cookieConsentManager {
             
           </div>
           <div class="modal-body">
-            Body....
-          </div>
+            ${
+              consentTypes
+              .map(consentType => {
+                const {id, title, description, required, onByDefault} = consentType || {}
+                return `
+                <div class="cookie-consent-type">
+                  <div class="d-flex gap-3">
+                    <div class="flex-grow-1">
+                      <p class="fw-bold m-0">${title}</p>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="${id}" ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
+                      <label class="form-check-label visually-hidden" for="${this.PREFIX + id}">ON</label>
+                    </div>
+                  </div>
+                  <p class="m-0">${description}</p>
+
+                </div>
+                `
+              })
+              .join(`<hr class="p-0 my-3">`)
+              // prettier-ignore
+            }
+          </div> <!-- .modal-body -->
+          <div class="modal-footer">
+            <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
+              <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
+              <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
+
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
+            </div>
+          </div> <!-- .modal-footer -->
         </div>
       </div>
     </div>
