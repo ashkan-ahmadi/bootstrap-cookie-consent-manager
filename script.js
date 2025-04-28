@@ -4,10 +4,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // title: 'Cookie Consent',
-    // centered: true,
-    // scrollable: true,
-    // animation: true,
-    // showCloseButtonOnModal: false, true|false (default)
+    // centered: true, // true(default)|false
+    // scrollable: true, // true(default)|false
+    // animation: false, // true(default)|false
+    // showCloseButtonOnModal: false, true|false(default)
     // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
     // rejectAllButtonText: 'Reject all',
     // acceptAllButtonText: 'Accept all',
