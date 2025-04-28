@@ -362,9 +362,9 @@ export default class cookieConsentManager {
     }
 
     if (rejectAllButton) {
-      rejectAllButton.addEventListener('click', e => {
-        console.log('reject all')
-      })
+      // can also call function inside a callback function
+      // keeping it a short one-liner
+      rejectAllButton.addEventListener('click', this.handleRejectAllButtonClick.bind(this))
     }
 
     if (customizeButton) {
@@ -485,6 +485,12 @@ export default class cookieConsentManager {
       // can also call function inside a callback function
       // keeping it a short one-liner
       acceptAllButton.addEventListener('click', this.handleAcceptAllButtonClick.bind(this))
+    }
+
+    if (rejectAllButton) {
+      // can also call function inside a callback function
+      // keeping it a short one-liner
+      rejectAllButton.addEventListener('click', this.handleRejectAllButtonClick.bind(this))
     }
 
     const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
