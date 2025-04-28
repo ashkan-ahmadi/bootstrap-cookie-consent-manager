@@ -159,13 +159,13 @@ export default class cookieConsentManager {
 
   setConsent_acceptAll() {
     try {
-      const consentTypes = this.getConsentTypes()
+      const enabledConsentTypes = this.getEnabledConsentTypes()
 
-      if (!consentTypes || consentTypes?.length === 0) {
+      if (!enabledConsentTypes || enabledConsentTypes?.length === 0) {
         return
       }
 
-      consentTypes.forEach(type => {
+      enabledConsentTypes.forEach(type => {
         // verify that the type has an id key
         if (typeof type.id === 'undefined' || !type?.id) {
           console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
