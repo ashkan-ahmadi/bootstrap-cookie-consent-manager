@@ -40,7 +40,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       id: 'analytics',
       title: 'Analytics',
       enabled: true,
-      required: true,
+      required: false,
       onByDefault: true,
       description: 'These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.',
       onAccept: function () {},
