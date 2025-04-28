@@ -225,15 +225,14 @@ export default class cookieConsentManager {
 
   setConsent_rejectAll() {
     try {
-      const requiredConsentTypes = this.getRequiredConsentTypes()
+      const enabledConsentTypes = this.getEnabledConsentTypes()
 
-      if (!requiredConsentTypes || requiredConsentTypes?.length === 0) {
+      if (!enabledConsentTypes || enabledConsentTypes?.length === 0) {
         console.warn(`requiredConsentTypes is null or empty. If this is intentional, you can ignore this warning.`)
-
         return
       }
 
-      requiredConsentTypes.forEach(type => {
+      enabledConsentTypes.forEach(type => {
         // verify that the type has an id key
         if (typeof type.id === 'undefined' || !type?.id) {
           console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
@@ -243,7 +242,8 @@ export default class cookieConsentManager {
         }
 
         const name = this.CONSENT_TYPE_PREFIX + type?.id
-        const value = this.SET_VALUE // set everything to the default set value (usually true)
+        // if required, set to default SET_VALUE, if false then 'false'
+        const value = type?.required ? this.SET_VALUE : 'false'
 
         localStorage.setItem(name, value)
 
