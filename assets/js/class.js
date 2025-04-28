@@ -278,17 +278,13 @@ export default class cookieConsentManager {
       return
     }
 
+    // TODO: if you implement showRejectAllButtonOnBanner, then you have to use querySelector here, otherwise, rejectAll might become customizeButtonw
     const [acceptAllButton, rejectAllButton, customizeButton] = allButtons
 
     if (acceptAllButton) {
       acceptAllButton.addEventListener('click', e => {
         try {
-          console.log('accept all')
-          this.setConsent_acceptAll()
-          this.cookieBanner.remove()
-          this.cookieBanner = null
-
-          this.pushToDataLayer({ event: 'accept_all_consent_types' })
+          this.handleAcceptAllButtonClick()
         } catch (error) {
           console.log('There was an issue with callback function of acceptAllButton')
           console.error(error)
@@ -440,5 +436,23 @@ export default class cookieConsentManager {
     window.dataLayer = window?.dataLayer || []
 
     dataLayer.push(arguments)
+  }
+
+  // +-------------------------------------+
+  // | BUTTON CLICK HANDLERS               |
+  // +-------------------------------------+
+
+  handleAcceptAllButtonClick() {
+    try {
+      this.setConsent_acceptAll()
+      this.cookieBanner.remove()
+      this.cookieBanner = null
+      // TODO: for now, setConsent_acceptAll also handles firing events. Should it be that way?
+
+      this.pushToDataLayer({ event: 'accept_all_consent_types' })
+    } catch (error) {
+      console.error('There was an error with handleAcceptAllButtonClick()')
+      console.error(error)
+    }
   }
 }
