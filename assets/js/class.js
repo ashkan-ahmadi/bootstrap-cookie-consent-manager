@@ -377,7 +377,6 @@ export default class cookieConsentManager {
                     </div>
                   </div>
                   <p class="m-0">${description}</p>
-
                 </div>
                 `
               })
@@ -389,7 +388,6 @@ export default class cookieConsentManager {
             <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
               <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
               <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
-
               <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
             </div>
           </div> <!-- .modal-footer -->
