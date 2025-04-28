@@ -329,12 +329,12 @@ export default class cookieConsentManager {
       this.modal = null
     }
 
-    const configs = this.getConfigs()
-
     // get all consent types that are enabled (exclude any type with enabled:false)
     const consentTypes = this.getConsentTypes().filter(consentType => {
       return consentType.enabled === true
     })
+
+    const configs = this.getConfigs()
 
     const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
 
