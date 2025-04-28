@@ -531,14 +531,34 @@ export default class cookieConsentManager {
 
   handleAcceptAllButtonClick() {
     try {
-      this.setConsent_acceptAll()
-      this.cookieBanner.remove()
-      this.cookieBanner = null
       // TODO: for now, setConsent_acceptAll also handles firing events. Should it be that way?
+      this.setConsent_acceptAll()
+
+      if (this.cookieBanner) {
+        this.cookieBanner.remove()
+        this.cookieBanner = null
+      }
 
       this.pushToDataLayer({ event: 'accept_all_consent_types' })
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
+      console.error(error)
+    }
+  }
+
+  handleRejectAllButtonClick() {
+    try {
+      // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
+      this.setConsent_rejectAll()
+
+      if (this.cookieBanner) {
+        this.cookieBanner.remove()
+        this.cookieBanner = null
+      }
+
+      this.pushToDataLayer({ event: 'reject_all_consent_types' })
+    } catch (error) {
+      console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
     }
   }
