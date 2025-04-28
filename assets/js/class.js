@@ -134,6 +134,22 @@ export default class cookieConsentManager {
     return enabledConsentTypes
   }
 
+  getRequiredConsentTypes() {
+    const consentTypes = this.getConsentTypes()
+
+    if (!consentTypes) {
+      return
+    }
+
+    const requiredConsentTypes = consentTypes.filter(consentType => {
+      // not false allows us to not pass enabled at all
+      // unless it's enabled:false explicitly, it will show up
+      return consentType.required === true
+    })
+
+    return requiredConsentTypes
+  }
+
   isConsentSet() {
     const consentSetName = this.getConsentSetName()
     const consentSetValue = this.getConsentSetValue()
@@ -208,7 +224,53 @@ export default class cookieConsentManager {
   }
 
   setConsent_rejectAll() {
-    console.log('running setConsent_rejectAll')
+    try {
+      const requiredConsentTypes = this.getRequiredConsentTypes()
+
+      if (!requiredConsentTypes || requiredConsentTypes?.length === 0) {
+        console.warn(`requiredConsentTypes is null or empty. If this is intentional, you can ignore this warning.`)
+
+        return
+      }
+
+      requiredConsentTypes.forEach(type => {
+        // verify that the type has an id key
+        if (typeof type.id === 'undefined' || !type?.id) {
+          console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
+
+          // Returning in a forEach skips the current itiration and goes to the next one
+          return
+        }
+
+        const name = this.CONSENT_TYPE_PREFIX + type?.id
+        const value = this.SET_VALUE // set everything to the default set value (usually true)
+
+        localStorage.setItem(name, value)
+
+        // fire one event per consent type
+        // this makes setting up different triggers and tags much easier on GTM
+        // TODO: this could go into a standalone function to be reused when init loads and conset is already set
+        // we still need to fire this on every page
+        this.pushToDataLayer({
+          event: `accept_consent_type_${type?.id}`,
+        })
+
+        // Verify the key 'onAccept' exists and it's a function
+        // If a callback function exists, we run it
+        // If the key exists but a non-function is passed, we show a warning on Console
+        if (type.onAccept && typeof type.onAccept === 'function') {
+          type.onAccept()
+        } else if (type.onAccept && typeof type.onAccept !== 'function') {
+          console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
+        }
+      })
+
+      // Set an item to show that conset is set
+      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+    } catch (error) {
+      console.error('There was an error with setConsent_acceptAll()')
+      console.error(error)
+    }
   }
 
   setConsent_customize() {
