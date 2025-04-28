@@ -34,6 +34,7 @@ export default class cookieConsentManager {
       // useCookieInsteadOfLocalStorage: false,
 
       // CONTENT
+      // TODO: add accessible label
       title: 'Cookie Consent',
       acceptAllButtonText: 'Def Accept all',
       rejectAllButtonText: 'Def Reject all',
@@ -337,7 +338,7 @@ export default class cookieConsentManager {
 
     const configs = this.getConfigs()
 
-    const { title, centered, scrollable, animation, staticBackground, showRejectAllButtonOnBanner, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
+    const { title, centered, scrollable, animation, staticBackground, rejectAllButtonText, acceptAllButtonText, saveButtonText } = configs || {}
 
     const modalDialogClasses = []
 
@@ -387,8 +388,8 @@ export default class cookieConsentManager {
             </div> <!-- .modal-body -->
             <div class="modal-footer">
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
-                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
                 <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
               </div>
             </div> <!-- .modal-footer -->
