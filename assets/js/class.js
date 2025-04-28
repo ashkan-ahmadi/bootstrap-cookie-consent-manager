@@ -356,13 +356,10 @@ export default class cookieConsentManager {
     const customizeButton = this.cookieBanner.querySelector('[data-cookie-button-function="customize-cookies"]')
 
     if (acceptAllButton) {
-      acceptAllButton.addEventListener('click', e => {
-        try {
-          this.handleAcceptAllButtonClick()
-        } catch (error) {
-          console.log('There was an issue with callback function of acceptAllButton')
-          console.error(error)
-        }
+      acceptAllButton.addEventListener('click', () => {
+        // calling function inside callback function to avoid .bind(this):
+        // acceptAllButton.addEventListener('click', this.handleAcceptAllButtonClick.bind(this))
+        this.handleAcceptAllButtonClick()
       })
     }
 
@@ -487,14 +484,7 @@ export default class cookieConsentManager {
     const customizeButton = this.modal.querySelector('[data-cookie-button-function="customize-cookies"]')
 
     if (acceptAllButton) {
-      acceptAllButton.addEventListener('click', e => {
-        try {
-          this.handleAcceptAllButtonClick()
-        } catch (error) {
-          console.log('There was an issue with callback function of acceptAllButton')
-          console.error(error)
-        }
-      })
+      acceptAllButton.addEventListener('click', this.handleAcceptAllButtonClick)
     }
 
     const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
