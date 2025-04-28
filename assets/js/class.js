@@ -9,7 +9,7 @@ export default class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
-      // BEHAVIOR
+      // MODAL
 
       // Center the modal vertically
       // https://getbootstrap.com/docs/5.3/components/modal/#vertically-centered
@@ -29,17 +29,20 @@ export default class cookieConsentManager {
 
       showCloseButtonOnModal: false,
 
-      showRejectAllButtonOnBanner: true,
-
-      // useCookieInsteadOfLocalStorage: false,
+      useLocalStorage: true,
 
       // CONTENT
-      // TODO: add accessible label
       title: 'Cookie Consent',
       acceptAllButtonText: 'Def Accept all',
       rejectAllButtonText: 'Def Reject all',
       customizeButtonText: 'Def Customize',
       saveButtonText: 'Def Save',
+      // TODO: add accessible label
+
+      // BANNER
+      bannerTitle: 'We respect your privacy',
+      bannerText: 'We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.',
+      showRejectAllButtonOnBanner: true,
     }
     this.userConfigs = userConfigs
 
@@ -220,6 +223,10 @@ export default class cookieConsentManager {
   // +-------------------------------------+
 
   createBannerHTML() {
+    const configs = this.getConfigs()
+
+    const { bannerTitle, bannerText, acceptAllButtonText, rejectAllButtonText, customizeButtonText } = configs || {}
+
     const cookieBannerOuterDiv = document.createElement('div')
 
     cookieBannerOuterDiv.innerHTML = `
@@ -235,19 +242,19 @@ export default class cookieConsentManager {
         <div class="container">
           <div class="row g-3 g-md-4 g-xl-5">
             <div class="col-12 col-md-8 col-xl-9">
-              <p class="fs-5 fw-bold mb-1">
-                Customize the cookies
+              <p class="fw-bold mb-1">
+                ${bannerTitle}
               </p>
             
               <p class="mb-0">
-               We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.
+                ${bannerText}
               </p>
             </div>
             <div class="col">
               <div class="row xxl-block flex-column g-1">
-                <button type="button" class="btn btn-primary" data-function="accept-all-cookies">Accept all</button>
-                <button type="button" class="btn btn-primary" data-function="refuse-all-cookies">Refuse non-essentials</button>
-                <button type="button" class="btn btn-primary" data-function="customize-cookies">Customize</button>
+                <button type="button" class="btn btn-primary" data-function="accept-all-cookies">${acceptAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary" data-function="refuse-all-cookies">${rejectAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary" data-function="customize-cookies">${customizeButtonText}</button>
               </div>
             </div>
           </div>
