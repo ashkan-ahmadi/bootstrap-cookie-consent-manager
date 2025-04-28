@@ -230,25 +230,18 @@ export default class cookieConsentManager {
     const cookieBannerOuterDiv = document.createElement('div')
 
     cookieBannerOuterDiv.innerHTML = `
-      <div class="position-fixed top-0 bottom-0 start-0 end-0 bg-dark opacity-50 z-1">
-      </div>
+      <div class="position-fixed top-0 bottom-0 start-0 end-0 bg-dark opacity-50 z-1"></div>
     `
 
     const banner = document.createElement('div')
 
     banner.innerHTML = `
-
       <div class="position-fixed bottom-0 start-0 p-3 w-100 border-top bg-light z-2">
         <div class="container">
           <div class="row g-3 g-md-4 g-xl-5">
             <div class="col-12 col-md-8 col-xl-9">
-              <p class="fw-bold mb-1">
-                ${bannerTitle}
-              </p>
-            
-              <p class="mb-0">
-                ${bannerText}
-              </p>
+              <p class="fw-bold mb-1">${bannerTitle}</p>
+              <p class="mb-0">${bannerText}</p>
             </div>
             <div class="col">
               <div class="row xxl-block flex-column g-1">
@@ -259,8 +252,6 @@ export default class cookieConsentManager {
             </div>
           </div>
         </div>
-      </div>
-
       </div>
     `
 
