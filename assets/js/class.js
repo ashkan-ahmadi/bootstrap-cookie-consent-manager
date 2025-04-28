@@ -35,9 +35,10 @@ export default class cookieConsentManager {
 
       // CONTENT
       title: 'Cookie Consent',
-      rejectAllButtonText: 'Reject all',
-      acceptAllButtonText: 'Accept all',
-      saveButtonText: 'Save',
+      acceptAllButtonText: 'Def Accept all',
+      rejectAllButtonText: 'Def Reject all',
+      customizeButtonText: 'Def Customize',
+      saveButtonText: 'Def Save',
     }
     this.userConfigs = userConfigs
 
