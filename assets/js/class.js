@@ -465,7 +465,7 @@ export default class cookieConsentManager {
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
                 <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="accept-all-cookies">${acceptAllButtonText}</button>
                 <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="reject-all-cookies">${rejectAllButtonText}</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-cookie-button-function="customize-cookies">${saveButtonText}</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-cookie-button-function="save-cookies">${saveButtonText}</button>
               </div>
             </div> <!-- .modal-footer -->
           </div>
@@ -481,7 +481,7 @@ export default class cookieConsentManager {
 
     const acceptAllButton = this.modal.querySelector('[data-cookie-button-function="accept-all-cookies"]')
     const rejectAllButton = this.modal.querySelector('[data-cookie-button-function="reject-all-cookies"]')
-    const customizeButton = this.modal.querySelector('[data-cookie-button-function="customize-cookies"]')
+    const saveButton = this.modal.querySelector('[data-cookie-button-function="save-cookies"]')
 
     if (acceptAllButton) {
       // can also call function inside a callback function
@@ -493,6 +493,12 @@ export default class cookieConsentManager {
       // can also call function inside a callback function
       // keeping it a short one-liner
       rejectAllButton.addEventListener('click', this.handleRejectAllButtonClick.bind(this))
+    }
+
+    if (saveButton) {
+      // can also call function inside a callback function
+      // keeping it a short one-liner
+      saveButton.addEventListener('click', this.handleSaveButtonClick.bind(this))
     }
 
     const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
@@ -558,5 +564,9 @@ export default class cookieConsentManager {
       console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
     }
+  }
+
+  handleSaveButtonClick() {
+    console.log('saved')
   }
 }
