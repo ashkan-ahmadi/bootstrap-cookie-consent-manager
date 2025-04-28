@@ -352,49 +352,49 @@ export default class cookieConsentManager {
     this.modal = document.createElement('div')
 
     this.modal.innerHTML = `
-    <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
-      <div class="modal-dialog ${modalDialogClasses.join(' ')}">
-        <div class="modal-content">
-          <div class="modal-header bg-light">
-            <p class="modal-title h6">${title}</p>
-            ${this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
-            
-          </div>
-          <div class="modal-body">
-            ${
-              consentTypes
-              .map(consentType => {
-                const {id, title, description, required, onByDefault} = consentType || {}
-                return `
-                <div class="cookie-consent-type">
-                  <div class="d-flex gap-3">
-                    <div class="flex-grow-1">
-                      <p class="fw-bold m-0">${title}</p>
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" role="switch" id="${id}" ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
-                      <label class="form-check-label visually-hidden" for="${this.PREFIX + id}">ON</label>
-                    </div>
-                  </div>
-                  <p class="m-0">${description}</p>
-                </div>
-                `
-              })
-              .join(`<hr class="p-0 my-3">`)
-              // prettier-ignore
-            }
-          </div> <!-- .modal-body -->
-          <div class="modal-footer">
-            <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
-              <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
-              <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
+      <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
+        <div class="modal-dialog ${modalDialogClasses.join(' ')}">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <p class="modal-title h6">${title}</p>
+              ${this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
+              
             </div>
-          </div> <!-- .modal-footer -->
+            <div class="modal-body">
+              ${
+                consentTypes
+                .map(consentType => {
+                  const {id, title, description, required, onByDefault} = consentType || {}
+                  return `
+                  <div class="cookie-consent-type">
+                    <div class="d-flex gap-3">
+                      <div class="flex-grow-1">
+                        <p class="fw-bold m-0">${title}</p>
+                      </div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="${id}" ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
+                        <label class="form-check-label visually-hidden" for="${this.PREFIX + id}">ON</label>
+                      </div>
+                    </div>
+                    <p class="m-0">${description}</p>
+                  </div>
+                  `
+                })
+                .join(`<hr class="p-0 my-3">`)
+                // prettier-ignore
+              }
+            </div> <!-- .modal-body -->
+            <div class="modal-footer">
+              <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
+                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="rejectAll">${rejectAllButtonText}</button>
+                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-btn-function="acceptAll">${acceptAllButtonText}</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-btn-function="save">${saveButtonText}</button>
+              </div>
+            </div> <!-- .modal-footer -->
+          </div>
         </div>
       </div>
-    </div>
-  `
+    `
     return this.modal
   }
 
