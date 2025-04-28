@@ -372,8 +372,10 @@ export default class cookieConsentManager {
         try {
           console.log('customize')
 
-          this.cookieBanner.remove()
-          this.cookieBanner = null
+          if (this.cookieBanner) {
+            this.cookieBanner.remove()
+            this.cookieBanner = null
+          }
 
           this.showModal()
         } catch (error) {
