@@ -370,13 +370,13 @@ export default class cookieConsentManager {
     if (customizeButton) {
       customizeButton.addEventListener('click', e => {
         try {
-          console.log('customize')
-
+          // remove cookieBanner from DOM and reset it to null
           if (this.cookieBanner) {
             this.cookieBanner.remove()
             this.cookieBanner = null
           }
 
+          // launch the modal
           this.showModal()
         } catch (error) {
           console.log('There was an issue with callback function of customizeButton')
