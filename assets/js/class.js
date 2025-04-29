@@ -303,6 +303,9 @@ export default class cookieConsentManager {
         localStorage.setItem(name, value)
       })
 
+      // Set the value to verify that consent is set
+      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+
       // TODO: how to do the onAccept and onReject callbacks here?
     } catch (error) {
       console.error('There was an error with setConsent_saveCustomized()')
