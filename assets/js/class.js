@@ -527,7 +527,15 @@ export default class cookieConsentManager {
   }
 
   handleSaveButtonClick() {
-    console.log('saved')
+    try {
+      // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
+      this.setConsent_saveCustomized()
+
+      // this.pushToDataLayer({ event: 'reject_all_consent_types' })
+    } catch (error) {
+      console.error('There was an error with handleSaveButtonClick()')
+      console.error(error)
+    }
   }
 
   handleCustomizeButtonClick() {
