@@ -275,6 +275,39 @@ export default class cookieConsentManager {
 
   setConsent_saveCustomized() {
     console.log('running setConsent_saveCustomized')
+
+    try {
+      // get the modal from the DOM
+      const modal = document.querySelector('#cookie-consent-modal')
+
+      // make sure it's not empty
+      if (!modal) {
+        console.warn(`modal in setConsent_saveCustomized is empty.`)
+        return
+      }
+
+      // get all the check boxes
+      const checkboxes = modal.querySelectorAll('input.form-check-input')
+
+      // make sure it's not empty
+      if (!checkboxes || checkboxes.length === 0) {
+        console.warn(`checkboxes in setConsent_saveCustomized is empty.`)
+        return
+      }
+
+      checkboxes.forEach(checkbox => {
+        const name = this.CONSENT_TYPE_PREFIX + checkbox?.id
+        // TODO: make 'false' a variable that can be overriden
+        const value = checkbox?.checked ? this.SET_VALUE : 'false'
+
+        localStorage.setItem(name, value)
+      })
+
+      // TODO: how to do the onAccept and onReject callbacks here?
+    } catch (error) {
+      console.error('There was an error with setConsent_saveCustomized()')
+      console.error(error)
+    }
   }
 
   // +-------------------------------------+
@@ -423,7 +456,7 @@ export default class cookieConsentManager {
                         <p class="fw-bold m-0">${title}</p>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="${id}" ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
+                        <input class="form-check-input" type="checkbox" name="${this.PREFIX + id}" id="${this.PREFIX + id}" role="switch"  ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
                         <label class="form-check-label visually-hidden" for="${this.PREFIX + id}">ON</label>
                       </div>
                     </div>
