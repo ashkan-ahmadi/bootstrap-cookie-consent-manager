@@ -273,8 +273,8 @@ export default class cookieConsentManager {
     }
   }
 
-  setConsent_customize() {
-    console.log('running setConsent_customize')
+  setConsent_saveCustomized() {
+    console.log('running setConsent_saveCustomized')
   }
 
   // +-------------------------------------+
