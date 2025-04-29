@@ -4,6 +4,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // MODAL
+    // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
     // title: 'Cookie Consent', // string
     // centered: true, // true(default)|false
     // scrollable: true, // true(default)|false

@@ -11,6 +11,8 @@ export default class cookieConsentManager {
     this.defaultConfigs = {
       // MODAL
 
+      modalId: 'cookie-consent-manager-modal',
+
       modalTitle: 'Customize the cookies',
 
       // Center the modal vertically
@@ -276,9 +278,13 @@ export default class cookieConsentManager {
   setConsent_saveCustomized() {
     console.log('running setConsent_saveCustomized')
 
+    const configs = this.getConfigs()
+
+    const { modalId } = configs || {}
+
     try {
       // get the modal from the DOM
-      const modal = document.querySelector('#cookie-consent-modal')
+      const modal = document.querySelector(`#${modalId}`)
 
       // make sure it's not empty
       if (!modal) {
@@ -413,6 +419,7 @@ export default class cookieConsentManager {
 
     // prettier-ignore
     const { 
+      modalId,
       modalTitle,
       centered,
       scrollable,
@@ -437,7 +444,7 @@ export default class cookieConsentManager {
     this.modal = document.createElement('div')
 
     this.modal.innerHTML = `
-      <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="cookie-consent-modal">
+      <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="${modalId}">
         <div class="modal-dialog ${modalDialogClasses.join(' ')}">
           <div class="modal-content">
             <div class="modal-header bg-light">
@@ -486,6 +493,10 @@ export default class cookieConsentManager {
   }
 
   showModal() {
+    const configs = this.getConfigs()
+
+    const { modalId } = configs || {}
+
     // This creates and returns the modal's HTML
     this.modal = this.createModalHTML()
 
@@ -497,7 +508,7 @@ export default class cookieConsentManager {
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
     saveButton?.addEventListener('click', () => this.handleSaveButtonClick())
 
-    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector('#cookie-consent-modal'))
+    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector(`#${modalId}`))
 
     modalAsBSModalObject.show()
   }
