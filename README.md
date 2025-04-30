@@ -22,7 +22,7 @@ IMPORTANT: Since this library takes advantage of Bootstrap's built-in classes an
 
 ### 1. Load the script
 
-You first need to load the script
+You first need to load the script **before loading Google Tag Manager (GTM)**.
 
 ```html
 <link rel="stylesheet" href="path/to/cookie-consent.js" />
@@ -98,6 +98,14 @@ Then, you need to pass your consent types and configuration into the script (see
   }
 </script>
 ```
+
+### 3. Load GTM
+
+```html
+
+```
+
+### 4. Set up GTM
 
 ## Developers
 
