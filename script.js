@@ -5,7 +5,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
-    // title: 'Cookie Consent', // string
+    // modalTitle: 'Cookie Consent', // string
     // centered: true, // true(default)|false
     // scrollable: true, // true(default)|false
     // animation: false, // true(default)|false
@@ -40,6 +40,29 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
+      forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
+      forAnalytics: false,
+      forFunctionality: false,
+      forPersonalization: false,
+      forSecurity: false,
+      categories: {
+        // advertising (Google Ads, Facebook)
+        ad_storage: false,
+        ad_user_data: false,
+        ad_personalization: false,
+
+        // analytics (Google Analytics)
+        analytics_storage: false,
+
+        // functionality (core functionality of the website)
+        functionality_storage: false,
+
+        // personal recommendation (based on preferences set or browsing history e.g. video recommendations)
+        personalization_storage: false,
+
+        // security and anti-fraud
+        security_storage: false,
+      },
       onAccept: function () {},
       onReject: function () {},
     },
