@@ -1,6 +1,22 @@
 import cookieConsentManager from './assets/js/cookieConsentManager.js'
 
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
+  window.dataLayer = window?.dataLayer || []
+
+  function gtag() {
+    dataLayer.push(arguments)
+  }
+
+  gtag('consent', 'default', {
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    analytics_storage: localStorage.getItem('cookieConsent_consentType_analytics') === 'true' ? 'granted' : 'denied',
+    ad_storage: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
+    ad_user_data: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
+    ad_personalization: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
+    personalization_storage: localStorage.getItem('cookieConsent_consentType_personalization') === 'true' ? 'granted' : 'denied',
+  })
+
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // MODAL
@@ -42,9 +58,9 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
       forAnalytics: false,
-      forFunctionality: false,
+      forFunctionality: false, // no need to ask, 'granted' by default
       forPersonalization: false,
-      forSecurity: false,
+      forSecurity: false, // no need to ask, 'granted' by default
       categories: {
         // advertising (Google Ads, Facebook)
         ad_storage: false,
