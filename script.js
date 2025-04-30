@@ -1,4 +1,4 @@
-import cookieConsentManager from './assets/js/class.js'
+import cookieConsentManager from './assets/js/cookieConsentManager.js'
 
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   const myconfig = {
