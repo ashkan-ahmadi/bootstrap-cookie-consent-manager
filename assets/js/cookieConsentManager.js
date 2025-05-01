@@ -224,10 +224,10 @@ export default class cookieConsentManager {
 
         // fire one event per consent type
         // this makes setting up different triggers and tags much easier on GTM
-        // TODO: this could go into a standalone function to be reused when init loads and conset is already set
-        // we still need to fire this on every page
+        // TODO: we still need to fire this on every page
+        const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
         this.pushToDataLayer({
-          event: `cookie_consent_accept_${type?.id}`,
+          event: cookieConsentAcceptEventName + '_' + type?.id,
         })
 
         // Verify the key 'onAccept' exists and it's a function
