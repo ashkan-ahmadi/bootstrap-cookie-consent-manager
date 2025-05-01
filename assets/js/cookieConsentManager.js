@@ -10,8 +10,6 @@ export default class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
-      // CONFIGS // TODO: best here?
-
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
       cookieConsentRejectEventName: 'cookie_consent_reject', // this is the name of the event that fires when consent is rejected
       cookieConsentUpdateEventName: 'cookie_consent_update', // this is the name of the event that fires when consent is updated - this is the name you should use on GTM > Triggers > Custom Event
@@ -679,7 +677,6 @@ export default class cookieConsentManager {
 
   handleAcceptAllButtonClick() {
     try {
-      // TODO: for now, setConsent_acceptAll also handles firing events. Should it be that way?
       this.setConsent_acceptAll()
 
       if (this.cookieBanner) {
@@ -701,7 +698,6 @@ export default class cookieConsentManager {
 
   handleRejectAllButtonClick() {
     try {
-      // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
       this.setConsent_rejectAll()
 
       if (this.cookieBanner) {
@@ -723,7 +719,6 @@ export default class cookieConsentManager {
 
   handleSaveButtonClick() {
     try {
-      // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
       this.setConsent_saveCustomized()
 
       // look into localStorage to see what to fire and what not to fire
