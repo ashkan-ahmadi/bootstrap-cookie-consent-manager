@@ -530,8 +530,18 @@ export default class cookieConsentManager {
                         <p class="fw-bold m-0">${title}</p>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="${id}" id="${id}" role="switch"  ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
-                        <label class="form-check-label visually-hidden" for="${id}">ON</label>
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="${id}"
+                          id="${id}"
+                          role="switch"
+                          ${onByDefault ? 'checked' : ''} 
+                          ${required ? 'disabled' : ''}
+                        >
+                        <label
+                        class="form-check-label visually-hidden"
+                        for="${id}">ON</label>
                       </div>
                     </div>
                     <p class="m-0">${description}</p>
