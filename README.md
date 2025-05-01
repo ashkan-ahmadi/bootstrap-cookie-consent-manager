@@ -138,9 +138,9 @@ Use any of these as a `key:value` pair to customize the behavior of the cookie c
 | Content     | `customizeButtonAccessibleText` | string  | `Customize cookies`              | no       | The Customize button's text visible to screen readers              |
 | Content     | `saveButtonText`                | string  | `Save`                           | no       | The Save button's text                                             |
 | Content     | `saveButtonAccessibleText`      | string  | `Save preferences`               | no       | The Save button's text visible to screen readers                   |
-| Event names | `cookieConsentAcceptEventName`  | string  | `cookie_consent_accept`          | no       |                                                                    |
-| Event names | `cookieConsentRejectEventName`  | string  | `cookie_consent_reject`          | no       |                                                                    |
-| Event names | `cookieConsentUpdateEventName`  | string  | `cookie_consent_update`          | no       |                                                                    |
+| Event names | `cookieConsentAcceptEventName`  | string  | `cookie_consent_accept`          | no       | The event that fires when accepting a consent permission           |
+| Event names | `cookieConsentRejectEventName`  | string  | `cookie_consent_reject`          | no       | The event that fires when rejecting a consent permission           |
+| Event names | `cookieConsentUpdateEventName`  | string  | `cookie_consent_update`          | no       | The event that fires when any consent permission changes           |
 
 ## Developers
 
