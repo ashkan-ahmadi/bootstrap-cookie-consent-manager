@@ -89,7 +89,7 @@ export default class cookieConsentManager {
   }
 
   setConsent_default() {
-    // TODO: you will have to modify this so the default isn't always denied right off the bat but it checks if localStorage has or no
+    console.log('setting consent to default all denied')
     this.gtag('consent', 'default', {
       functionality_storage: 'granted',
       security_storage: 'granted',
