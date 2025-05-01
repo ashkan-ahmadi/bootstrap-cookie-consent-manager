@@ -127,6 +127,14 @@ export default class cookieConsentManager {
     return this.SET_POSITIVE_VALUE
   }
 
+  getConsentSetPositiveValue() {
+    return this.SET_POSITIVE_VALUE
+  }
+
+  getConsentSetNegativeValue() {
+    return this.SET_NEGATIVE_VALUE
+  }
+
   getVersion() {
     return this.VERSION
   }
@@ -256,7 +264,9 @@ export default class cookieConsentManager {
       })
 
       // Set an item to show that conset is set
-      localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
+      const setName = this.getConsentSetName()
+      const setPositiveValue = this.getConsentSetPositiveValue()
+      localStorage.setItem(setName, setPositiveValue)
 
       // Set the version number
       const versionName = this.getVersionName()
