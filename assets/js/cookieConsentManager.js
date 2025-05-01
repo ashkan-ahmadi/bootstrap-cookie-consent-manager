@@ -385,7 +385,11 @@ export default class cookieConsentManager {
   createBannerHTML() {
     const configs = this.getConfigs()
 
-    const { bannerTitle, bannerText, acceptAllButtonText, rejectAllButtonText, customizeButtonText } = configs || {}
+    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText } = configs || {}
+
+    const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
+    const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
+    const useAccessibleText_customize = customizeButtonText !== customizeButtonAccessibleText
 
     const cookieBannerOuterDiv = document.createElement('div')
 
@@ -405,9 +409,30 @@ export default class cookieConsentManager {
             </div>
             <div class="col">
               <div class="row xxl-block flex-column g-1">
-                <button type="button" class="btn btn-primary" data-cookie-button-function="accept-all-cookies">${acceptAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary" data-cookie-button-function="reject-all-cookies">${rejectAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary" data-cookie-button-function="customize-cookies">${customizeButtonText}</button>
+                <button 
+                  type="button" 
+                  class="btn btn-primary" 
+                  data-cookie-button-function="accept-all-cookies" 
+                  ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
+                  >
+                  ${acceptAllButtonText}
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-outline-primary" 
+                  data-cookie-button-function="reject-all-cookies" 
+                  ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
+                  >
+                  ${rejectAllButtonText}
+                </button>
+                <button 
+                  type="button" 
+                  class="btn btn-outline-primary" 
+                  data-cookie-button-function="customize-cookies" 
+                  ${useAccessibleText_customize ? `aria-label="${customizeButtonAccessibleText}"` : ''}
+                  >
+                  ${customizeButtonText}
+                </button>
               </div>
             </div>
           </div>
