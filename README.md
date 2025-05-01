@@ -22,7 +22,7 @@ IMPORTANT: Since this library takes advantage of Bootstrap's built-in classes an
 
 ### 1. Load the script
 
-You first need to load the script **before loading Google Tag Manager (GTM)**.
+You first need to load the script in the `<head>` element **before loading Google Tag Manager (GTM)**.
 
 ```html
 <link rel="stylesheet" href="path/to/cookie-consent.js" />
@@ -30,69 +30,21 @@ You first need to load the script **before loading Google Tag Manager (GTM)**.
 
 ### 2. Configure
 
-Then, you need to pass your consent types and configuration into the script (see sections below). Example:
+Then, you need to pass your consent types and configuration into the script (see sections below). This needs load AFTER the script above Example:
 
 ```html
 <script>
+  // Ensure cookieConsentManager is defined and it's a class
   if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
-    const myconfig = {
-      // TODO: at the end, you have to make sure all defaultConfigs are here too
-      // title: 'Cookie Consent',
-      // centered: true,
-      // scrollable: true,
-      // animation: true,
-      // showCloseButtonOnModal: false, true|false (default)
-      // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
-      // rejectAllButtonText: 'Reject all',
-      // acceptAllButtonText: 'Accept all',
-      // saveButtonText: 'Save',
-      // useCookieInsteadOfLocalStorage: true,
+    const cookieConfigs = {
+      // all customization goes here - see Customization Parameters
     }
 
-    const consents = [
-      {
-        id: 'necessary',
-        title: 'Necessary',
-        enabled: true,
-        required: true,
-        onByDefault: true,
-        description: 'These cookies are necessary for the website to function properly and <b>cannot be switched off</b>. They help with things like logging in and setting your privacy preferences.</p>',
-        onAccept: function () {},
-        onReject: function () {},
-      },
-      {
-        id: 'analytics',
-        title: 'Analytics',
-        enabled: true,
-        required: true,
-        onByDefault: true,
-        description: 'These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.',
-        onAccept: function () {},
-        onReject: function () {},
-      },
-      {
-        id: 'advertising',
-        title: 'Advertising',
-        enabled: true,
-        required: false,
-        onByDefault: true,
-        description: 'These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.',
-        onAccept: function () {},
-        onReject: function () {},
-      },
-      {
-        id: 'personalization',
-        title: 'Personalization',
-        enabled: true,
-        required: false,
-        onByDefault: true,
-        description: 'These cookies allow our platform to show related and personalized content to improve your experience such as personalized recommendations or customized content based on your browsing history.',
-        onAccept: function () {},
-        onReject: function () {},
-      },
+    const cookieConsents = [
+      // all consent types go here - see Consent Types
     ]
 
-    const cookieConsent = new cookieConsentManager(consents, myconfig)
+    const cookieConsent = new cookieConsentManager(cookieConsents, cookieConfigs)
 
     cookieConsent.init()
   }
@@ -102,7 +54,59 @@ Then, you need to pass your consent types and configuration into the script (see
 ### 3. Load GTM
 
 ```html
+<!-- Google Tag Manager -->
+<script>
+  ;(function (w, d, s, l, i) {
+    w[l] = w[l] || []
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : ''
+    j.async = true
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+    f.parentNode.insertBefore(j, f)
+  })(window, document, 'script', 'dataLayer', 'YOUR_GTM_IDENTIFIER_GOES_HERE')
+</script>
+<!-- End Google Tag Manager -->
+```
 
+### Example
+
+```html
+<head>
+  <link rel="stylesheet" href="path/to/cookie-consent-manager.js" />
+  <script>
+    // Ensure cookieConsentManager is defined and it's a class
+    if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
+      const cookieConfigs = {
+        // all customization goes here - see Customization Parameters
+      }
+
+      const cookieConsents = [
+        // all consent types go here - see Consent Types
+      ]
+
+      const cookieConsent = new cookieConsentManager(cookieConsents, cookieConfigs)
+
+      cookieConsent.init()
+    }
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>
+    ;(function (w, d, s, l, i) {
+      w[l] = w[l] || []
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : ''
+      j.async = true
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+      f.parentNode.insertBefore(j, f)
+    })(window, document, 'script', 'dataLayer', 'YOUR_GTM_IDENTIFIER_GOES_HERE')
+  </script>
+  <!-- End Google Tag Manager -->
+</head>
 ```
 
 ### 4. Set up GTM
