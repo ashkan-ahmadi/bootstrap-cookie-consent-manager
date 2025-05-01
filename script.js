@@ -7,36 +7,35 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     dataLayer.push(arguments)
   }
 
-  // gtag('consent', 'default', {
-  //   functionality_storage: 'granted',
-  //   security_storage: 'granted',
-  //   analytics_storage: 'denied',
-  //   ad_storage: 'denied',
-  //   ad_user_data: 'denied',
-  //   ad_personalization: 'denied',
-  //   personalization_storage: 'denied',
-  // })
-
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
+
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
     // modalTitle: 'Cookie Consent', // string
-    // cookieConsentUpdateEventName: 'cookie_consent_update', // string - event to fire, have to use in GTM > Tags > Custom Event
     // centered: true, // true(default)|false
     // scrollable: true, // true(default)|false
     // animation: false, // true(default)|false
     // showCloseButtonOnModal: false, true|false(default)
-    // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
+
+    // cookieConsentUpdateEventName: 'cookie_consent_update', // string - event to fire, have to use in GTM > Tags > Custom Event
+
     // BUTTONS
-    // acceptAllButtonText: 'Accept all', // string
-    // rejectAllButtonText: 'Reject non-essentials', // string
-    // customizeButtonText: 'Customize', // string
-    // saveButtonText: 'Save', // string
+    acceptAllButtonText: 'Accept all', // string
+    acceptAllButtonAccessibleText: 'Accept all cookies', // string
+    rejectAllButtonText: 'Reject non-essentials', // string
+    rejectAllButtonAccessibleText: 'Reject non-essentials cookies', // string
+    customizeButtonText: 'Customize', // string
+    customizeButtonAccessibleText: 'Customize cookies', // string
+    saveButtonText: 'Save', // string
+    saveButtonAccessibleText: 'Save', // string
+
     // useLocalStorage: true, // true(default)|false
+
     // BANNER
     // bannerTitle: 'We respect your privacy',
     // bannerText: `We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.`,
+    // showRejectAllButtonOnBanner: true, // TODO: how to change behavior of this but maintain click handler?
   }
 
   const consents = [
