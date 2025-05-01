@@ -3,7 +3,8 @@ export default class cookieConsentManager {
     this.PREFIX = 'cookieConsent_' // the global prefix - keep the _ at the end
     this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType_' // the name of the consent type
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
-    this.SET_POSITIVE_VALUE = 'true' // the value when consent is set
+    this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
+    this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
 
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
@@ -265,8 +266,7 @@ export default class cookieConsentManager {
         }
 
         const name = this.CONSENT_TYPE_PREFIX + type?.id
-        // if required, set to default SET_POSITIVE_VALUE, if false then 'false'
-        const value = type?.required ? this.SET_POSITIVE_VALUE : 'false'
+        const value = type?.required ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
 
@@ -323,8 +323,7 @@ export default class cookieConsentManager {
 
       checkboxes.forEach(checkbox => {
         const name = this.CONSENT_TYPE_PREFIX + checkbox?.id
-        // TODO: make 'false' a variable that can be overriden
-        const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : 'false'
+        const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
       })
