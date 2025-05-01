@@ -390,7 +390,7 @@ export default class cookieConsentManager {
   createBannerHTML() {
     const configs = this.getConfigs()
 
-    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText } = configs || {}
+    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText, showRejectAllButtonOnBanner } = configs || {}
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
@@ -422,14 +422,20 @@ export default class cookieConsentManager {
                   >
                   ${acceptAllButtonText}
                 </button>
-                <button 
-                  type="button" 
-                  class="btn btn-outline-primary" 
-                  data-cookie-button-function="reject-all-cookies" 
-                  ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
-                  >
-                  ${rejectAllButtonText}
-                </button>
+                ${
+                  showRejectAllButtonOnBanner
+                    ? `
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-primary" 
+                    data-cookie-button-function="reject-all-cookies" 
+                    ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
+                    >
+                    ${rejectAllButtonText}
+                  </button>
+                  `
+                    : ''
+                }
                 <button 
                   type="button" 
                   class="btn btn-outline-primary" 
