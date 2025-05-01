@@ -330,12 +330,21 @@ export default class cookieConsentManager {
         const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
+
+        // fire one event per consent type
+        // this makes setting up different triggers and tags much easier on GTM
+        // TODO: this could go into a standalone function to be reused when init loads and conset is already set
+        // we still need to fire this on every page
+        // TODO: make the event name dynamic
+        const eventName = checkbox?.checked ? 'cookie_consent_reject' : 'cookie_consent_accept'
+
+        this.pushToDataLayer({
+          event: eventName + '_' + checkbox?.id,
+        })
       })
 
       // Set the value to verify that consent is set
       localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
-
-      // TODO: how to do the onAccept and onReject callbacks here?
     } catch (error) {
       console.error('There was an error with setConsent_saveCustomized()')
       console.error(error)
@@ -489,8 +498,8 @@ export default class cookieConsentManager {
                         <p class="fw-bold m-0">${title}</p>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="${this.PREFIX + id}" id="${this.PREFIX + id}" role="switch"  ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
-                        <label class="form-check-label visually-hidden" for="${this.PREFIX + id}">ON</label>
+                        <input class="form-check-input" type="checkbox" name="${id}" id="${id}" role="switch"  ${onByDefault ? 'checked' : ''} ${required ? 'disabled' : ''}>
+                        <label class="form-check-label visually-hidden" for="${id}">ON</label>
                       </div>
                     </div>
                     <p class="m-0">${description}</p>
