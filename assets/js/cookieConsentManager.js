@@ -571,6 +571,19 @@ export default class cookieConsentManager {
     })
   }
 
+  updateConsent_allDenied() {
+    // Update consent to all granted
+    this.gtag('consent', 'update', {
+      ad_personalization: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted', // they do not need permission, they can always stay on
+      personalization_storage: 'denied',
+      security_storage: 'granted', // they do not need permission, they can always stay on
+    })
+  }
+
   // +-------------------------------------+
   // | BUTTON CLICK HANDLERS               |
   // +-------------------------------------+
