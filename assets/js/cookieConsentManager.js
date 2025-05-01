@@ -545,7 +545,7 @@ export default class cookieConsentManager {
 
     window.dataLayer.push(obj)
 
-    console.log(window.dataLayer)
+    // console.log(window.dataLayer)
   }
 
   gtag() {
@@ -553,7 +553,7 @@ export default class cookieConsentManager {
 
     dataLayer.push(arguments)
 
-    console.log(dataLayer)
+    // console.log(dataLayer)
   }
 
   fireCookieConsentUpdateEvent() {
