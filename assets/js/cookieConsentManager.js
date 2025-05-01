@@ -216,7 +216,9 @@ export default class cookieConsentManager {
           return
         }
 
-        const name = this.CONSENT_TYPE_PREFIX + type?.id
+        const prefix = this.getConsentTypePrefix()
+
+        const name = prefix + type?.id
         const value = this.SET_POSITIVE_VALUE // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
@@ -265,7 +267,9 @@ export default class cookieConsentManager {
           return
         }
 
-        const name = this.CONSENT_TYPE_PREFIX + type?.id
+        const prefix = this.getConsentTypePrefix()
+
+        const name = prefix + type?.id
         const value = type?.required ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
@@ -326,7 +330,9 @@ export default class cookieConsentManager {
       }
 
       checkboxes.forEach(checkbox => {
-        const name = this.CONSENT_TYPE_PREFIX + checkbox?.id
+        const prefix = this.getConsentTypePrefix()
+
+        const name = prefix + checkbox?.id
         const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
