@@ -12,7 +12,10 @@ export default class cookieConsentManager {
     this.defaultConfigs = {
       // CONFIGS // TODO: best here?
 
+      cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
+      cookieConsentRejectEventName: 'cookie_consent_reject', // this is the name of the event that fires when consent is rejected
       cookieConsentUpdateEventName: 'cookie_consent_update', // this is the name of the event that fires when consent is updated - this is the name you should use on GTM > Triggers > Custom Event
+
       // MODAL
 
       modalId: 'cookie-consent-manager-modal',
@@ -337,13 +340,12 @@ export default class cookieConsentManager {
 
         localStorage.setItem(name, value)
 
-        // fire one event per consent type
-        // this makes setting up different triggers and tags much easier on GTM
-        // TODO: this could go into a standalone function to be reused when init loads and conset is already set
-        // we still need to fire this on every page
-        // TODO: make the event name dynamic
-        const eventName = checkbox?.checked ? 'cookie_consent_reject' : 'cookie_consent_accept'
+        // TODO: we still need to fire this on every page
+        const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
+        const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
+        const eventName = checkbox?.checked ? cookieConsentAcceptEventName : cookieConsentRejectEventName
 
+        // TODO: determine if this is even necessary if we fire cookie_consent_update anyway
         this.pushToDataLayer({
           event: eventName + '_' + checkbox?.id,
         })
@@ -573,6 +575,34 @@ export default class cookieConsentManager {
     dataLayer.push(arguments)
 
     // console.log(dataLayer)
+  }
+
+  // +-------------------------------------+
+  // | COOKIE CONSENT EVENT NAMES          |
+  // +-------------------------------------+
+
+  getCookieConsentAcceptEventName() {
+    const configs = this.getConfigs()
+
+    const { cookieConsentAcceptEventName } = configs || {}
+
+    if (!cookieConsentAcceptEventName) {
+      console.warn('cookieConsentAcceptEventName in getCookieConsentAcceptEventName is empty')
+    }
+
+    return cookieConsentAcceptEventName
+  }
+
+  getCookieConsentRejectEventName() {
+    const configs = this.getConfigs()
+
+    const { cookieConsentRejectEventName } = configs || {}
+
+    if (!cookieConsentRejectEventName) {
+      console.warn('cookieConsentRejectEventName in getCookieConsentRejectEventName is empty')
+    }
+
+    return cookieConsentRejectEventName
   }
 
   fireCookieConsentUpdateEvent() {
