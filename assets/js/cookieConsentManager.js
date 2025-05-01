@@ -43,10 +43,12 @@ export default class cookieConsentManager {
 
       // CONTENT
       acceptAllButtonText: 'Accept all',
+      acceptAllButtonAccessibleText: 'Accept all cookies',
       rejectAllButtonText: 'Reject all',
+      rejectAllButtonAccessibleText: 'Reject all cookies',
       customizeButtonText: 'Customize',
+      customizeButtonAccessibleText: 'Customize cookies',
       saveButtonText: 'Save',
-      // TODO: add accessible label
 
       // BANNER
       bannerTitle: 'We respect your privacy',
