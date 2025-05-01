@@ -263,15 +263,9 @@ export default class cookieConsentManager {
         }
       })
 
-      // Set an item to show that conset is set
-      const setName = this.getConsentSetName()
-      const setPositiveValue = this.getConsentSetPositiveValue()
-      localStorage.setItem(setName, setPositiveValue)
-
-      // Set the version number
-      const versionName = this.getVersionName()
-      const versionNumber = this.getVersion()
-      localStorage.setItem(versionName, versionNumber)
+      // Set consent isSet and version
+      this.setConsentSet()
+      this.setVersion()
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
@@ -325,15 +319,9 @@ export default class cookieConsentManager {
         }
       })
 
-      // Set an item to show that conset is set
-      const setName = this.getConsentSetName()
-      const setPositiveValue = this.getConsentSetPositiveValue()
-      localStorage.setItem(setName, setPositiveValue)
-
-      // Set the version number
-      const versionName = this.getVersionName()
-      const versionNumber = this.getVersion()
-      localStorage.setItem(versionName, versionNumber)
+      // Set consent isSet and version
+      this.setConsentSet()
+      this.setVersion()
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
@@ -385,19 +373,27 @@ export default class cookieConsentManager {
         })
       })
 
-      // Set an item to show that conset is set
-      const setName = this.getConsentSetName()
-      const setPositiveValue = this.getConsentSetPositiveValue()
-      localStorage.setItem(setName, setPositiveValue)
-
-      // Set the version number
-      const versionName = this.getVersionName()
-      const versionNumber = this.getVersion()
-      localStorage.setItem(versionName, versionNumber)
+      // Set consent isSet and version
+      this.setConsentSet()
+      this.setVersion()
     } catch (error) {
       console.error('There was an error with setConsent_saveCustomized()')
       console.error(error)
     }
+  }
+
+  setConsentSet() {
+    // Set an item to show that conset is set
+    const setName = this.getConsentSetName()
+    const setPositiveValue = this.getConsentSetPositiveValue()
+    localStorage.setItem(setName, setPositiveValue)
+  }
+
+  setVersion() {
+    // Set the version number
+    const versionName = this.getVersionName()
+    const versionNumber = this.getVersion()
+    localStorage.setItem(versionName, versionNumber)
   }
 
   // +-------------------------------------+
