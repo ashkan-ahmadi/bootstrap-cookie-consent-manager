@@ -28,7 +28,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     customizeButtonText: 'Customize', // string
     customizeButtonAccessibleText: 'Customize cookies', // string
     saveButtonText: 'Save', // string
-    saveButtonAccessibleText: 'Save', // string
+    saveButtonAccessibleText: 'Save cookies', // string
 
     // useLocalStorage: true, // true(default)|false
 
