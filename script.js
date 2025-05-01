@@ -47,8 +47,12 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: true,
       onByDefault: true,
-      onAccept: function () {},
-      onReject: function () {},
+      onAccept: function () {
+        // console.log('Functionality onAccept')
+      },
+      onReject: function () {
+        // console.log('Functionality onReject - SHOULD NOT HAPPEN')
+      },
     },
     {
       id: 'security',
@@ -57,8 +61,12 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: true,
       onByDefault: true,
-      onAccept: function () {},
-      onReject: function () {},
+      onAccept: function () {
+        // console.log('Security onAccept')
+      },
+      onReject: function () {
+        // console.log('Security onReject -  - SHOULD NOT HAPPEN')
+      },
     },
     {
       id: 'analytics',
@@ -90,8 +98,12 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
         // security and anti-fraud
         security_storage: false,
       },
-      onAccept: function () {},
-      onReject: function () {},
+      onAccept: function () {
+        // console.log('Analytics onAccept')
+      },
+      onReject: function () {
+        // console.log('Analytics onReject')
+      },
     },
     {
       id: 'advertising',
@@ -103,8 +115,12 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       forAds: true, // related to advertising such as Facebook Pixel, Google Ads, etc
       forAnalytics: false,
       forPersonalization: false,
-      onAccept: function () {},
-      onReject: function () {},
+      onAccept: function () {
+        // console.log('Advertising onAccept')
+      },
+      onReject: function () {
+        // console.log('Advertising onReject')
+      },
     },
     {
       id: 'personalization',
@@ -116,8 +132,12 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
       forAnalytics: false,
       forPersonalization: true,
-      onAccept: function () {},
-      onReject: function () {},
+      onAccept: function () {
+        // console.log('Personalization onAccept')
+      },
+      onReject: function () {
+        // console.log('Personalization onReject')
+      },
     },
   ]
 
