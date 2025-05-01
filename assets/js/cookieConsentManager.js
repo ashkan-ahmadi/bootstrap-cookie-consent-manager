@@ -489,9 +489,12 @@ export default class cookieConsentManager {
       scrollable,
       animation,
       staticBackground,
-      rejectAllButtonText,
       acceptAllButtonText,
+      acceptAllButtonAccessibleText,
+      rejectAllButtonText,
+      rejectAllButtonAccessibleText,
       saveButtonText,
+      saveButtonAccessibleText
     } = configs || {}
 
     const modalDialogClasses = []
@@ -552,7 +555,7 @@ export default class cookieConsentManager {
                 // prettier-ignore
               }
             </div> <!-- .modal-body -->
-            
+
             <div class="modal-footer">
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
                 <button
