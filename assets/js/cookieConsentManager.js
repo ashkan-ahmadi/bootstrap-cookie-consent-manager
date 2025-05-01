@@ -259,7 +259,7 @@ export default class cookieConsentManager {
         // TODO: this could go into a standalone function to be reused when init loads and conset is already set
         // we still need to fire this on every page
         this.pushToDataLayer({
-          event: `accept_consent_type_${type?.id}`,
+          event: `cookie_consent_reject_${type?.id}`,
         })
 
         // Verify the key 'onAccept' exists and it's a function
