@@ -3,7 +3,7 @@ export default class cookieConsentManager {
     this.PREFIX = 'cookieConsent_' // the global prefix - keep the _ at the end
     this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType_' // the name of the consent type
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
-    this.SET_VALUE = 'true' // the value when consent is set
+    this.SET_POSITIVE_VALUE = 'true' // the value when consent is set
 
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
@@ -117,7 +117,7 @@ export default class cookieConsentManager {
   }
 
   getConsentSetValue() {
-    return this.SET_VALUE
+    return this.SET_POSITIVE_VALUE
   }
 
   // +-------------------------------------+
@@ -216,7 +216,7 @@ export default class cookieConsentManager {
         }
 
         const name = this.CONSENT_TYPE_PREFIX + type?.id
-        const value = this.SET_VALUE // set everything to the default set value (usually true)
+        const value = this.SET_POSITIVE_VALUE // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
 
@@ -239,7 +239,7 @@ export default class cookieConsentManager {
       })
 
       // Set an item to show that conset is set
-      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+      localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
@@ -265,8 +265,8 @@ export default class cookieConsentManager {
         }
 
         const name = this.CONSENT_TYPE_PREFIX + type?.id
-        // if required, set to default SET_VALUE, if false then 'false'
-        const value = type?.required ? this.SET_VALUE : 'false'
+        // if required, set to default SET_POSITIVE_VALUE, if false then 'false'
+        const value = type?.required ? this.SET_POSITIVE_VALUE : 'false'
 
         localStorage.setItem(name, value)
 
@@ -290,7 +290,7 @@ export default class cookieConsentManager {
       })
 
       // Set an item to show that conset is set
-      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+      localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
@@ -324,13 +324,13 @@ export default class cookieConsentManager {
       checkboxes.forEach(checkbox => {
         const name = this.CONSENT_TYPE_PREFIX + checkbox?.id
         // TODO: make 'false' a variable that can be overriden
-        const value = checkbox?.checked ? this.SET_VALUE : 'false'
+        const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : 'false'
 
         localStorage.setItem(name, value)
       })
 
       // Set the value to verify that consent is set
-      localStorage.setItem(this.SET_NAME, this.SET_VALUE)
+      localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
 
       // TODO: how to do the onAccept and onReject callbacks here?
     } catch (error) {
@@ -603,12 +603,12 @@ export default class cookieConsentManager {
   updateConsent_fromAlreadySet() {
     // Update consent to all granted
     this.gtag('consent', 'update', {
-      ad_personalization: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
-      ad_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
-      ad_user_data: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
-      analytics_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'analytics') === this.SET_VALUE ? 'granted' : 'denied',
+      ad_personalization: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      ad_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      ad_user_data: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      analytics_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'analytics') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
       functionality_storage: 'granted', // they do not need permission, they can always stay on
-      personalization_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'personalization') === this.SET_VALUE ? 'granted' : 'denied',
+      personalization_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'personalization') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
       security_storage: 'granted', // they do not need permission, they can always stay on
     })
   }
