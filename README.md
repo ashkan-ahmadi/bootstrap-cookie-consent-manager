@@ -111,6 +111,37 @@ Then, you need to pass your consent types and configuration into the script (see
 
 ### 4. Set up GTM
 
+---
+
+## Customization Parameters
+
+Use any of these as a `key:value` pair to customize the behavior of the cookie consent manager.
+
+| Category    | Key                             | Type    | Default value                    | Required | Description                                                        |
+| ----------- | ------------------------------- | ------- | -------------------------------- | -------- | ------------------------------------------------------------------ |
+| Modal       | `modalId`                       | string  | `cookie-consent-manager-modal`   | no       | The ID of the modal. You do not have to change                     |
+| Modal       | `ModalTitle`                    | string  | `Customize the cookies`          | no       | The text on top of the modal (HTML allowed)                        |
+| Modal       | `centered`                      | boolean | `true`                           | no       | Vertically center the modal                                        |
+| Modal       | `scrollable`                    | boolean | `true`                           | no       | Makes the body of the modal scrollable if there isn't enough space |
+| Modal       | `animation`                     | boolean | `true`                           | no       | Show and hide the modal with an animation                          |
+| Modal       | `staticBackground`              | boolean | `true`                           | no       | The modal will not close when clicking outside of it               |
+| Modal       | `showCloseButtonOnModal`        | boolean | `false`                          | no       | Show the close X icon on modal                                     |
+| Modal       | `useLocalStorage`               | boolean | `true`                           | no       | Store consents in Local Storage instead of Cookies                 |
+| Banner      | `bannerTitle`                   | string  | `We respect your privacy`        | no       | The title of the banner (HTML allowed)                             |
+| Banner      | `bannerText`                    | string  | `We use cookies on our site ...` | no       | The text of the banner (HTML allowed)                              |
+| Banner      | `showRejectAllButtonOnBanner`   | boolean | `true`                           | no       | Show or hide Reject All button on banner (not recommended)         |
+| Content     | `acceptAllButtonText`           | string  | `Accept all`                     | no       | The Accept All button's text                                       |
+| Content     | `acceptAllButtonAccessibleText` | string  | `Accept all cookies`             | no       | The Accept All button's text visible to screen readers             |
+| Content     | `rejectAllButtonText`           | string  | `Reject all`                     | no       | The Reject All button's text                                       |
+| Content     | `rejectAllButtonAccessibleText` | string  | `Reject all cookies`             | no       | The Reject All button's text visible to screen readers             |
+| Content     | `customizeButtonText`           | string  | `Customize`                      | no       | The Customize button's text                                        |
+| Content     | `customizeButtonAccessibleText` | string  | `Customize cookies`              | no       | The Customize button's text visible to screen readers              |
+| Content     | `saveButtonText`                | string  | `Save`                           | no       | The Save button's text                                             |
+| Content     | `saveButtonAccessibleText`      | string  | `Save preferences`               | no       | The Save button's text visible to screen readers                   |
+| Event names | `cookieConsentAcceptEventName`  | string  | `cookie_consent_accept`          | no       |                                                                    |
+| Event names | `cookieConsentRejectEventName`  | string  | `cookie_consent_reject`          | no       |                                                                    |
+| Event names | `cookieConsentUpdateEventName`  | string  | `cookie_consent_update`          | no       |                                                                    |
+
 ## Developers
 
 If you are interested in improving this library, feel free to clone, modify and request a pull request. Make sure pull requests are small, and manageable.
