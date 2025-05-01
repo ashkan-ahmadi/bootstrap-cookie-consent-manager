@@ -1,5 +1,6 @@
 export default class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
+    // TODO: make these values dynamic
     this.PREFIX = 'cookieConsent_' // the global prefix - keep the _ at the end
     this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType_' // the name of the consent type
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
