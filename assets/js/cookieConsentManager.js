@@ -7,7 +7,7 @@ export default class cookieConsentManager {
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
     this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
     this.VERSION = 1
-    this.VERSION_NAME = this.PREFIX + 'version_'
+    this.VERSION_NAME = this.PREFIX + 'version'
 
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
@@ -132,7 +132,7 @@ export default class cookieConsentManager {
   }
 
   getVersionName() {
-    return this.getVersion
+    return this.VERSION_NAME
   }
 
   // +-------------------------------------+
@@ -257,6 +257,11 @@ export default class cookieConsentManager {
 
       // Set an item to show that conset is set
       localStorage.setItem(this.SET_NAME, this.SET_POSITIVE_VALUE)
+
+      // Set the version number
+      const versionName = this.getVersionName()
+      const versionNumber = this.getVersion()
+      localStorage.setItem(versionName, versionNumber)
     } catch (error) {
       console.error('There was an error with setConsent_acceptAll()')
       console.error(error)
