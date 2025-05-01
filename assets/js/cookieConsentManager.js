@@ -341,6 +341,8 @@ export default class cookieConsentManager {
 
         localStorage.setItem(name, value)
 
+        // TODO: check out file firing to figure out how to fire the onAccept and onReject
+
         // TODO: we still need to fire this on every page
         const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
         const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
