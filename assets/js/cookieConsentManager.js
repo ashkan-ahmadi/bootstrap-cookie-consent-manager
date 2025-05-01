@@ -552,11 +552,35 @@ export default class cookieConsentManager {
                 // prettier-ignore
               }
             </div> <!-- .modal-body -->
+            
             <div class="modal-footer">
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
-                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="accept-all-cookies">${acceptAllButtonText}</button>
-                <button type="button" class="btn btn-outline-primary me-sm-2" data-bs-dismiss="modal" data-cookie-button-function="reject-all-cookies">${rejectAllButtonText}</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-cookie-button-function="save-cookies">${saveButtonText}</button>
+                <button
+                  type="button" 
+                  class="btn btn-outline-primary me-sm-2" 
+                  data-bs-dismiss="modal" 
+                  data-cookie-button-function="accept-all-cookies"
+                >
+                  ${acceptAllButtonText}
+                </button>
+
+                <button
+                  type="button" 
+                  class="btn btn-outline-primary me-sm-2" 
+                  data-bs-dismiss="modal" 
+                  data-cookie-button-function="reject-all-cookies"
+                >
+                  ${rejectAllButtonText}
+                </button>
+                
+                <button
+                  type="button" 
+                  class="btn btn-primary" 
+                  data-bs-dismiss="modal" 
+                  data-cookie-button-function="save-cookies"
+                >
+                  ${saveButtonText}
+                </button>
               </div>
             </div> <!-- .modal-footer -->
           </div>
