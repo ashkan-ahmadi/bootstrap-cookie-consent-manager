@@ -9,6 +9,9 @@ export default class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
+      // CONFIGS // TODO: best here?
+
+      cookieConsentUpdateEventName: 'cookie_consent_update', // this is the name of the event that fires when consent is updated - this is the name you should use on GTM > Triggers > Custom Event
       // MODAL
 
       modalId: 'cookie-consent-manager-modal',
@@ -66,6 +69,8 @@ export default class cookieConsentManager {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
       return
     }
+
+    // this.setDefaultConsents()
 
     // Verify if cookie is already set. If yes, nothing needs to be done at the moment
     if (this.isConsentSet()) {
@@ -204,7 +209,7 @@ export default class cookieConsentManager {
         // TODO: this could go into a standalone function to be reused when init loads and conset is already set
         // we still need to fire this on every page
         this.pushToDataLayer({
-          event: `accept_consent_type_${type?.id}`,
+          event: `cookie_consent_accept_${type?.id}`,
         })
 
         // Verify the key 'onAccept' exists and it's a function
@@ -535,6 +540,36 @@ export default class cookieConsentManager {
     dataLayer.push(arguments)
   }
 
+  fireCookieConsentUpdateEvent() {
+    const configs = this.getConfigs()
+
+    const { cookieConsentUpdateEventName } = configs || {}
+
+    if (!cookieConsentUpdateEventName) {
+      console.warn('cookieConsentUpdateEventName in fireCookieConsentUpdateEvent is empty. No event pushed to dataLayer')
+      return
+    }
+
+    this.pushToDataLayer({ event: cookieConsentUpdateEventName })
+  }
+
+  // +-------------------------------------+
+  // | Update GTAG Consent                 |
+  // +-------------------------------------+
+
+  updateConsent_allGranted() {
+    // Update consent to all granted
+    this.gtag('consent', 'update', {
+      ad_personalization: 'granted',
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      analytics_storage: 'granted',
+      functionality_storage: 'granted',
+      personalization_storage: 'granted',
+      security_storage: 'granted',
+    })
+  }
+
   // +-------------------------------------+
   // | BUTTON CLICK HANDLERS               |
   // +-------------------------------------+
@@ -549,7 +584,12 @@ export default class cookieConsentManager {
         this.cookieBanner = null
       }
 
-      this.pushToDataLayer({ event: 'accept_all_consent_types' })
+      // This function fires gtag with all consent types set to 'granted'
+      this.updateConsent_allGranted()
+
+      // fires a single event
+      // this should be the Custom Event trigger on
+      this.fireCookieConsentUpdateEvent()
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
       console.error(error)
