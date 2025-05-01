@@ -619,15 +619,27 @@ export default class cookieConsentManager {
   }
 
   updateConsent_fromAlreadySet() {
+    const prefix = this.getConsentTypePrefix()
+
     // Update consent to all granted
     this.gtag('consent', 'update', {
-      ad_personalization: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      ad_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      ad_user_data: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      analytics_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'analytics') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      functionality_storage: 'granted', // they do not need permission, they can always stay on
-      personalization_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'personalization') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      security_storage: 'granted', // they do not need permission, they can always stay on
+      // REQUIRES EXPLICIT CONSENT (all 3 grouped together)
+      ad_personalization: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      ad_storage: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      ad_user_data: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+
+      // REQUIRES EXPLICIT CONSENT
+      analytics_storage: localStorage.getItem(prefix + 'analytics') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+
+      // functionality_storage does NOT require checking but we do anyway just in case
+
+      functionality_storage: localStorage.getItem(prefix + 'functionality') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+
+      // REQUIRES EXPLICIT CONSENT
+      personalization_storage: localStorage.getItem(prefix + 'personalization') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+
+      // security_storage does NOT require checking but we do anyway just in case
+      security_storage: localStorage.getItem(prefix + 'security') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
     })
   }
 
@@ -684,7 +696,9 @@ export default class cookieConsentManager {
       // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
       this.setConsent_saveCustomized()
 
-      // this.pushToDataLayer({ event: 'reject_all_consent_types' })
+      // fires a single event
+      // this should be the Custom Event trigger on GTM
+      this.fireCookieConsentUpdateEvent()
     } catch (error) {
       console.error('There was an error with handleSaveButtonClick()')
       console.error(error)
