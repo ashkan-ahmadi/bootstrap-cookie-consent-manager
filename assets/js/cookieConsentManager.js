@@ -73,22 +73,19 @@ export default class cookieConsentManager {
     // fire default - everything set to 'denied'
     this.setConsent_default()
 
-    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
-    if (this.isConsentSet()) {
-      console.log('consent is set already')
-
-      // This updates the consent from what's in the localStorage
-      this.updateConsent_fromAlreadySet()
-
-      // This fires the cookie_consent_update event which the tags rely on on GTM
-      this.fireCookieConsentUpdateEvent()
-      return // TODO: not sure what to do here
-
-      // read values from localStorage
-      // fire GA events
+    if (!this.isConsentSet()) {
+      this.showBanner()
+      return
     }
 
-    this.showBanner()
+    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
+    console.log('consent is set already')
+
+    // This updates the consent from what's in the localStorage
+    this.updateConsent_fromAlreadySet()
+
+    // This fires the cookie_consent_update event which the tags rely on on GTM
+    this.fireCookieConsentUpdateEvent()
   }
 
   setConsent_default() {
