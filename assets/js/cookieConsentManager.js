@@ -70,10 +70,9 @@ export default class cookieConsentManager {
       return
     }
 
-    // fire default - everything set to 'denied'
-    this.setConsent_default()
-
     if (!this.isConsentSet()) {
+      // fire default - everything set to 'denied'
+      this.setConsent_default()
       this.showBanner()
       return
     }
