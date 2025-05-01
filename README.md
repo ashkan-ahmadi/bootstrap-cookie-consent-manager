@@ -111,6 +111,31 @@ Then, you need to pass your consent types and configuration into the script (see
 
 ### 4. Set up GTM
 
+1. Make sure your GTM script is added AFTER the Consent Manager script
+1. Go to [Google Tag Manager](https://tagmanager.google.com/)
+1. Go to Admin > Container Settings > Additional Settings > make sure Enable consent overview is checked/enabled
+1. Save and go back to Workspace
+1. Go to Triggers > New > Custom Event > Event name > Enter the value of `cookieConsentUpdateEventName` in your customization parameter (by default, it's `cookie_consent_update`. You can use the same value `cookie_consent_update` as recommended.)
+
+Important: you have to use this custom event as the trigger for you need a tag to run once permission is given
+
+Let's do a test
+
+1. Go to Tags > New > Custom HTML > Write the following code in the box:
+
+```html
+<script>
+  alert('✅ Analytics GTM tag is running - requires permission analytics_storage')
+</script>
+```
+
+2. Under Advanced Settings > Consent Settings > Additional Consent Checks > Select `Require additional consent for tag to fire` and add `analytics_storage`
+3. Under Triggering, select the custom event trigger you created in the previous step. Save everything and come out
+4. Click the Preview button and enter your website link that has the Cookie Consent Manager running
+5. On the cookie banner, click the Accept All button to accept all the permissions. If everything is set up right, you should see an alert popping up saying that the Analytics GTM tag is running.
+6. Everything is set up and running now.
+7. Go back to GTM, delete the Custom HTML tag you created. Now you can create and use any tag you want.
+
 ---
 
 ## Customization Parameters
