@@ -282,8 +282,6 @@ export default class cookieConsentManager {
   }
 
   setConsent_saveCustomized() {
-    console.log('running setConsent_saveCustomized')
-
     const configs = this.getConfigs()
 
     const { modalId } = configs || {}
