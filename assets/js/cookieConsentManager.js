@@ -49,6 +49,7 @@ export default class cookieConsentManager {
       customizeButtonText: 'Customize',
       customizeButtonAccessibleText: 'Customize cookies',
       saveButtonText: 'Save',
+      saveButtonAccessibleText: 'Save preferences',
 
       // BANNER
       bannerTitle: 'We respect your privacy',
