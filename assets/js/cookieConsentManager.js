@@ -284,7 +284,7 @@ export default class cookieConsentManager {
         // not firing onReject function on types that have required:true
         // if it's required, it should not be rejected
         if (type.required !== true) {
-          // Verify the key 'onAccept' exists and it's a function
+          // Verify the key 'onReject' exists and it's a function
           // If a callback function exists, we run it
           // If the key exists but a non-function is passed, we show a warning on Console
           if (type.onReject && typeof type.onReject === 'function') {
