@@ -602,7 +602,7 @@ export default class cookieConsentManager {
       this.updateConsent_allGranted()
 
       // fires a single event
-      // this should be the Custom Event trigger on
+      // this should be the Custom Event trigger on GTM
       this.fireCookieConsentUpdateEvent()
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
@@ -620,7 +620,12 @@ export default class cookieConsentManager {
         this.cookieBanner = null
       }
 
-      this.pushToDataLayer({ event: 'reject_all_consent_types' })
+      // fires gtag with all (except functionality and security) set to 'denied'
+      this.updateConsent_allDenied()
+
+      // fires a single event
+      // this should be the Custom Event trigger on GTM
+      this.fireCookieConsentUpdateEvent()
     } catch (error) {
       console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
