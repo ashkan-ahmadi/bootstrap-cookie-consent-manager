@@ -696,8 +696,14 @@ export default class cookieConsentManager {
       // TODO: for now, setConsent_rejectAll also handles firing events. Should it be that way?
       this.setConsent_saveCustomized()
 
+      // look into localStorage to see what to fire and what not to fire
+      // Remember: this does not cause any tag to fire
+      // it simply changes the consent permissions
+      this.updateConsent_fromAlreadySet()
+
       // fires a single event
       // this should be the Custom Event trigger on GTM
+      // this is the event that tags should rely on (at this point the consent is updated)
       this.fireCookieConsentUpdateEvent()
     } catch (error) {
       console.error('There was an error with handleSaveButtonClick()')
