@@ -7,21 +7,22 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     dataLayer.push(arguments)
   }
 
-  gtag('consent', 'default', {
-    functionality_storage: 'granted',
-    security_storage: 'granted',
-    analytics_storage: localStorage.getItem('cookieConsent_consentType_analytics') === 'true' ? 'granted' : 'denied',
-    ad_storage: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
-    ad_user_data: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
-    ad_personalization: localStorage.getItem('cookieConsent_consentType_advertising') === 'true' ? 'granted' : 'denied',
-    personalization_storage: localStorage.getItem('cookieConsent_consentType_personalization') === 'true' ? 'granted' : 'denied',
-  })
+  // gtag('consent', 'default', {
+  //   functionality_storage: 'granted',
+  //   security_storage: 'granted',
+  //   analytics_storage: 'denied',
+  //   ad_storage: 'denied',
+  //   ad_user_data: 'denied',
+  //   ad_personalization: 'denied',
+  //   personalization_storage: 'denied',
+  // })
 
   const myconfig = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
     // modalTitle: 'Cookie Consent', // string
+    // cookieConsentUpdateEventName: 'cookie_consent_update', // string - event to fire, have to use in GTM > Tags > Custom Event
     // centered: true, // true(default)|false
     // scrollable: true, // true(default)|false
     // animation: false, // true(default)|false
@@ -40,9 +41,19 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
 
   const consents = [
     {
-      id: 'necessary',
-      title: 'Necessary',
-      description: 'These cookies are necessary for the website to function properly and <b>cannot be switched off</b>. They help with things like logging in and setting your privacy preferences.</p>',
+      id: 'functionality',
+      title: 'Functionality',
+      description: 'These cookies are essential for the website to function properly and <b>cannot be switched off</b>. They help with things like logging in and setting your privacy preferences.</p>',
+      enabled: true,
+      required: true,
+      onByDefault: true,
+      onAccept: function () {},
+      onReject: function () {},
+    },
+    {
+      id: 'security',
+      title: 'Security',
+      description: 'These cookies are essential for the website to function properly and <b>cannot be switched off</b>. They help with things like fraud protection and security.</p>',
       enabled: true,
       required: true,
       onByDefault: true,
@@ -57,10 +68,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       required: false,
       onByDefault: true,
       forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
-      forAnalytics: false,
-      forFunctionality: false, // no need to ask, 'granted' by default
+      forAnalytics: true,
       forPersonalization: false,
-      forSecurity: false, // no need to ask, 'granted' by default
+      // forFunctionality: false, // no need to ask, 'granted' by default
+      // forSecurity: false, // no need to ask, 'granted' by default
       categories: {
         // advertising (Google Ads, Facebook)
         ad_storage: false,
@@ -89,6 +100,9 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
+      forAds: true, // related to advertising such as Facebook Pixel, Google Ads, etc
+      forAnalytics: false,
+      forPersonalization: false,
       onAccept: function () {},
       onReject: function () {},
     },
@@ -99,6 +113,9 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
+      forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
+      forAnalytics: false,
+      forPersonalization: true,
       onAccept: function () {},
       onReject: function () {},
     },
