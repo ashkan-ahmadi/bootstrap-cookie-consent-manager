@@ -11,6 +11,7 @@ export default class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
+      // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
       cookieConsentRejectEventName: 'cookie_consent_reject', // this is the name of the event that fires when consent is rejected
       cookieConsentUpdateEventName: 'cookie_consent_update', // this is the name of the event that fires when consent is updated - this is the name you should use on GTM > Triggers > Custom Event
