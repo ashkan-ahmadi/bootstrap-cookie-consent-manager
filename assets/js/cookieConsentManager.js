@@ -497,6 +497,11 @@ export default class cookieConsentManager {
       saveButtonAccessibleText
     } = configs || {}
 
+    const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
+    const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
+    const useAccessibleText_save = saveButtonText !== saveButtonAccessibleText
+
+    // Below, we add class names to this array based on conditions
     const modalDialogClasses = []
 
     if (centered) {
@@ -563,6 +568,7 @@ export default class cookieConsentManager {
                   class="btn btn-outline-primary me-sm-2" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="accept-all-cookies"
+                  ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
                 >
                   ${acceptAllButtonText}
                 </button>
@@ -572,6 +578,7 @@ export default class cookieConsentManager {
                   class="btn btn-outline-primary me-sm-2" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="reject-all-cookies"
+                  ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
                 >
                   ${rejectAllButtonText}
                 </button>
@@ -581,6 +588,7 @@ export default class cookieConsentManager {
                   class="btn btn-primary" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="save-cookies"
+                  ${useAccessibleText_save ? `aria-label="${saveButtonAccessibleText}"` : ''}
                 >
                   ${saveButtonText}
                 </button>
