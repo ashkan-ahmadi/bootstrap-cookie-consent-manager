@@ -167,6 +167,24 @@ Use any of these as a `key:value` pair in the `cookieConfigs` object to customiz
 | Event names | `cookieConsentRejectEventName`  | string  | `cookie_consent_reject`          | The event that fires when rejecting a consent permission           |
 | Event names | `cookieConsentUpdateEventName`  | string  | `cookie_consent_update`          | The event that fires when any consent permission changes           |
 
+## Consent Types
+
+Consent types are different types of consents you have that the user can accept or reject. Each type is an object with the following `key:value` pairs that should be passed into the `cookieConsents` array.
+
+| Key                  | Type     | Required | Description                                               |
+| -------------------- | -------- | -------- | --------------------------------------------------------- |
+| `id`                 | string   | yes      | The unique `id` of this permission (all lower case)       |
+| `title`              | string   | yes      | The title of the cookie type                              |
+| `description`        | string   | yes      | The description of the cookie type                        |
+| `enabled`            | boolean  | no       | Set to `false` if you want to keep but hide from the user |
+| `required`           | boolean  | yes      | Cannot be turned off and cannot be rejected               |
+| `onByDefault`        | boolean  | no       | Turn on by default unless turned off by user              |
+| `forAds`             | boolean  |          | TODO                                                      |
+| `forAnalytics`       | boolean  |          | TODO                                                      |
+| `forPersonalization` | boolean  |          | TODO                                                      |
+| `onAccept`           | function | no       | Callback function to run when accepted                    |
+| `onReject`           | function | no       | Callback function to run when rejected                    |
+
 ## Developers
 
 If you are interested in improving this library, feel free to clone, modify and request a pull request. Make sure pull requests are small, and manageable.
