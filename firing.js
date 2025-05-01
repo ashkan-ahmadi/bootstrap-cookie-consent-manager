@@ -36,3 +36,86 @@ if (checkbox.required) {
     }
   }
 }
+
+/////////
+
+setDefaultConsents() {
+  return
+  const consentTypes = this.getConsentTypes()
+
+  const ads = []
+  const analytics = []
+  const personalization = []
+
+  consentTypes.forEach(type => {
+    if (type?.forAds === true) {
+      ads.push(type?.id)
+    }
+    if (type?.forAnalytics === true) {
+      analytics.push(type?.id)
+    }
+    if (type?.forPersonalization === true) {
+      personalization.push(type?.id)
+    }
+  })
+
+  this.gtag('consent', 'default', {
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    personalization_storage: 'denied',
+  })
+
+  console.log({ ads }, { analytics }, { personalization })
+
+  return
+
+  console.log(consentTypes)
+
+  if (!consentTypes || consentTypes.length === 0) {
+    console.warn(`No consent types found in setDefaultConsents()`)
+    return
+  }
+
+  // function getConsentTypesForAds() {
+  // }
+
+  const consentTypeIDs = []
+
+  consentTypes.forEach(type => {
+    if (type?.required === true) {
+      consentTypeIDs.push(type?.id)
+    }
+  })
+
+  // const consentTypeIDs = consentTypes.map(type => {
+  //   console.log({ type })
+  //   if (type?.required === true) {
+  //     return type?.id
+  //   } else {
+  //     return
+  //   }
+  // })
+
+  console.log({ consentTypeIDs })
+
+  if (!consentTypeIDs || consentTypeIDs.length === 0) {
+    console.warn(`No id found found in setDefaultConsents()`)
+    return
+  }
+
+  const thirdArg = {}
+
+  consentTypeIDs.forEach(id => {
+    const name = this.CONSENT_TYPE_PREFIX + id
+
+    thirdArg[id] = localStorage.getItem(name) === this.SET_VALUE ? 'granted' : 'denied'
+  })
+
+  console.log(thirdArg)
+
+  this.gtag('consent', 'default', thirdArg)
+}
