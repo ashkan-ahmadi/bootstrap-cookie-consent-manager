@@ -603,12 +603,12 @@ export default class cookieConsentManager {
   updateConsent_fromAlreadySet() {
     // Update consent to all granted
     this.gtag('consent', 'update', {
-      ad_personalization: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') ? 'granted' : 'denied',
-      ad_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') ? 'granted' : 'denied',
-      ad_user_data: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') ? 'granted' : 'denied',
-      analytics_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'analytics') ? 'granted' : 'denied',
+      ad_personalization: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
+      ad_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
+      ad_user_data: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'advertising') === this.SET_VALUE ? 'granted' : 'denied',
+      analytics_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'analytics') === this.SET_VALUE ? 'granted' : 'denied',
       functionality_storage: 'granted', // they do not need permission, they can always stay on
-      personalization_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'personalization') ? 'granted' : 'denied',
+      personalization_storage: localStorage.getItem(this.CONSENT_TYPE_PREFIX + 'personalization') === this.SET_VALUE ? 'granted' : 'denied',
       security_storage: 'granted', // they do not need permission, they can always stay on
     })
   }
