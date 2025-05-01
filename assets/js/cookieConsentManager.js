@@ -258,6 +258,7 @@ export default class cookieConsentManager {
         // this makes setting up different triggers and tags much easier on GTM
         // TODO: this could go into a standalone function to be reused when init loads and conset is already set
         // we still need to fire this on every page
+        // TODO: make the event name dynamic
         this.pushToDataLayer({
           event: `cookie_consent_reject_${type?.id}`,
         })
