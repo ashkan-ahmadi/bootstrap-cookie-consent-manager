@@ -54,10 +54,8 @@ export default class cookieConsentManager {
     }
     this.userConfigs = userConfigs
 
-    // this contains the entire toast banner HTML and its content
-    // TODO: rename this to banner
-    this.cookieBanner = null
-    // this contains the entire modal HTML and its content
+    // HTML ELEMENTS
+    this.banner = null
     this.modal = null
   }
 
@@ -422,18 +420,18 @@ export default class cookieConsentManager {
 
   showBanner() {
     // if modal has been modified before, we remove it from DOM and re-set it back to null
-    if (this.cookieBanner !== null) {
-      this.cookieBanner.remove()
-      this.cookieBanner = null
+    if (this.banner !== null) {
+      this.banner.remove()
+      this.banner = null
     }
 
-    this.cookieBanner = this.createBannerHTML()
+    this.banner = this.createBannerHTML()
 
-    document.body.append(this.cookieBanner)
+    document.body.append(this.banner)
 
-    const acceptAllButton = this.cookieBanner.querySelector('[data-cookie-button-function="accept-all-cookies"]')
-    const rejectAllButton = this.cookieBanner.querySelector('[data-cookie-button-function="reject-all-cookies"]')
-    const customizeButton = this.cookieBanner.querySelector('[data-cookie-button-function="customize-cookies"]')
+    const acceptAllButton = this.banner.querySelector('[data-cookie-button-function="accept-all-cookies"]')
+    const rejectAllButton = this.banner.querySelector('[data-cookie-button-function="reject-all-cookies"]')
+    const customizeButton = this.banner.querySelector('[data-cookie-button-function="customize-cookies"]')
 
     acceptAllButton?.addEventListener('click', () => this.handleAcceptAllButtonClick())
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
@@ -679,9 +677,9 @@ export default class cookieConsentManager {
     try {
       this.setConsent_acceptAll()
 
-      if (this.cookieBanner) {
-        this.cookieBanner.remove()
-        this.cookieBanner = null
+      if (this.banner) {
+        this.banner.remove()
+        this.banner = null
       }
 
       // This function fires gtag with all consent types set to 'granted'
@@ -700,9 +698,9 @@ export default class cookieConsentManager {
     try {
       this.setConsent_rejectAll()
 
-      if (this.cookieBanner) {
-        this.cookieBanner.remove()
-        this.cookieBanner = null
+      if (this.banner) {
+        this.banner.remove()
+        this.banner = null
       }
 
       // fires gtag with all (except functionality and security) set to 'denied'
@@ -739,9 +737,9 @@ export default class cookieConsentManager {
   handleCustomizeButtonClick() {
     try {
       // remove cookieBanner from DOM and reset it to null
-      if (this.cookieBanner) {
-        this.cookieBanner.remove()
-        this.cookieBanner = null
+      if (this.banner) {
+        this.banner.remove()
+        this.banner = null
       }
 
       // launch the modal
