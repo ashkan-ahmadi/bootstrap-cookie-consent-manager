@@ -94,6 +94,8 @@ export default class cookieConsentManager {
     // This fires the cookie_consent_update event which the tags rely on on GTM
     this.fireCookieConsentUpdateEvent()
 
+    // This is an optional and extra step to fire an event per consent type
+    // this can be used as the GTM trigger as well
     this.fireCookieConsentIndividualEvents()
   }
 
@@ -235,14 +237,6 @@ export default class cookieConsentManager {
 
         localStorage.setItem(name, value)
 
-        // fire one event per consent type
-        // this makes setting up different triggers and tags much easier on GTM
-        // TODO: we still need to fire this on every page
-        const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
-        this.pushToDataLayer({
-          event: cookieConsentAcceptEventName + '_' + type?.id,
-        })
-
         // Verify the key 'onAccept' exists and it's a function
         // If a callback function exists, we run it
         // If the key exists but a non-function is passed, we show a warning on Console
@@ -286,14 +280,6 @@ export default class cookieConsentManager {
         const value = type?.required ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
-
-        // fire one event per consent type
-        // this makes setting up different triggers and tags much easier on GTM
-        // TODO: we still need to fire this on every page
-        const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
-        this.pushToDataLayer({
-          event: cookieConsentRejectEventName + '_' + type?.id,
-        })
 
         // not firing onReject function on types that have required:true
         // if it's required, it should not be rejected
@@ -351,16 +337,6 @@ export default class cookieConsentManager {
         localStorage.setItem(name, value)
 
         // TODO: check out file firing to figure out how to fire the onAccept and onReject
-
-        // TODO: we still need to fire this on every page
-        const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
-        const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
-        const eventName = checkbox?.checked ? cookieConsentAcceptEventName : cookieConsentRejectEventName
-
-        // TODO: determine if this is even necessary if we fire cookie_consent_update anyway
-        this.pushToDataLayer({
-          event: eventName + '_' + checkbox?.id,
-        })
       })
 
       // Set consent isSet and version
@@ -842,7 +818,12 @@ export default class cookieConsentManager {
 
       // fires a single event
       // this should be the Custom Event trigger on GTM
+      // this is the event that tags should rely on (at this point the consent is updated)
       this.fireCookieConsentUpdateEvent()
+
+      // This is an optional and extra step to fire an event per consent type
+      // this can be used as the GTM trigger as well
+      this.fireCookieConsentIndividualEvents()
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
       console.error(error)
@@ -863,7 +844,12 @@ export default class cookieConsentManager {
 
       // fires a single event
       // this should be the Custom Event trigger on GTM
+      // this is the event that tags should rely on (at this point the consent is updated)
       this.fireCookieConsentUpdateEvent()
+
+      // This is an optional and extra step to fire an event per consent type
+      // this can be used as the GTM trigger as well
+      this.fireCookieConsentIndividualEvents()
     } catch (error) {
       console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
@@ -883,6 +869,10 @@ export default class cookieConsentManager {
       // this should be the Custom Event trigger on GTM
       // this is the event that tags should rely on (at this point the consent is updated)
       this.fireCookieConsentUpdateEvent()
+
+      // This is an optional and extra step to fire an event per consent type
+      // this can be used as the GTM trigger as well
+      this.fireCookieConsentIndividualEvents()
     } catch (error) {
       console.error('There was an error with handleSaveButtonClick()')
       console.error(error)
