@@ -46,6 +46,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: true,
       onByDefault: true,
+      permissionType: 'functionality', // ad|analytics|functionality|personalization|security
       onAccept: function () {
         // console.log('Functionality onAccept')
       },
@@ -60,6 +61,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: true,
       onByDefault: true,
+      permissionType: 'security', // ad|analytics|functionality|personalization|security
       onAccept: function () {
         // console.log('Security onAccept')
       },
@@ -74,29 +76,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
-      forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
-      forAnalytics: true,
-      forPersonalization: false,
-      // forFunctionality: false, // no need to ask, 'granted' by default
-      // forSecurity: false, // no need to ask, 'granted' by default
-      categories: {
-        // advertising (Google Ads, Facebook)
-        ad_storage: false,
-        ad_user_data: false,
-        ad_personalization: false,
-
-        // analytics (Google Analytics)
-        analytics_storage: false,
-
-        // functionality (core functionality of the website)
-        functionality_storage: false,
-
-        // personal recommendation (based on preferences set or browsing history e.g. video recommendations)
-        personalization_storage: false,
-
-        // security and anti-fraud
-        security_storage: false,
-      },
+      permissionType: 'analytics', // ad|analytics|functionality|personalization|security
       onAccept: function () {
         // console.log('Analytics onAccept')
       },
@@ -111,9 +91,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
-      forAds: true, // related to advertising such as Facebook Pixel, Google Ads, etc
-      forAnalytics: false,
-      forPersonalization: false,
+      permissionType: 'ad', // ad|analytics|functionality|personalization|security
       onAccept: function () {
         // console.log('Advertising onAccept')
       },
@@ -128,9 +106,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       enabled: true,
       required: false,
       onByDefault: true,
-      forAds: false, // related to advertising such as Facebook Pixel, Google Ads, etc
-      forAnalytics: false,
-      forPersonalization: true,
+      permissionType: 'personalization', // ad|analytics|functionality|personalization|security
       onAccept: function () {
         // console.log('Personalization onAccept')
       },
