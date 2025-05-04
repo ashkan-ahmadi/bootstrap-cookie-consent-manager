@@ -77,22 +77,24 @@ export default class cookieConsentManager {
       return
     }
 
+    // First thing we do, we set the default
+    this.setConsent_default()
+
     // first time visiting, nothing set
     if (!this.isConsentSet()) {
-      this.setConsent_default()
       this.showBanner()
       return
     }
 
     // 👇 Everything below is for someone who has already responded
 
-    // console.log('consent is set already')
-
     // This updates the consent from what's in the localStorage
     this.updateConsent_fromLocalStorage()
 
     // This fires the cookie_consent_update event which the tags rely on on GTM
     this.fireCookieConsentUpdateEvent()
+
+    this.fireCookieConsentIndividualEvents()
   }
 
   // +-------------------------------------+
@@ -717,6 +719,27 @@ export default class cookieConsentManager {
     }
 
     this.pushToDataLayer({ event: cookieConsentUpdateEventName })
+  }
+
+  fireCookieConsentIndividualEvents() {
+    // we need the prefix so that we concatenate it with the id so we look for it in the localStorage
+    const prefix = this.getConsentTypePrefix()
+
+    const consentTypes = this.getEnabledConsentTypes()
+
+    // look inside the localStorage items to see if the item matches the permission types or not
+    // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
+    consentTypes.forEach(type => {
+      const localStorageName = prefix + type.id
+
+      const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
+      const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
+      const eventName = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? cookieConsentAcceptEventName : cookieConsentRejectEventName
+
+      this.pushToDataLayer({
+        event: eventName + '_' + type?.id,
+      })
+    })
   }
 
   // +-------------------------------------+
