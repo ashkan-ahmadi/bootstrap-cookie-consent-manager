@@ -94,19 +94,6 @@ export default class cookieConsentManager {
     this.fireCookieConsentUpdateEvent()
   }
 
-  setConsent_default() {
-    console.log('setting consent to default all denied')
-    this.gtag('consent', 'default', {
-      functionality_storage: 'granted',
-      security_storage: 'granted',
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      personalization_storage: 'denied',
-    })
-  }
-
   // +-------------------------------------+
   // | CONSTANTS                           |
   // +-------------------------------------+
@@ -735,6 +722,19 @@ export default class cookieConsentManager {
   // | Update GTAG Consent                 |
   // +-------------------------------------+
 
+  setConsent_default() {
+    console.log('setting consent to default all denied')
+    this.gtag('consent', 'default', {
+      functionality_storage: 'granted',
+      security_storage: 'granted',
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      personalization_storage: 'denied',
+    })
+  }
+
   updateConsent_allGranted() {
     // Update consent to all granted
     this.gtag('consent', 'update', {
@@ -762,28 +762,42 @@ export default class cookieConsentManager {
   }
 
   updateConsent_fromAlreadySet() {
+    // we need the prefix so that we concatenate it with the id so we look for it in the localStorage
     const prefix = this.getConsentTypePrefix()
 
-    // Update consent to all granted
-    this.gtag('consent', 'update', {
-      // REQUIRES EXPLICIT CONSENT (all 3 grouped together)
-      ad_personalization: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      ad_storage: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-      ad_user_data: localStorage.getItem(prefix + 'advertising') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+    const consentTypes = this.getEnabledConsentTypes()
 
-      // REQUIRES EXPLICIT CONSENT
-      analytics_storage: localStorage.getItem(prefix + 'analytics') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+    // we are going to use this for all the permissions passed into the gtag function
+    const object = {}
 
-      // functionality_storage does NOT require checking but we do anyway just in case
+    // look inside the localStorage items to see if the item matches the permission types or not
+    // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
+    consentTypes.forEach(foo => {
+      const localStorageName = prefix + foo.id
 
-      functionality_storage: localStorage.getItem(prefix + 'functionality') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-
-      // REQUIRES EXPLICIT CONSENT
-      personalization_storage: localStorage.getItem(prefix + 'personalization') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
-
-      // security_storage does NOT require checking but we do anyway just in case
-      security_storage: localStorage.getItem(prefix + 'security') === this.SET_POSITIVE_VALUE ? 'granted' : 'denied',
+      switch (foo.permissionType) {
+        case 'ad':
+          object.ad_personalization = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.ad_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.ad_user_data = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          break
+        case 'analytics':
+          object.analytics_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          break
+        case 'functionality':
+          object.functionality_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          break
+        case 'personalization':
+          object.personalization_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          break
+        case 'security':
+          object.security_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          break
+      }
     })
+
+    // Update consent based on the consents in localStorage
+    this.gtag('consent', 'update', object)
   }
 
   // +-------------------------------------+
