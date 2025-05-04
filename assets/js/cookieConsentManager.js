@@ -77,15 +77,16 @@ export default class cookieConsentManager {
       return
     }
 
+    // first time visiting, nothing set
     if (!this.isConsentSet()) {
-      // fire default - everything set to 'denied'
       this.setConsent_default()
       this.showBanner()
       return
     }
 
-    // Verify if cookie is already set. If yes, nothing needs to be done at the moment
-    console.log('consent is set already')
+    // 👇 Everything below is for someone who has already responded
+
+    // console.log('consent is set already')
 
     // This updates the consent from what's in the localStorage
     this.updateConsent_fromLocalStorage()
