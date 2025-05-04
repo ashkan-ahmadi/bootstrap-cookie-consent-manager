@@ -237,6 +237,7 @@ export default class cookieConsentManager {
 
         localStorage.setItem(name, value)
 
+        // TODO: make everything below a standalone function
         // Verify the key 'onAccept' exists and it's a function
         // If a callback function exists, we run it
         // If the key exists but a non-function is passed, we show a warning on Console
@@ -280,6 +281,8 @@ export default class cookieConsentManager {
         const value = type?.required ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
 
         localStorage.setItem(name, value)
+
+        // TODO: make everything below a standalone function
 
         // not firing onReject function on types that have required:true
         // if it's required, it should not be rejected
