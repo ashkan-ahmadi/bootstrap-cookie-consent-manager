@@ -773,10 +773,10 @@ export default class cookieConsentManager {
 
     // look inside the localStorage items to see if the item matches the permission types or not
     // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
-    consentTypes.forEach(foo => {
-      const localStorageName = prefix + foo.id
+    consentTypes.forEach(type => {
+      const localStorageName = prefix + type.id
 
-      switch (foo.permissionType) {
+      switch (type.permissionType) {
         case 'ad':
           object.ad_personalization = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
           object.ad_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
