@@ -88,7 +88,7 @@ export default class cookieConsentManager {
     console.log('consent is set already')
 
     // This updates the consent from what's in the localStorage
-    this.updateConsent_fromAlreadySet()
+    this.updateConsent_fromLocalStorage()
 
     // This fires the cookie_consent_update event which the tags rely on on GTM
     this.fireCookieConsentUpdateEvent()
@@ -761,7 +761,7 @@ export default class cookieConsentManager {
     })
   }
 
-  updateConsent_fromAlreadySet() {
+  updateConsent_fromLocalStorage() {
     // we need the prefix so that we concatenate it with the id so we look for it in the localStorage
     const prefix = this.getConsentTypePrefix()
 
@@ -853,7 +853,7 @@ export default class cookieConsentManager {
       // look into localStorage to see what to fire and what not to fire
       // Remember: this does not cause any tag to fire
       // it simply changes the consent permissions
-      this.updateConsent_fromAlreadySet()
+      this.updateConsent_fromLocalStorage()
 
       // fires a single event
       // this should be the Custom Event trigger on GTM
