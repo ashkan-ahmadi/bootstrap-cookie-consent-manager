@@ -562,7 +562,7 @@ export default class cookieConsentManager {
                         for="${id}">ON</label>
                       </div>
                     </div>
-                    <p class="m-0">${description}</p>
+                    <p class="m-0 small">${description}</p>
                   </div>
                   `
                 })
