@@ -171,19 +171,29 @@ Use any of these as a `key:value` pair in the `cookieConfigs` object to customiz
 
 Consent types are different types of consents you have that the user can accept or reject. Each type is an object with the following `key:value` pairs that should be passed into the `cookieConsents` array.
 
-| Key                  | Type     | Required | Description                                               |
-| -------------------- | -------- | -------- | --------------------------------------------------------- |
-| `id`                 | string   | yes      | The unique `id` of this permission (all lower case)       |
-| `title`              | string   | yes      | The title of the cookie type                              |
-| `description`        | string   | yes      | The description of the cookie type                        |
-| `enabled`            | boolean  | no       | Set to `false` if you want to keep but hide from the user |
-| `required`           | boolean  | yes      | Cannot be turned off and cannot be rejected               |
-| `onByDefault`        | boolean  | no       | Turn on by default unless turned off by user              |
-| `forAds`             | boolean  |          | TODO                                                      |
-| `forAnalytics`       | boolean  |          | TODO                                                      |
-| `forPersonalization` | boolean  |          | TODO                                                      |
-| `onAccept`           | function | no       | Callback function to run when accepted                    |
-| `onReject`           | function | no       | Callback function to run when rejected                    |
+| Key              | Type     | Required | Description                                                                    |
+| ---------------- | -------- | -------- | ------------------------------------------------------------------------------ |
+| `id`             | string   | yes      | The unique `id` of this permission (all lower case)                            |
+| `title`          | string   | yes      | The title of the cookie type                                                   |
+| `description`    | string   | yes      | The description of the cookie type                                             |
+| `enabled`        | boolean  | no       | Set to `false` if you want to keep but hide from the user                      |
+| `required`       | boolean  | yes      | Cannot be turned off and cannot be rejected                                    |
+| `onByDefault`    | boolean  | no       | Turn on by default unless turned off by user                                   |
+| `permissionType` | string   | yes      | The nature of this consent type. See below this table for detailed explanation |
+| `onAccept`       | function | no       | Callback function to run when accepted                                         |
+| `onReject`       | function | no       | Callback function to run when rejected                                         |
+
+**permissionType**:
+
+Has to match one of these:
+
+| permissionType    | Explanation                                                                             | Requires explicit consent | Enables permissions                                    | Example of tags                                          |
+| ----------------- | --------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------ | -------------------------------------------------------- |
+| `ad`              | any form of advertising and conversion-tracking script                                  | yes                       | `ad_storage`<br>`ad_user_data`<br>`ad_personalization` | Facebook Pixel<br>Google AdWords<br>LinkedIn Insight Tag |
+| `analytics`       | any analytics and metrics script                                                        | yes                       | `analytics_storage`                                    | Google Analytics Events<br>HotJar<br>Crazy Egg           |
+| `functionality`   | any essential tag which is crucial to the performance and functionality of the platform | no                        | `functionality_storage`                                | language selector or privacy settings                    |
+| `personalization` | any script that relies on the user's browsing history or previous behavior              | yes                       | `personalization_storage`                              | Recommended Products based on Previous Visit             |
+| `security`        | any anti-fraud security-related script                                                  | no                        | `security_storage`                                     | CloudFlare                                               |
 
 ## Developers
 
