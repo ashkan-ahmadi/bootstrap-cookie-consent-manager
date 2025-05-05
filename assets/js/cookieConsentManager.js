@@ -6,7 +6,7 @@ export default class cookieConsentManager {
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
     this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
-    this.VERSION = 1
+    this.VERSION = 2
     this.VERSION_NAME = this.PREFIX + 'version'
 
     this.defaultConsentTypes = []
@@ -84,6 +84,10 @@ export default class cookieConsentManager {
     if (!this.isConsentSet()) {
       this.showBanner()
       return
+    }
+
+    if (!this.verifyVersionFromLocalStorage()) {
+      console.warn(`There is a version mismatch between the current version of the Cookie Consent Manager library and what's stored in the localStorage`)
     }
 
     // 👇 Everything below is for someone who has already responded
@@ -356,13 +360,6 @@ export default class cookieConsentManager {
     const setName = this.getConsentSetName()
     const setPositiveValue = this.getConsentSetPositiveValue()
     localStorage.setItem(setName, setPositiveValue)
-  }
-
-  setVersion() {
-    // Set the version number
-    const versionName = this.getVersionName()
-    const versionNumber = this.getVersion()
-    localStorage.setItem(versionName, versionNumber)
   }
 
   // +-------------------------------------+
@@ -657,6 +654,27 @@ export default class cookieConsentManager {
     dataLayer.push(arguments)
 
     // console.log(dataLayer)
+  }
+
+  getVersionFromLocalStorage() {
+    const currentVersionName = this.getVersionName()
+
+    return localStorage.getItem(currentVersionName)
+  }
+
+  verifyVersionFromLocalStorage() {
+    const currentVersion = this.getVersion()
+    const versionName = this.getVersionFromLocalStorage()
+
+    // we convert to Number just in case
+    return Number(versionName) === Number(currentVersion)
+  }
+
+  setVersion() {
+    // Set the version number
+    const versionName = this.getVersionName()
+    const versionNumber = this.getVersion()
+    localStorage.setItem(versionName, versionNumber)
   }
 
   // +-------------------------------------+
