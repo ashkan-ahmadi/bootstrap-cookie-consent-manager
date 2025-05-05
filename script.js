@@ -7,7 +7,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     dataLayer.push(arguments)
   }
 
-  const myconfig = {
+  const configs = {
     // TODO: at the end, you have to make sure all defaultConfigs are here too
 
     // MODAL
@@ -40,8 +40,8 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
 
   const consents = [
     {
-      id: 'functionality',
-      title: 'Functionality',
+      id: 'essential',
+      title: 'Essential',
       description: 'These cookies are essential for the website to function properly and <b>cannot be switched off</b>. They help with things like logging in and setting your privacy preferences.</p>',
       enabled: true,
       required: true,
@@ -58,7 +58,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       id: 'security',
       title: 'Security',
       description: 'These cookies are essential for the website to function properly and <b>cannot be switched off</b>. They help with things like fraud protection and security.</p>',
-      enabled: true,
+      enabled: false,
       required: true,
       onByDefault: true,
       permissionType: 'security', // ad|analytics|functionality|personalization|security
@@ -116,7 +116,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     },
   ]
 
-  const cookieConsent = new cookieConsentManager(consents, myconfig)
+  const cookieConsent = new cookieConsentManager(consents, configs)
 
   cookieConsent.init()
 }
