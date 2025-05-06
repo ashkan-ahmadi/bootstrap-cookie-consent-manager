@@ -390,67 +390,80 @@ export default class cookieConsentManager {
   createBannerHTML() {
     const configs = this.getConfigs()
 
-    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText, showRejectAllButtonOnBanner } = configs || {}
+    // prettier-ignore
+    const {
+      bannerTitle,
+      bannerText,
+      acceptAllButtonText,
+      acceptAllButtonAccessibleText,
+      rejectAllButtonText,
+      rejectAllButtonAccessibleText,
+      customizeButtonText,
+      customizeButtonAccessibleText,
+      showRejectAllButtonOnBanner 
+    } = configs || {}
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
     const useAccessibleText_customize = customizeButtonText !== customizeButtonAccessibleText
 
     const cookieBannerOuterDiv = document.createElement('div')
+    cookieBannerOuterDiv.setAttribute('id', 'cookie-consent-manager')
 
-    cookieBannerOuterDiv.innerHTML = `
-      <div class="position-fixed top-0 bottom-0 start-0 end-0 bg-dark opacity-50 z-1"></div>
-    `
+    const backdrop = document.createElement('div')
+    backdrop.classList.add('position-fixed', 'top-0', 'bottom-0', 'start-0', 'end-0', 'bg-dark', 'opacity-50', 'z-1')
+    backdrop.setAttribute('id', 'cookie-consent-manager-backdrop')
 
     const banner = document.createElement('div')
+    banner.classList.add('position-fixed', 'bottom-0', 'start-0', 'p-3', 'w-100', 'border-top', 'bg-body-tertiary', 'z-2')
+    banner.setAttribute('id', 'cookie-consent-manager-banner')
 
     banner.innerHTML = `
-      <div class="position-fixed bottom-0 start-0 p-3 w-100 border-top bg-light z-2">
-        <div class="container">
-          <div class="row g-3 g-md-4 g-xl-5">
-            <div class="col-12 col-md-8 col-xl-9">
-              <p class="fw-bold mb-1">${bannerTitle}</p>
-              <p class="mb-0">${bannerText}</p>
-            </div>
-            <div class="col">
-              <div class="row xxl-block flex-column g-1">
-                <button 
-                  type="button" 
-                  class="btn btn-primary" 
-                  data-cookie-button-function="accept-all-cookies" 
-                  ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
-                  >
-                  ${acceptAllButtonText}
-                </button>
-                ${
-                  showRejectAllButtonOnBanner
-                    ? `
-                  <button 
-                    type="button" 
-                    class="btn btn-outline-primary" 
-                    data-cookie-button-function="reject-all-cookies" 
-                    ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
-                    >
-                    ${rejectAllButtonText}
-                  </button>
-                  `
-                    : ''
-                }
+      <div class="container">
+        <div class="row g-3 g-md-4 g-xl-5">
+          <div class="col-12 col-md-8 col-xl-9">
+            <p class="fw-bold mb-1">${bannerTitle}</p>
+            <p class="mb-0">${bannerText}</p>
+          </div>
+          <div class="col">
+            <div class="row xxl-block flex-column g-1">
+              <button 
+                type="button" 
+                class="btn btn-primary" 
+                data-cookie-button-function="accept-all-cookies" 
+                ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
+                >
+                ${acceptAllButtonText}
+              </button>
+              ${
+                showRejectAllButtonOnBanner
+                  ? `
                 <button 
                   type="button" 
                   class="btn btn-outline-primary" 
-                  data-cookie-button-function="customize-cookies" 
-                  ${useAccessibleText_customize ? `aria-label="${customizeButtonAccessibleText}"` : ''}
+                  data-cookie-button-function="reject-all-cookies" 
+                  ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
                   >
-                  ${customizeButtonText}
+                  ${rejectAllButtonText}
                 </button>
-              </div>
+                `
+                  : ''
+              }
+              <button 
+                type="button" 
+                class="btn btn-outline-primary" 
+                data-cookie-button-function="customize-cookies" 
+                ${useAccessibleText_customize ? `aria-label="${customizeButtonAccessibleText}"` : ''}
+                >
+                ${customizeButtonText}
+              </button>
             </div>
           </div>
         </div>
       </div>
     `
 
+    cookieBannerOuterDiv.append(backdrop)
     cookieBannerOuterDiv.appendChild(banner)
 
     return cookieBannerOuterDiv
@@ -529,7 +542,7 @@ export default class cookieConsentManager {
       <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="${modalId}">
         <div class="modal-dialog ${modalDialogClasses.join(' ')}">
           <div class="modal-content">
-            <div class="modal-header bg-light">
+            <div class="modal-header bg-body-tertiary">
               <p class="modal-title fw-bolder">${modalTitle}</p>
               ${
                 // display the X close button conditionally. it's set to false by default
