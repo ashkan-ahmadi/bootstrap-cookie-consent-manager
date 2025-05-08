@@ -1,4 +1,4 @@
-import cookieConsentManager from './assets/js/cookieConsentManager.js'
+import cookieConsentManager from './assets/js/cookieConsentManager.min.js'
 
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   window.dataLayer = window?.dataLayer || []
