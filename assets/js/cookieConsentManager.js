@@ -657,16 +657,12 @@ export default class cookieConsentManager {
     window.dataLayer = window.dataLayer || []
 
     window.dataLayer.push(obj)
-
-    // console.log(window.dataLayer)
   }
 
   gtag() {
-    window.dataLayer = window?.dataLayer || []
+    window.dataLayer = window.dataLayer || []
 
     dataLayer.push(arguments)
-
-    // console.log(dataLayer)
   }
 
   getVersionFromLocalStorage() {
@@ -757,7 +753,6 @@ export default class cookieConsentManager {
   // +-------------------------------------+
 
   setConsent_default() {
-    console.log('setting consent to default all denied')
     this.gtag('consent', 'default', {
       functionality_storage: 'granted',
       security_storage: 'granted',
