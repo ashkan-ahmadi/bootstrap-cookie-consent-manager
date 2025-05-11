@@ -1,0 +1,24 @@
+{
+  "name": "bootstrap-cookie-consent-manager",
+  "version": "1.0.0",
+  "description": "A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built using **Bootstrap CSS**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.",
+  "main": "firing.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "minify assets/js/cookieConsentManager.js > assets/js/cookieConsentManager.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager/issues"
+  },
+  "homepage": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager#readme",
+  "dependencies": {
+    "minify": "^14.0.0"
+  }
+}
