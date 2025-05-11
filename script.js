@@ -36,6 +36,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     // bannerTitle: 'We respect your privacy',
     // bannerText: `We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.`,
     // showRejectAllButtonOnBanner: true,
+    // freezeScrollingOnBanner: false,
   }
 
   const consents = [
