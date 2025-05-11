@@ -155,6 +155,7 @@ Use any of these as a `key:value` pair in the `cookieConfigs` object to customiz
 | Banner      | `bannerTitle`                   | string  | `We respect your privacy`        | The title of the banner (HTML allowed)                             |
 | Banner      | `bannerText`                    | string  | `We use cookies on our site ...` | The text of the banner (HTML allowed)                              |
 | Banner      | `showRejectAllButtonOnBanner`   | boolean | `true`                           | Show or hide Reject All button on banner (not recommended)         |
+| Banner      | `freezeScrollingOnBanner`       | boolean | `true`                           | Disable page scrolling when banner is visible                      |
 | Content     | `acceptAllButtonText`           | string  | `Accept all`                     | The Accept All button's text                                       |
 | Content     | `acceptAllButtonAccessibleText` | string  | `Accept all cookies`             | The Accept All button's text visible to screen readers             |
 | Content     | `rejectAllButtonText`           | string  | `Reject all`                     | The Reject All button's text                                       |
