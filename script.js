@@ -3,13 +3,7 @@ import cookieConsentManager from './assets/js/cookieConsentManager.min.js'
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   window.dataLayer = window?.dataLayer || []
 
-  function gtag() {
-    dataLayer.push(arguments)
-  }
-
   const configs = {
-    // TODO: at the end, you have to make sure all defaultConfigs are here too
-
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
     // modalTitle: 'Cookie Consent', // string
