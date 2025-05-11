@@ -58,6 +58,7 @@ export default class cookieConsentManager {
       bannerTitle: 'We respect your privacy',
       bannerText: 'We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="/cookie-policy">Cookie Policy</a>.',
       showRejectAllButtonOnBanner: true,
+      freezeScrollingOnBanner: true,
     }
     this.userConfigs = userConfigs
 
@@ -487,6 +488,29 @@ export default class cookieConsentManager {
     acceptAllButton?.addEventListener('click', () => this.handleAcceptAllButtonClick())
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
     customizeButton?.addEventListener('click', () => this.handleCustomizeButtonClick())
+
+    // This decides and includes all the logic if scrolling should be blocked or no
+    this.handleScrollingOfBody()
+  }
+
+  getFreezeScrollingOnBanner() {
+    const configs = this.getConfigs()
+
+    const { freezeScrollingOnBanner } = configs || {}
+
+    return freezeScrollingOnBanner
+  }
+
+  disableScrollingOfBody() {
+    document.body.classList.add('overflow-hidden')
+  }
+
+  handleScrollingOfBody() {
+    const freezeScrollingOnBanner = this.getFreezeScrollingOnBanner()
+
+    if (freezeScrollingOnBanner) {
+      this.disableScrollingOfBody()
+    }
   }
 
   // +-------------------------------------+
