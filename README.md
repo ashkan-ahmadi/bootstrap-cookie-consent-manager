@@ -29,7 +29,7 @@ IMPORTANT: Since this library takes advantage of Bootstrap's built-in classes an
 You first need to load the script in the `<head>` element **before loading Google Tag Manager (GTM)**.
 
 ```html
-<script src="path-to/cookieConsentManager.min.js"></script>
+<script src="path/to/cookieConsentManager.min.js"></script>
 ```
 
 ### 2. Configure
@@ -57,19 +57,17 @@ Then, you need to pass your consent types and configuration into the script (see
 
 ### 3. Load GTM
 
+Load GTM (don't forget to replace YOUR_GTM_IDENTIFIER_HERE with your GTM identifier)
+
 ```html
 <!-- Google Tag Manager -->
+<!-- prettier-ignore -->
 <script>
-  ;(function (w, d, s, l, i) {
-    w[l] = w[l] || []
-    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s),
-      dl = l != 'dataLayer' ? '&l=' + l : ''
-    j.async = true
-    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
-    f.parentNode.insertBefore(j, f)
-  })(window, document, 'script', 'dataLayer', 'YOUR_GTM_IDENTIFIER_GOES_HERE')
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','YOUR_GTM_IDENTIFIER_HERE');
 </script>
 <!-- End Google Tag Manager -->
 ```
@@ -78,7 +76,8 @@ Then, you need to pass your consent types and configuration into the script (see
 
 ```html
 <head>
-  <link rel="stylesheet" href="path/to/cookie-consent-manager.js" />
+  <script src="path/to/cookieConsentManager.min.js"></script>
+
   <script>
     // Ensure cookieConsentManager is defined and it's a class
     if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
@@ -97,18 +96,14 @@ Then, you need to pass your consent types and configuration into the script (see
   </script>
 
   <!-- Google Tag Manager -->
+  <!-- prettier-ignore -->
   <script>
-    ;(function (w, d, s, l, i) {
-      w[l] = w[l] || []
-      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
-      var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : ''
-      j.async = true
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
-      f.parentNode.insertBefore(j, f)
-    })(window, document, 'script', 'dataLayer', 'YOUR_GTM_IDENTIFIER_GOES_HERE')
-  </script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','YOUR_GTM_IDENTIFIER_HERE');
+</script>
   <!-- End Google Tag Manager -->
 </head>
 ```
