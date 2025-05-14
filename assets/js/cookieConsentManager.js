@@ -506,23 +506,14 @@ export default class cookieConsentManager {
     this.handleScrollingOfBody()
   }
 
-  getFreezeScrollingOnBanner() {
+  // TODO: it misbehaves sometimes. it doesnt remove overflow-hidden from body when deciding
+  handleScrollingOfBody() {
     const configs = this.getConfigs()
 
     const { freezeScrollingOnBanner } = configs || {}
 
-    return freezeScrollingOnBanner
-  }
-
-  disableScrollingOfBody() {
-    document.body.classList.add('overflow-hidden')
-  }
-
-  handleScrollingOfBody() {
-    const freezeScrollingOnBanner = this.getFreezeScrollingOnBanner()
-
     if (freezeScrollingOnBanner) {
-      this.disableScrollingOfBody()
+      // document.body.classList.add('overflow-hidden')
     }
   }
 
