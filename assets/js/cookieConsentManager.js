@@ -59,6 +59,19 @@ export default class cookieConsentManager {
       bannerText: 'We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="/cookie-policy">Cookie Policy</a>.',
       showRejectAllButtonOnBanner: true,
       freezeScrollingOnBanner: true,
+
+      // CONFIRMATION TOAST
+      showToast: true,
+      toastText: 'Cookie consent saved successfully',
+      toastPosition: 'bottom-left', // top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right
+      toastContainerId: 'toast-container',
+      toastId: 'toast-' + Date.now(),
+      toastBackgroundClass: 'text-bg-success',
+      toastShowCloseButton: true,
+      toastEscapeHTML: true,
+      toastAnimation: true,
+      toastAutohide: false,
+      toastDelay: 3500,
     }
     this.userConfigs = userConfigs
 
@@ -673,34 +686,33 @@ export default class cookieConsentManager {
   // | TOAST                               |
   // +-------------------------------------+
 
-  showToast(message, opts = {}) {
-    if (typeof bootstrap === 'undefined') {
-      console.warn('Bootstrap is not defined')
+  showToast() {
+    const configs = this.getConfigs()
+
+    // prettier-ignore
+    const {
+      showToast,
+      toastText,
+      toastPosition,
+      toastContainerId,
+      toastId,
+      toastBackgroundClass,
+      toastShowCloseButton,
+      toastEscapeHTML,
+      toastAnimation,
+      toastAutohide,
+      toastDelay
+    } = configs || {}
+
+    // do nothing if showToast isn't set to true
+    if (!showToast) {
       return
     }
 
-    const defaultOptions = {
-      toastContainerId: 'toast-container',
-      toastId: 'toast-' + Date.now(),
-      bgClass: 'bg-primary-subtle text-dark',
-      showCloseButton: true,
-      escapeHTML: true,
-
-      // toast position
-      position: 'bottom-left', // top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right
-
-      // toast options
-      animation: true,
-      autohide: true,
-      delay: 5000,
-    }
-
-    const options = { ...defaultOptions, ...opts }
-
-    // We will translate the English readable position to Bootstrap position classes
+    // Translate the English readable position to Bootstrap position classes
     let positionClasses = ''
 
-    switch (options.position) {
+    switch (toastPosition) {
       case 'top-left':
         positionClasses = 'top-0 start-0'
         break
@@ -739,34 +751,37 @@ export default class cookieConsentManager {
     }
 
     // Ensure single toast container
-    const containerId = options?.toastContainerId
-    let toastContainer = document.getElementById(containerId)
+    let toastContainer = document.getElementById(toastContainerId)
     if (!toastContainer) {
       toastContainer = document.createElement('div')
-      toastContainer.id = containerId
+      toastContainer.id = toastContainerId
       toastContainer.className = `toast-container position-fixed z-3 p-3 ${positionClasses}`
       document.body.appendChild(toastContainer)
     }
 
     // Create toast element
     const toastWrapper = document.createElement('div')
-    toastWrapper.id = options.toastId
+    toastWrapper.id = toastId
     toastWrapper.className = 'toast shadow-none'
     toastWrapper.setAttribute('role', 'alert')
     toastWrapper.setAttribute('aria-live', 'assertive')
     toastWrapper.setAttribute('aria-atomic', 'true')
 
     toastWrapper.innerHTML = `
-    <div class="d-flex gap-2 rounded ${options.bgClass}">
-      <div class="toast-body">${options?.escapeHTML ? this.escapeHTML(message) : message}</div>
-      ${options.showCloseButton ? `<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>` : ''}
+    <div class="d-flex gap-1 rounded ${toastBackgroundClass}">
+      <div class="toast-body">${toastEscapeHTML ? this.escapeHTML(toastText) : toastText}</div>
+      ${toastShowCloseButton ? `<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>` : ''}
     </div>
   `
 
     toastContainer.appendChild(toastWrapper)
 
     // Initialize and show toast
-    const toast = new bootstrap.Toast(toastWrapper, options)
+    const toast = new bootstrap.Toast(toastWrapper, {
+      animation: toastAnimation,
+      autohide: toastAutohide,
+      delay: toastDelay,
+    })
     toast.show()
 
     // Clean up after hidden
@@ -1002,6 +1017,10 @@ export default class cookieConsentManager {
       // This is an optional and extra step to fire an event per consent type
       // this can be used as the GTM trigger as well
       this.fireCookieConsentIndividualEvents()
+
+      // Display the toast
+      // The function handles whether to show or not depending on user's customization
+      this.showToast()
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
       console.error(error)
@@ -1028,6 +1047,10 @@ export default class cookieConsentManager {
       // This is an optional and extra step to fire an event per consent type
       // this can be used as the GTM trigger as well
       this.fireCookieConsentIndividualEvents()
+
+      // Display the toast
+      // The function handles whether to show or not depending on user's customization
+      this.showToast()
     } catch (error) {
       console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
@@ -1051,6 +1074,10 @@ export default class cookieConsentManager {
       // This is an optional and extra step to fire an event per consent type
       // this can be used as the GTM trigger as well
       this.fireCookieConsentIndividualEvents()
+
+      // Display the toast
+      // The function handles whether to show or not depending on user's customization
+      this.showToast()
     } catch (error) {
       console.error('There was an error with handleSaveButtonClick()')
       console.error(error)
