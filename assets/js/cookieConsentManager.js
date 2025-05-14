@@ -686,6 +686,9 @@ export default class cookieConsentManager {
       showCloseButton: true,
       escapeHTML: true,
 
+      // toast position
+      position: 'bottom-left', // top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right
+
       // toast options
       animation: true,
       autohide: true,
@@ -694,13 +697,54 @@ export default class cookieConsentManager {
 
     const options = { ...defaultOptions, ...opts }
 
+    // We will translate the English readable position to Bootstrap position classes
+    let positionClasses = ''
+
+    switch (options.position) {
+      case 'top-left':
+        positionClasses = 'top-0 start-0'
+        break
+
+      case 'top-center':
+        positionClasses = 'top-0 start-50 translate-middle-x'
+        break
+
+      case 'top-right':
+        positionClasses = 'top-0 end-0'
+        break
+
+      case 'middle-left':
+        positionClasses = 'top-50 start-0 translate-middle-y'
+        break
+
+      case 'middle-center':
+        positionClasses = 'top-50 start-50 translate-middle'
+        break
+
+      case 'middle-right':
+        positionClasses = 'top-50 end-0 translate-middle-y'
+        break
+
+      case 'bottom-left':
+        positionClasses = 'bottom-0 start-0'
+        break
+
+      case 'bottom-center':
+        positionClasses = 'bottom-0 start-50 translate-middle-x'
+        break
+
+      case 'bottom-right':
+        positionClasses = 'bottom-0 end-0'
+        break
+    }
+
     // Ensure single toast container
     const containerId = options?.toastContainerId
     let toastContainer = document.getElementById(containerId)
     if (!toastContainer) {
       toastContainer = document.createElement('div')
       toastContainer.id = containerId
-      toastContainer.className = 'toast-container position-fixed bottom-0 start-50 translate-middle-x z-3 p-3'
+      toastContainer.className = `toast-container position-fixed z-3 p-3 ${positionClasses}`
       document.body.appendChild(toastContainer)
     }
 
@@ -714,7 +758,7 @@ export default class cookieConsentManager {
 
     toastWrapper.innerHTML = `
     <div class="d-flex gap-2 rounded ${options.bgClass}">
-      <div class="toast-body">${options?.escapeHTML ? escapeHTML(message) : message}</div>
+      <div class="toast-body">${options?.escapeHTML ? this.escapeHTML(message) : message}</div>
       ${options.showCloseButton ? `<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>` : ''}
     </div>
   `
@@ -775,6 +819,20 @@ export default class cookieConsentManager {
     const versionName = this.getVersionName()
     const versionNumber = this.getVersion()
     localStorage.setItem(versionName, versionNumber)
+  }
+
+  escapeHTML(text) {
+    return text.replace(
+      /[&<>'"]/g,
+      tag =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;',
+        }[tag])
+    )
   }
 
   // +-------------------------------------+
