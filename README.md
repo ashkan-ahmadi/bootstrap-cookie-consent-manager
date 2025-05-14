@@ -4,7 +4,9 @@ A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** 
 
 ## In action
 
-[SEE DEMO here](https://ashkan-ahmadi.github.io/bootstrap-cookie-consent-manager/)
+[See demo on GitHub Pages](https://ashkan-ahmadi.github.io/bootstrap-cookie-consent-manager/)
+
+[See demo on CodePen](https://codepen.io/AshkanAhmadi/full/YPPBxjE)
 
 ## 🚀 Features
 
