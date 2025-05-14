@@ -502,19 +502,8 @@ class cookieConsentManager {
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
     customizeButton?.addEventListener('click', () => this.handleCustomizeButtonClick())
 
-    // This decides and includes all the logic if scrolling should be blocked or no
-    this.handleScrollingOfBody()
-  }
-
-  // TODO: it misbehaves sometimes. it doesnt remove overflow-hidden from body when deciding
-  handleScrollingOfBody() {
-    const configs = this.getConfigs()
-
-    const { freezeScrollingOnBanner } = configs || {}
-
-    if (freezeScrollingOnBanner) {
-      // document.body.classList.add('overflow-hidden')
-    }
+    // Checks if disabling should happen or not inside the function
+    this.disableScrollingonBody()
   }
 
   // +-------------------------------------+
@@ -841,6 +830,23 @@ class cookieConsentManager {
     )
   }
 
+  enableScrollingOnBody() {
+    if (document.body.classList.contains('overflow-hidden')) {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }
+
+  disableScrollingonBody() {
+    const configs = this.getConfigs()
+
+    const { freezeScrollingOnBanner } = configs || {}
+
+    // Disable scrolling only if freezeScrollingOnBanner is set to true
+    if (freezeScrollingOnBanner) {
+      document.body.classList.add('overflow-hidden')
+    }
+  }
+
   // +-------------------------------------+
   // | COOKIE CONSENT EVENT NAMES          |
   // +-------------------------------------+
@@ -1012,6 +1018,8 @@ class cookieConsentManager {
       // Display the toast
       // The function handles whether to show or not depending on user's customization
       this.showToast()
+
+      this.enableScrollingOnBody()
     } catch (error) {
       console.error('There was an error with handleAcceptAllButtonClick()')
       console.error(error)
@@ -1042,6 +1050,8 @@ class cookieConsentManager {
       // Display the toast
       // The function handles whether to show or not depending on user's customization
       this.showToast()
+
+      this.enableScrollingOnBody()
     } catch (error) {
       console.error('There was an error with handleRejectAllButtonClick()')
       console.error(error)
@@ -1069,6 +1079,8 @@ class cookieConsentManager {
       // Display the toast
       // The function handles whether to show or not depending on user's customization
       this.showToast()
+
+      this.enableScrollingOnBody()
     } catch (error) {
       console.error('There was an error with handleSaveButtonClick()')
       console.error(error)
