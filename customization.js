@@ -1,6 +1,9 @@
+// Verify that cookieConsentManager exists and it's a class/function
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
+  // Define dataLayer if it doesn't exist
   window.dataLayer = window?.dataLayer || []
 
+  // configs (all customization takes place in this object)
   const configs = {
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
@@ -44,6 +47,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     // toastDelay: 3500,
   }
 
+  // the consent types
   const consents = [
     {
       id: 'essential',
@@ -122,7 +126,9 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     },
   ]
 
+  // Passing consent types and the configurations into the library
   const cookieConsent = new cookieConsentManager(consents, configs)
 
+  // Initialize the library
   cookieConsent.init()
 }
