@@ -31,6 +31,19 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
     // bannerText: `We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="#">Cookie Policy</a>.`,
     // showRejectAllButtonOnBanner: true,
     // freezeScrollingOnBanner: false,
+
+    // CONFIRMATION TOAST
+    // showToast: true,
+    // toastText: 'Cookie consent saved successfully',
+    // toastPosition: 'bottom-left', // top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right
+    // toastContainerId: 'toast-container',
+    // toastId: 'toast-' + Date.now(),
+    // toastBackgroundClass: 'bg-primary-subtle text-dark',
+    // toastShowCloseButton: true,
+    // toastEscapeHTML: true,
+    // toastAnimation: true,
+    // toastAutohide: true,
+    // toastDelay: 3500,
   }
 
   const consents = [
