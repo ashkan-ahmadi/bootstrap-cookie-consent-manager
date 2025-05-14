@@ -1,4 +1,4 @@
-export default class cookieConsentManager {
+class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
     // TODO: make these values dynamic
     this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
