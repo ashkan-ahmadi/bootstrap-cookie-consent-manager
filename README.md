@@ -2,7 +2,9 @@
 
 A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built using **Bootstrap CSS**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.
 
----
+## In action
+
+[SEE DEMO here](https://ashkan-ahmadi.github.io/bootstrap-cookie-consent-manager/)
 
 ## 🚀 Features
 
