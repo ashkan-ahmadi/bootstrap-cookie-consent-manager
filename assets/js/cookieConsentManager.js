@@ -795,27 +795,6 @@ class cookieConsentManager {
     dataLayer.push(arguments)
   }
 
-  getVersionFromLocalStorage() {
-    const currentVersionName = this.getVersionName()
-
-    return localStorage.getItem(currentVersionName)
-  }
-
-  verifyVersionFromLocalStorage() {
-    const currentVersion = this.getVersion()
-    const versionName = this.getVersionFromLocalStorage()
-
-    // we convert to Number just in case
-    return Number(versionName) === Number(currentVersion)
-  }
-
-  setVersion() {
-    // Set the version number
-    const versionName = this.getVersionName()
-    const versionNumber = this.getVersion()
-    localStorage.setItem(versionName, versionNumber)
-  }
-
   escapeHTML(text) {
     return text.replace(
       /[&<>'"]/g,
@@ -845,6 +824,31 @@ class cookieConsentManager {
     if (freezeScrollingOnBanner) {
       document.body.classList.add('overflow-hidden')
     }
+  }
+
+  // +-------------------------------------+
+  // | VERSION                             |
+  // +-------------------------------------+
+
+  getVersionFromLocalStorage() {
+    const currentVersionName = this.getVersionName()
+
+    return localStorage.getItem(currentVersionName)
+  }
+
+  verifyVersionFromLocalStorage() {
+    const currentVersion = this.getVersion()
+    const versionName = this.getVersionFromLocalStorage()
+
+    // we convert to Number just in case
+    return Number(versionName) === Number(currentVersion)
+  }
+
+  setVersion() {
+    // Set the version number
+    const versionName = this.getVersionName()
+    const versionNumber = this.getVersion()
+    localStorage.setItem(versionName, versionNumber)
   }
 
   // +-------------------------------------+
