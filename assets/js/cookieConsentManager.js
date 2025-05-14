@@ -6,7 +6,7 @@ export default class cookieConsentManager {
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
     this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
-    this.VERSION = 2.1
+    this.VERSION = 2.2
     this.VERSION_NAME = this.PREFIX + 'version'
 
     this.defaultConsentTypes = []
