@@ -670,6 +670,73 @@ export default class cookieConsentManager {
   }
 
   // +-------------------------------------+
+  // | TOAST                               |
+  // +-------------------------------------+
+
+  showToast(message, opts = {}) {
+    if (typeof bootstrap === 'undefined') {
+      console.warn('Bootstrap is not defined')
+      return
+    }
+
+    const defaultOptions = {
+      toastContainerId: 'toast-container',
+      toastId: 'toast-' + Date.now(),
+      bgClass: 'bg-primary-subtle text-dark',
+      showCloseButton: true,
+      escapeHTML: true,
+
+      // toast options
+      animation: true,
+      autohide: true,
+      delay: 5000,
+    }
+
+    const options = { ...defaultOptions, ...opts }
+
+    // Ensure single toast container
+    const containerId = options?.toastContainerId
+    let toastContainer = document.getElementById(containerId)
+    if (!toastContainer) {
+      toastContainer = document.createElement('div')
+      toastContainer.id = containerId
+      toastContainer.className = 'toast-container position-fixed bottom-0 start-50 translate-middle-x z-3 p-3'
+      document.body.appendChild(toastContainer)
+    }
+
+    // Create toast element
+    const toastWrapper = document.createElement('div')
+    toastWrapper.id = options.toastId
+    toastWrapper.className = 'toast shadow-none'
+    toastWrapper.setAttribute('role', 'alert')
+    toastWrapper.setAttribute('aria-live', 'assertive')
+    toastWrapper.setAttribute('aria-atomic', 'true')
+
+    toastWrapper.innerHTML = `
+    <div class="d-flex gap-2 rounded ${options.bgClass}">
+      <div class="toast-body">${options?.escapeHTML ? escapeHTML(message) : message}</div>
+      ${options.showCloseButton ? `<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>` : ''}
+    </div>
+  `
+
+    toastContainer.appendChild(toastWrapper)
+
+    // Initialize and show toast
+    const toast = new bootstrap.Toast(toastWrapper, options)
+    toast.show()
+
+    // Clean up after hidden
+    toastWrapper.addEventListener('hidden.bs.toast', () => {
+      toastWrapper.remove()
+
+      // remove the container from DOM if there is no toast inside it
+      if (toastContainer.innerHTML === '') {
+        toastContainer.remove()
+      }
+    })
+  }
+
+  // +-------------------------------------+
   // | OTHER FUNCTIONS                     |
   // +-------------------------------------+
 
