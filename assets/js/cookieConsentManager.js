@@ -101,7 +101,7 @@ class cookieConsentManager {
     }
 
     if (!this.verifyVersionFromLocalStorage()) {
-      console.warn(`There is a version mismatch between the current version of the Cookie Consent Manager library and what's stored in the localStorage`)
+      console.warn(`There is a version mismatch between the current version of the Cookie Consent Manager library and what's stored in the localStorage. It's recommended to update the Cookie Consent Manager library: https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager`)
     }
 
     // 👇 Everything below is for someone who has already responded
