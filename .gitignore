@@ -3,3 +3,5 @@ assets/vendors
 node_modules
 
 build
+
+.todo
