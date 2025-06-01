@@ -57,7 +57,7 @@ Then, you need to pass your consent types and configuration into the script (see
 
 ### 3. Load GTM
 
-Load GTM (don't forget to replace YOUR_GTM_IDENTIFIER_HERE with your GTM identifier)
+Load GTM (don't forget to replace `YOUR_GTM_IDENTIFIER_HERE` with your GTM identifier e.g. `GTM-ABCD1234`)
 
 ```html
 <!-- Google Tag Manager -->
@@ -76,12 +76,19 @@ Load GTM (don't forget to replace YOUR_GTM_IDENTIFIER_HERE with your GTM identif
 
 ```html
 <head>
+  <!-- 1. Load Bootstrap first -->
+  <script src="path/to/bootstrap-bundle.min.js"></script>
+
+  <!-- 2. Then load the Bootstrap Cookie Consent Manager library -->
   <script src="path/to/cookieConsentManager.min.js"></script>
 
+  <!-- 3. Run the scrpipt to customize and initialize the library -->
   <script>
     // Ensure cookieConsentManager is defined and it's a class
     if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
       const cookieConfigs = {
+        rejectAllButtonText: 'Reject non-essentials',
+        rejectAllButtonAccessibleText: 'Reject non-essentials cookies',
         // all customization goes here - see Customization Parameters
       }
 
@@ -95,15 +102,15 @@ Load GTM (don't forget to replace YOUR_GTM_IDENTIFIER_HERE with your GTM identif
     }
   </script>
 
-  <!-- Google Tag Manager -->
+  <!-- 4. Load Google Tag Manager -->
   <!-- prettier-ignore -->
   <script>
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','YOUR_GTM_IDENTIFIER_HERE');
-</script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-ABCD1234');
+  </script>
   <!-- End Google Tag Manager -->
 </head>
 ```
@@ -120,7 +127,7 @@ Important: you have to use this custom event as the trigger for you need a tag t
 
 Let's do a test
 
-1. Go to Tags > New > Custom HTML > Write the following code in the box:
+1. Go to **Tags** > **New** > **Custom HTML** > Write the following code in the box:
 
 ```html
 <script>
@@ -128,9 +135,9 @@ Let's do a test
 </script>
 ```
 
-2. Under Advanced Settings > Consent Settings > Additional Consent Checks > Select `Require additional consent for tag to fire` and add `analytics_storage`
-3. Under Triggering, select the custom event trigger you created in the previous step. Save everything and come out
-4. Click the Preview button and enter your website link that has the Cookie Consent Manager running
+2. Under **Advanced Settings** > **Consent Settings** > **Additional Consent Checks** > Select `Require additional consent for tag to fire` and add `analytics_storage`
+3. Under **Triggering**, select the custom event trigger you created in the previous step. Save everything and come out
+4. Click the **Preview** button and enter your website link that has the Cookie Consent Manager running
 5. On the cookie banner, click the Accept All button to accept all the permissions. If everything is set up right, you should see an alert popping up saying that the Analytics GTM tag is running.
 6. Everything is set up and running now.
 7. Go back to GTM, delete the Custom HTML tag you created. Now you can create and use any tag you want.
