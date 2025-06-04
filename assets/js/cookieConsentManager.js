@@ -89,7 +89,7 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
-    console.log(this.getPositiveValue())
+    console.log(this.getNegativeValue())
     // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
@@ -181,7 +181,7 @@ class cookieConsentManager {
   }
 
   // TODO: rename to getNegativeValue and update everywhere
-  getConsentSetNegativeValue() {
+  getNegativeValue() {
     const configs = this.getConfigs()
 
     const { negativeValue } = configs || {}
@@ -343,7 +343,7 @@ class cookieConsentManager {
 
         const prefix = this.getConsentTypePrefix()
         const positiveValue = this.getPositiveValue()
-        const negativeValue = this.getConsentSetNegativeValue()
+        const negativeValue = this.getNegativeValue()
 
         const name = prefix + type?.id
         const value = type?.required ? positiveValue : negativeValue
@@ -403,7 +403,7 @@ class cookieConsentManager {
         const prefix = this.getConsentTypePrefix()
 
         const name = prefix + checkbox?.id
-        const value = checkbox?.checked ? this.getPositiveValue() : this.getConsentSetNegativeValue()
+        const value = checkbox?.checked ? this.getPositiveValue() : this.getNegativeValue()
 
         localStorage.setItem(name, value)
 
