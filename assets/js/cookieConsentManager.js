@@ -1,8 +1,5 @@
 class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
-    // TODO: make these values dynamic
-    this.VERSION = 2.2
-
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
 
@@ -14,6 +11,7 @@ class cookieConsentManager {
       positiveValue: 'true', //  the value when consent is accepted/granted
       negativeValue: 'false', // the value when consent is rejected/denied
       versionName: 'version',
+      version: 2.2,
 
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
@@ -191,7 +189,15 @@ class cookieConsentManager {
   }
 
   getVersion() {
-    return this.VERSION
+    const configs = this.getConfigs()
+
+    const { version } = configs || {}
+
+    if (!version) {
+      console.warn(`The 'version' value is not found or it's empty. Make sure you pass a version value (or remove to set the default value)`)
+    }
+
+    return version
   }
 
   getVersionName() {
