@@ -1,11 +1,7 @@
 class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
     // TODO: make these values dynamic
-    // this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
-    // this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType' + '_' // the name of the consent type
-    // this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
-    this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
-    this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
+    this.PREFIX = 'PREFIX_TO_CHANGE' + '_' // the global prefix - keep the _ at the end
     this.VERSION = 2.2
     this.VERSION_NAME = this.PREFIX + 'version'
 
@@ -13,13 +9,13 @@ class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
-      prefix: 'cookieConsent',
-      consentTypePrefix: 'consentType',
-      setName: 'isSet',
+      prefix: 'cookieConsent', // the name of the cookie consent system
+      consentTypePrefix: 'consentType', // the name of the consent type
+      setName: 'isSet', // the value when consent is set
 
       // TODO: rename to positiveValue and negativeValue
-      setPositiveValue: 'true',
-      setNegativeValue: 'false',
+      setPositiveValue: 'true', //  the value when consent is accepted/granted
+      setNegativeValue: 'false', // the value when consent is rejected/denied
 
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
@@ -94,7 +90,6 @@ class cookieConsentManager {
 
   init() {
     // TODO: delete this
-    console.log(this.getConsentSetNegativeValue())
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
@@ -315,7 +310,7 @@ class cookieConsentManager {
         const prefix = this.getConsentTypePrefix()
 
         const name = prefix + type?.id
-        const value = this.SET_POSITIVE_VALUE // set everything to the default set value (usually true)
+        const value = this.getConsentSetPositiveValue() // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
 
@@ -419,7 +414,7 @@ class cookieConsentManager {
         const prefix = this.getConsentTypePrefix()
 
         const name = prefix + checkbox?.id
-        const value = checkbox?.checked ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
+        const value = checkbox?.checked ? this.getConsentSetPositiveValue() : this.getConsentSetNegativeValue()
 
         localStorage.setItem(name, value)
 
@@ -971,7 +966,8 @@ class cookieConsentManager {
 
       const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
       const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
-      const eventName = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? cookieConsentAcceptEventName : cookieConsentRejectEventName
+      const positiveValue = this.getConsentSetPositiveValue()
+      const eventName = localStorage.getItem(localStorageName) === positiveValue ? cookieConsentAcceptEventName : cookieConsentRejectEventName
 
       this.pushToDataLayer({
         event: eventName + '_' + type?.id,
@@ -1032,26 +1028,28 @@ class cookieConsentManager {
 
     // look inside the localStorage items to see if the item matches the permission types or not
     // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
+
+    const positiveValue = this.getConsentSetPositiveValue()
     consentTypes.forEach(type => {
       const localStorageName = prefix + type.id
 
       switch (type.permissionType) {
         case 'ad':
-          object.ad_personalization = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
-          object.ad_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
-          object.ad_user_data = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.ad_personalization = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          object.ad_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          object.ad_user_data = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
           break
         case 'analytics':
-          object.analytics_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.analytics_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
           break
         case 'functionality':
-          object.functionality_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.functionality_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
           break
         case 'personalization':
-          object.personalization_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.personalization_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
           break
         case 'security':
-          object.security_storage = localStorage.getItem(localStorageName) === this.SET_POSITIVE_VALUE ? 'granted' : 'denied'
+          object.security_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
           break
       }
     })
