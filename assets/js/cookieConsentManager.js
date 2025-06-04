@@ -89,7 +89,7 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
-    console.log(this.getConsentSetNegativeValue())
+    console.log(this.getConsentSetPositiveValue())
     // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
@@ -168,28 +168,21 @@ class cookieConsentManager {
   }
 
   getConsentSetValue() {
-    const configs = this.getConfigs()
-
-    const { setPositiveValue } = configs || {}
-
-    if (!setPositiveValue) {
-      console.warn(`The 'setPositiveValue' value is not found or it's empty. Make sure you pass a setPositiveValue value (or remove to set the default value)`)
-    }
-
-    return setPositiveValue
+    const positiveValue = this.getConsentSetPositiveValue()
+    return positiveValue
   }
 
   // TODO: rename to getPositiveValue and update everywhere
   getConsentSetPositiveValue() {
     const configs = this.getConfigs()
 
-    const { setPositiveValue } = configs || {}
+    const { positiveValue } = configs || {}
 
-    if (!setPositiveValue) {
-      console.warn(`The 'setPositiveValue' value is not found or it's empty. Make sure you pass a setPositiveValue value (or remove to set the default value)`)
+    if (!positiveValue) {
+      console.warn(`The 'positiveValue' value is not found or it's empty. Make sure you pass a positiveValue value (or remove to set the default value)`)
     }
 
-    return setPositiveValue
+    return positiveValue
   }
 
   // TODO: rename to getNegativeValue and update everywhere
