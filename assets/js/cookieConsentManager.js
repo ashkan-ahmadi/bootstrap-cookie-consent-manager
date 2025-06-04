@@ -1,21 +1,19 @@
 class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
     // TODO: make these values dynamic
-    this.PREFIX = 'PREFIX_TO_CHANGE' + '_' // the global prefix - keep the _ at the end
     this.VERSION = 2.2
-    this.VERSION_NAME = this.PREFIX + 'version'
 
     this.defaultConsentTypes = []
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
+      // Core information
       prefix: 'cookieConsent', // the name of the cookie consent system
       consentTypePrefix: 'consentType', // the name of the consent type
       setName: 'isSet', // the value when consent is set
-
-      // TODO: rename to positiveValue and negativeValue
       positiveValue: 'true', //  the value when consent is accepted/granted
       negativeValue: 'false', // the value when consent is rejected/denied
+      versionName: 'version',
 
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
@@ -197,7 +195,17 @@ class cookieConsentManager {
   }
 
   getVersionName() {
-    return this.VERSION_NAME
+    const prefix = this.getPrefix()
+
+    const configs = this.getConfigs()
+
+    const { versionName } = configs || {}
+
+    if (!versionName) {
+      console.warn(`The 'versionName' value is not found or it's empty. Make sure you pass a versionName value (or remove to set the default value)`)
+    }
+
+    return prefix + versionName
   }
 
   // +-------------------------------------+
