@@ -89,7 +89,6 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
-    console.log(this.getNegativeValue())
     // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
