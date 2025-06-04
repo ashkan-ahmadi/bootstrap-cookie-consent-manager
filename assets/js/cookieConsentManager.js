@@ -16,6 +16,8 @@ class cookieConsentManager {
       prefix: 'cookieConsent',
       consentTypePrefix: 'consentType',
       setName: 'isSet',
+
+      // TODO: rename to positiveValue and negativeValue
       setPositiveValue: 'true',
       setNegativeValue: 'false',
 
