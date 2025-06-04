@@ -183,6 +183,7 @@ class cookieConsentManager {
     return setPositiveValue
   }
 
+  // TODO: rename to getPositiveValue and update everywhere
   getConsentSetPositiveValue() {
     const configs = this.getConfigs()
 
@@ -195,6 +196,7 @@ class cookieConsentManager {
     return setPositiveValue
   }
 
+  // TODO: rename to getNegativeValue and update everywhere
   getConsentSetNegativeValue() {
     const configs = this.getConfigs()
 
@@ -356,9 +358,11 @@ class cookieConsentManager {
         }
 
         const prefix = this.getConsentTypePrefix()
+        const positiveValue = this.getConsentSetPositiveValue()
+        const negativeValue = this.getConsentSetNegativeValue()
 
         const name = prefix + type?.id
-        const value = type?.required ? this.SET_POSITIVE_VALUE : this.SET_NEGATIVE_VALUE
+        const value = type?.required ? positiveValue : negativeValue
 
         localStorage.setItem(name, value)
 
