@@ -167,11 +167,6 @@ class cookieConsentManager {
     return prefix + setName
   }
 
-  getConsentSetValue() {
-    const positiveValue = this.getConsentSetPositiveValue()
-    return positiveValue
-  }
-
   // TODO: rename to getPositiveValue and update everywhere
   getConsentSetPositiveValue() {
     const configs = this.getConfigs()
@@ -261,7 +256,7 @@ class cookieConsentManager {
 
   isConsentSet() {
     const consentSetName = this.getConsentSetName()
-    const consentSetValue = this.getConsentSetValue()
+    const positiveValue = this.getConsentSetPositiveValue()
 
     try {
       // we need configs to decide if user wants to use localStorage (default) or cookies
@@ -277,7 +272,7 @@ class cookieConsentManager {
         // Validate if the value stored matches what it should be
         // In this case, even if the name exists but has a different value, we return false
         // This makes sure if the value has changed, or tampered with, we correct it
-        return consentValue === consentSetValue
+        return consentValue === positiveValue
       }
     } catch (error) {
       console.error(error)
