@@ -1,7 +1,7 @@
 class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
     // TODO: make these values dynamic
-    this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
+    // this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
     this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType' + '_' // the name of the consent type
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
@@ -13,6 +13,12 @@ class cookieConsentManager {
     this.userConsentTypes = userConsentTypes
 
     this.defaultConfigs = {
+      prefix: 'cookieConsent',
+      consentTypePrefix: 'consentType',
+      setName: 'isSet',
+      setPositiveValue: 'true',
+      setNegativeValue: 'false',
+
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
       cookieConsentRejectEventName: 'cookie_consent_reject', // this is the name of the event that fires when consent is rejected
@@ -85,6 +91,7 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
+    console.log(this.getPrefix())
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
@@ -122,7 +129,15 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   getPrefix() {
-    return this.PREFIX
+    const configs = this.getConfigs()
+
+    const { prefix } = configs || {}
+
+    if (!prefix) {
+      console.warn(`The 'prefix' value is not found or it's empty. Make sure you pass a prefix value (or remove to set the default value)`)
+    }
+
+    return `${prefix}_`
   }
 
   getConsentTypePrefix() {
