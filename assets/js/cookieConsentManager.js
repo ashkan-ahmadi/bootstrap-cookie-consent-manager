@@ -2,7 +2,7 @@ class cookieConsentManager {
   constructor(userConsentTypes, userConfigs) {
     // TODO: make these values dynamic
     // this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
-    this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType' + '_' // the name of the consent type
+    // this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType' + '_' // the name of the consent type
     this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
     this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
@@ -149,7 +149,7 @@ class cookieConsentManager {
     const { consentTypePrefix } = configs || {}
 
     if (!consentTypePrefix) {
-      console.warn(`The 'prefix' value is not found or it's empty. Make sure you pass a prefix value (or remove to set the default value)`)
+      console.warn(`The 'consentTypePrefix' value is not found or it's empty. Make sure you pass a consentTypePrefix value (or remove to set the default value)`)
     }
 
     return prefix + consentTypePrefix + '_'
