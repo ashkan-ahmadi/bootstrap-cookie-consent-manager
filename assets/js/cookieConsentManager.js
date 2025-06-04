@@ -3,7 +3,7 @@ class cookieConsentManager {
     // TODO: make these values dynamic
     // this.PREFIX = 'cookieConsent' + '_' // the global prefix - keep the _ at the end
     // this.CONSENT_TYPE_PREFIX = this.PREFIX + 'consentType' + '_' // the name of the consent type
-    this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
+    // this.SET_NAME = this.PREFIX + 'isSet' // the name when consent is set
     this.SET_POSITIVE_VALUE = 'true' // the value when consent is given
     this.SET_NEGATIVE_VALUE = 'false' // the value when consent is rejected
     this.VERSION = 2.2
@@ -156,9 +156,20 @@ class cookieConsentManager {
   }
 
   getConsentSetName() {
-    return this.SET_NAME
+    const prefix = this.getPrefix()
+
+    const configs = this.getConfigs()
+
+    const { setName } = configs || {}
+
+    if (!setName) {
+      console.warn(`The 'setName' value is not found or it's empty. Make sure you pass a setName value (or remove to set the default value)`)
+    }
+
+    return prefix + setName
   }
 
+  // FIXME: i think this function returns the wrong
   getConsentSetValue() {
     return this.SET_POSITIVE_VALUE
   }
