@@ -14,8 +14,8 @@ class cookieConsentManager {
       setName: 'isSet', // the value when consent is set
 
       // TODO: rename to positiveValue and negativeValue
-      setPositiveValue: 'true', //  the value when consent is accepted/granted
-      setNegativeValue: 'false', // the value when consent is rejected/denied
+      positiveValue: 'true', //  the value when consent is accepted/granted
+      negativeValue: 'false', // the value when consent is rejected/denied
 
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
@@ -89,6 +89,7 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
+    console.log(this.getConsentSetNegativeValue())
     // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
@@ -195,13 +196,13 @@ class cookieConsentManager {
   getConsentSetNegativeValue() {
     const configs = this.getConfigs()
 
-    const { setNegativeValue } = configs || {}
+    const { negativeValue } = configs || {}
 
-    if (!setNegativeValue) {
-      console.warn(`The 'setNegativeValue' value is not found or it's empty. Make sure you pass a setNegativeValue value (or remove to set the default value)`)
+    if (!negativeValue) {
+      console.warn(`The 'negativeValue' value is not found or it's empty. Make sure you pass a negativeValue value (or remove to set the default value)`)
     }
 
-    return setNegativeValue
+    return negativeValue
   }
 
   getVersion() {
