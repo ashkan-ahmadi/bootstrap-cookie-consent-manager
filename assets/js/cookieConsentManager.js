@@ -89,7 +89,7 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
-    console.log(this.getConsentSetPositiveValue())
+    console.log(this.getPositiveValue())
     // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
@@ -168,7 +168,7 @@ class cookieConsentManager {
   }
 
   // TODO: rename to getPositiveValue and update everywhere
-  getConsentSetPositiveValue() {
+  getPositiveValue() {
     const configs = this.getConfigs()
 
     const { positiveValue } = configs || {}
@@ -256,7 +256,7 @@ class cookieConsentManager {
 
   isConsentSet() {
     const consentSetName = this.getConsentSetName()
-    const positiveValue = this.getConsentSetPositiveValue()
+    const positiveValue = this.getPositiveValue()
 
     try {
       // we need configs to decide if user wants to use localStorage (default) or cookies
@@ -299,7 +299,7 @@ class cookieConsentManager {
         const prefix = this.getConsentTypePrefix()
 
         const name = prefix + type?.id
-        const value = this.getConsentSetPositiveValue() // set everything to the default set value (usually true)
+        const value = this.getPositiveValue() // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
 
@@ -342,7 +342,7 @@ class cookieConsentManager {
         }
 
         const prefix = this.getConsentTypePrefix()
-        const positiveValue = this.getConsentSetPositiveValue()
+        const positiveValue = this.getPositiveValue()
         const negativeValue = this.getConsentSetNegativeValue()
 
         const name = prefix + type?.id
@@ -403,7 +403,7 @@ class cookieConsentManager {
         const prefix = this.getConsentTypePrefix()
 
         const name = prefix + checkbox?.id
-        const value = checkbox?.checked ? this.getConsentSetPositiveValue() : this.getConsentSetNegativeValue()
+        const value = checkbox?.checked ? this.getPositiveValue() : this.getConsentSetNegativeValue()
 
         localStorage.setItem(name, value)
 
@@ -422,7 +422,7 @@ class cookieConsentManager {
   setConsentSet() {
     // Set an item to show that conset is set
     const setName = this.getConsentSetName()
-    const setPositiveValue = this.getConsentSetPositiveValue()
+    const setPositiveValue = this.getPositiveValue()
     localStorage.setItem(setName, setPositiveValue)
   }
 
@@ -955,7 +955,7 @@ class cookieConsentManager {
 
       const cookieConsentAcceptEventName = this.getCookieConsentAcceptEventName()
       const cookieConsentRejectEventName = this.getCookieConsentRejectEventName()
-      const positiveValue = this.getConsentSetPositiveValue()
+      const positiveValue = this.getPositiveValue()
       const eventName = localStorage.getItem(localStorageName) === positiveValue ? cookieConsentAcceptEventName : cookieConsentRejectEventName
 
       this.pushToDataLayer({
@@ -1018,7 +1018,7 @@ class cookieConsentManager {
     // look inside the localStorage items to see if the item matches the permission types or not
     // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
 
-    const positiveValue = this.getConsentSetPositiveValue()
+    const positiveValue = this.getPositiveValue()
     consentTypes.forEach(type => {
       const localStorageName = prefix + type.id
 
