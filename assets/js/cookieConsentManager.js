@@ -10,8 +10,8 @@ class cookieConsentManager {
       setName: 'isSet', // the value when consent is set
       positiveValue: 'true', //  the value when consent is accepted/granted
       negativeValue: 'false', // the value when consent is rejected/denied
-      versionName: 'version',
-      version: 2.2,
+      versionName: 'version', // the label of the version
+      version: 2.2, // the version number
 
       // EVENT NAMES
       cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
