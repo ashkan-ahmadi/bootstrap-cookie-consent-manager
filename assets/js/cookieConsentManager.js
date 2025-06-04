@@ -85,7 +85,6 @@ class cookieConsentManager {
   // +-------------------------------------+
 
   init() {
-    // TODO: delete this
     // check if Bootstrap exists before anything else
     if (!this.bootstrapExists()) {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
@@ -162,7 +161,6 @@ class cookieConsentManager {
     return prefix + setName
   }
 
-  // TODO: rename to getPositiveValue and update everywhere
   getPositiveValue() {
     const configs = this.getConfigs()
 
@@ -175,7 +173,6 @@ class cookieConsentManager {
     return positiveValue
   }
 
-  // TODO: rename to getNegativeValue and update everywhere
   getNegativeValue() {
     const configs = this.getConfigs()
 
