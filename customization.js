@@ -5,6 +5,14 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
 
   // configs (all customization takes place in this object)
   const configs = {
+    // prefix: 'cookieConsent', // string (an underscore will be added after the value)
+    // consentTypePrefix: 'consentType', // string (an underscore will be added after the value)
+    // setName: 'isSet', // string
+    // positiveValue: 'true', // string
+    // negativeValue: 'false', // string
+    // versionName: 'version', // the label of the version
+    // version: 2.2, // the version number
+
     // MODAL
     // modalId: 'cookie-consent-manager-modal', // string, default: 'cookie-consent-manager-modal'
     // modalTitle: 'Cookie Consent', // string
