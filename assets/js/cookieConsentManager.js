@@ -403,15 +403,44 @@ class cookieConsentManager {
         return
       }
 
+      const enabledConsentTypes = this.getEnabledConsentTypes()
+
       checkboxes.forEach(checkbox => {
+        // 1. handle the local storage
+
         const prefix = this.getConsentTypePrefix()
 
-        const name = prefix + checkbox?.id
-        const value = checkbox?.checked ? this.getPositiveValue() : this.getNegativeValue()
+        const id = checkbox?.id
+        const checkboxIsChecked = checkbox?.checked
+        const name = prefix + id
+        const value = checkboxIsChecked ? this.getPositiveValue() : this.getNegativeValue()
 
         localStorage.setItem(name, value)
 
-        // TODO: check out file firing to figure out how to fire the onAccept and onReject
+        // 2. handle the onAccept and onReject callbacks
+
+        const type = enabledConsentTypes.find(type => type.id === id)
+
+        if (!type) {
+          // jump to next iteration
+          return
+        }
+
+        // Accepting
+        if (checkboxIsChecked) {
+          const onAcceptCallback = type.onAccept
+
+          if (onAcceptCallback && typeof onAcceptCallback === 'function') {
+            onAcceptCallback()
+          }
+        } else {
+          // Rejecting
+          const onRejectCallback = type.onReject
+
+          if (onRejectCallback && typeof onRejectCallback === 'function') {
+            onRejectCallback()
+          }
+        }
       })
 
       // Set consent isSet and version
