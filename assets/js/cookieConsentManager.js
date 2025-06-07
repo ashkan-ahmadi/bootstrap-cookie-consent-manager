@@ -313,14 +313,12 @@ class cookieConsentManager {
 
         localStorage.setItem(name, value)
 
-        // TODO: make everything below a standalone function
-        // Verify the key 'onAccept' exists and it's a function
-        // If a callback function exists, we run it
-        // If the key exists but a non-function is passed, we show a warning on Console
-        if (type.onAccept && typeof type.onAccept === 'function') {
-          type.onAccept()
-        } else if (type.onAccept && typeof type.onAccept !== 'function') {
-          console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
+        if (type.onAccept) {
+          if (typeof type.onAccept === 'function') {
+            type.onAccept()
+          } else {
+            console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
+          }
         }
       })
 
