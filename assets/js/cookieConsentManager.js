@@ -42,7 +42,7 @@ class cookieConsentManager {
 
       showCloseButtonOnModal: false,
 
-      useLocalStorage: true,
+      useLocalStorage: true, // not implemented yet
 
       // CONTENT
       acceptAllButtonText: 'Accept all',
@@ -272,8 +272,7 @@ class cookieConsentManager {
       // we need configs to decide if user wants to use localStorage (default) or cookies
       const configs = this.getConfigs()
 
-      if (configs?.useCookieInsteadOfLocalStorage) {
-        // TODO: to be developed to set cookie instead of localStorage
+      if (!configs?.useLocalStorage) {
         console.log('You are opting to use cookies instead of local storage')
       } else {
         // Gets the item from the localStorage
@@ -357,8 +356,6 @@ class cookieConsentManager {
         const value = type?.required ? positiveValue : negativeValue
 
         localStorage.setItem(name, value)
-
-        // TODO: make everything below a standalone function
 
         // not firing onReject function on types that have required:true
         // if it's required, it should not be rejected
