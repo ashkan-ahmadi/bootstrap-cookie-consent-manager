@@ -66,11 +66,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       permissionType: 'functionality', // ad|analytics|functionality|personalization|security
       onAccept: function () {
-        // console.log('Functionality onAccept')
+        console.log('✅ Functionality accepted')
       },
-      onReject: function () {
-        // console.log('Functionality onReject - SHOULD NOT HAPPEN')
-      },
+      // no onReject because this is a required type
+      // Security, and Functionality consent types should not be rejected
     },
     {
       id: 'security',
@@ -81,11 +80,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       permissionType: 'security', // ad|analytics|functionality|personalization|security
       onAccept: function () {
-        // console.log('Security onAccept')
+        console.log('✅ Security accepted')
       },
-      onReject: function () {
-        // console.log('Security onReject -  - SHOULD NOT HAPPEN')
-      },
+      // no onReject because this is a required type
+      // Security, and Functionality consent types should not be rejected
     },
     {
       id: 'analytics',
@@ -96,10 +94,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       permissionType: 'analytics', // ad|analytics|functionality|personalization|security
       onAccept: function () {
-        // console.log('Analytics onAccept')
+        console.log('✅ Analytics accepted')
       },
       onReject: function () {
-        // console.log('Analytics onReject')
+        console.log('❌ Analytics rejected')
       },
     },
     {
@@ -111,10 +109,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       permissionType: 'ad', // ad|analytics|functionality|personalization|security
       onAccept: function () {
-        // console.log('Advertising onAccept')
+        console.log('✅ Advertising accepted')
       },
       onReject: function () {
-        // console.log('Advertising onReject')
+        console.log('❌ Advertising rejected')
       },
     },
     {
@@ -126,10 +124,10 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       onByDefault: true,
       permissionType: 'personalization', // ad|analytics|functionality|personalization|security
       onAccept: function () {
-        // console.log('Personalization onAccept')
+        console.log('✅ Personalization accepted')
       },
       onReject: function () {
-        // console.log('Personalization onReject')
+        console.log('❌ Personalization rejected')
       },
     },
   ]
