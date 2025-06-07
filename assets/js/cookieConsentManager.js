@@ -367,6 +367,14 @@ class cookieConsentManager {
               console.warn(`Property onReject on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onReject}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
             }
           }
+        } else {
+          if (type.onAccept) {
+            if (typeof type.onAccept === 'function') {
+              type.onAccept()
+            } else {
+              console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
+            }
+          }
         }
       })
 
