@@ -70,7 +70,7 @@ class cookieConsentManager {
       toastShowCloseButton: true,
       toastEscapeHTML: true,
       toastAnimation: true,
-      toastAutohide: false,
+      toastAutohide: true,
       toastDelay: 3500,
     }
     this.userConfigs = userConfigs
