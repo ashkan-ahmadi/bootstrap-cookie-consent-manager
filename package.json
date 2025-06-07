@@ -17,7 +17,7 @@
     "url": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager/issues"
   },
   "homepage": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager#readme",
-  "dependencies": {
+  "devDependencies": {
     "minify": "^14.0.0"
   }
 }
