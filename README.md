@@ -13,6 +13,8 @@ A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** 
 - Easy to integrate with any website using Bootstrap
 - Fully responsive and mobile-friendly
 - Customizable design and text to match your brand
+- Fully whitelabel (no logo or credit anywhere)
+- Open source. Clone, fork, modify as you please
 - Zero dependency usable with vanilla JS, React, or any other framework
 - Enables user consent management for essential, analytics, and marketing cookies
 - Saves preferences in localStorage (no server needed)
