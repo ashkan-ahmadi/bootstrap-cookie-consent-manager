@@ -103,7 +103,7 @@ if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager =
       id: 'advertising',
       title: 'Advertising',
       description: 'These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.',
-      enabled: false,
+      enabled: true,
       required: false,
       onByDefault: true,
       permissionType: 'ad', // ad|analytics|functionality|personalization|security
