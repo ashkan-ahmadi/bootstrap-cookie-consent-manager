@@ -1,7 +1,6 @@
 // Verify that cookieConsentManager exists and it's a class/function
 if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
   // Define dataLayer if it doesn't exist
-  window.dataLayer = window?.dataLayer || []
 
   // configs (all customization takes place in this object)
   const configs = {
