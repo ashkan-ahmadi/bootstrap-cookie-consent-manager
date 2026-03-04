@@ -1,6 +1,8 @@
-# 🍪 Bootstrap Cookie Consent Manager
+# Bootstrap Cookie Consent Manager
 
 A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built using **Bootstrap CSS**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.
+
+👉 This is 100% hand-coded by me. There is **no AI involved** whatsoever. 👈
 
 ## In action
 
@@ -8,7 +10,7 @@ A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** 
 
 [See demo on CodePen](https://codepen.io/AshkanAhmadi/full/YPPBxjE)
 
-## 🚀 Features
+## Features
 
 - Easy to integrate with any website using Bootstrap
 - Fully responsive and mobile-friendly
@@ -215,6 +217,8 @@ Has to match one of these:
 | `personalization` | any script that relies on the user's browsing history or previous behavior              | yes                       | `personalization_storage`                              | Recommended Products based on Previous Visit             |
 | `security`        | any anti-fraud security-related script                                                  | no                        | `security_storage`                                     | CloudFlare                                               |
 
-## Developers
+## Developers & contributions
 
 If you are interested in improving this library, feel free to clone, modify and request a pull request. Make sure pull requests are small, and manageable.
+
+👉 No AI slop please.
