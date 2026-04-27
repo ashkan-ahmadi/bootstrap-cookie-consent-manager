@@ -217,6 +217,12 @@ Has to match one of these:
 | `personalization` | any script that relies on the user's browsing history or previous behavior              | yes                       | `personalization_storage`                              | Recommended Products based on Previous Visit             |
 | `security`        | any anti-fraud security-related script                                                  | no                        | `security_storage`                                     | CloudFlare                                               |
 
+## Support
+
+If you find this library useful, please support me by making a small donation:
+
+<a href="https://www.buymeacoffee.com/ashkanahmadi" target="_blank"><img width="1090" height="306" style="border:none;max-width:300px;height:auto;" src="https://cdn.buymeacoffee.com/uploads/project_updates/2023/12/08f1cf468ace518fc8cc9e352a2e613f.png" alt="Support me by buying me a coffee through a donation" /></a>
+
 ## Developers & contributions
 
 If you are interested in improving this library, feel free to clone, modify and request a pull request. Make sure pull requests are small, and manageable.
