@@ -221,7 +221,7 @@ Has to match one of these:
 
 If you find this library useful, please support me by making a small donation:
 
-<a href="https://www.buymeacoffee.com/ashkanahmadi" target="_blank"><img width="1090" height="306" style="border:none;max-width:300px;height:auto;" src="https://cdn.buymeacoffee.com/uploads/project_updates/2023/12/08f1cf468ace518fc8cc9e352a2e613f.png" alt="Support me by buying me a coffee through a donation" /></a>
+<a href="https://www.buymeacoffee.com/ashkanahmadi" target="_blank"><img style="border:none;max-width:150px;height:auto;" src="https://cdn.buymeacoffee.com/uploads/project_updates/2023/12/08f1cf468ace518fc8cc9e352a2e613f.png" alt="Support me by buying me a coffee through a donation" /></a>
 
 ## Developers & contributions
 
