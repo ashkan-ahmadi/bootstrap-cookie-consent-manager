@@ -9,7 +9,7 @@ const DEFAULT_CONFIGS: ResolvedCookieConsentManagerConfigs = {
   positiveValue: 'true',
   negativeValue: 'false',
   versionName: 'version',
-  version: 2.2,
+  version: 2.3,
 
   // Event names
   cookieConsentAcceptEventName: 'cookie_consent_accept',
