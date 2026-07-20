@@ -1,9 +1,0 @@
-{
-  "npm_library": "https://www.npmjs.com/package/minify",
-  "js": {
-    "type": "terser",
-    "terser": {
-      "mangle": true
-    }
-  }
-}

@@ -1,91 +1,127 @@
-class cookieConsentManager {
-  constructor(userConsentTypes, userConfigs) {
-    this.defaultConsentTypes = []
+import type { ConsentType, CookieConsentManagerConfigs, GtagConsentPayload, ResolvedCookieConsentManagerConfigs } from './types'
+
+/** The full set of default configuration values, used whenever a value isn't provided by the consumer. */
+const DEFAULT_CONFIGS: ResolvedCookieConsentManagerConfigs = {
+  // Core information
+  prefix: 'cookieConsent',
+  consentTypePrefix: 'consentType',
+  setName: 'isSet',
+  positiveValue: 'true',
+  negativeValue: 'false',
+  versionName: 'version',
+  version: 2.2,
+
+  // Event names
+  cookieConsentAcceptEventName: 'cookie_consent_accept',
+  cookieConsentRejectEventName: 'cookie_consent_reject',
+  cookieConsentUpdateEventName: 'cookie_consent_update',
+
+  // Modal
+  modalId: 'cookie-consent-manager-modal',
+  modalTitle: 'Customize the cookies',
+  centered: true,
+  scrollable: true,
+  animation: true,
+  staticBackground: true,
+  showCloseButtonOnModal: false,
+
+  useLocalStorage: true,
+
+  // Content
+  acceptAllButtonText: 'Accept all',
+  acceptAllButtonAccessibleText: 'Accept all cookies',
+  rejectAllButtonText: 'Reject all',
+  rejectAllButtonAccessibleText: 'Reject all cookies',
+  customizeButtonText: 'Customize',
+  customizeButtonAccessibleText: 'Customize cookies',
+  saveButtonText: 'Save',
+  saveButtonAccessibleText: 'Save preferences',
+
+  // Banner
+  bannerTitle: 'We respect your privacy',
+  bannerText: 'We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="/cookie-policy">Cookie Policy</a>.',
+  showRejectAllButtonOnBanner: true,
+  freezeScrollingOnBanner: true,
+
+  // Confirmation toast
+  showToast: true,
+  toastText: 'Cookie consent saved successfully',
+  toastPosition: 'bottom-left',
+  toastContainerId: 'toast-container',
+  toastId: `toast-${Date.now()}`,
+  toastBackgroundClass: 'text-bg-success',
+  toastShowCloseButton: true,
+  toastEscapeHTML: true,
+  toastAnimation: true,
+  toastAutohide: true,
+  toastDelay: 3500,
+}
+
+/**
+ * A lightweight, fully customizable, and user-friendly cookie consent manager
+ * built on top of Bootstrap 5's Modal and Toast components.
+ *
+ * @remarks
+ * Bootstrap's JS bundle must be loaded (and available as the global `bootstrap`)
+ * before calling {@link CookieConsentManager.init}.
+ *
+ * @example
+ * ```ts
+ * import { CookieConsentManager } from 'bootstrap-cookie-consent-manager'
+ *
+ * const consentManager = new CookieConsentManager(
+ *   [
+ *     {
+ *       id: 'essential',
+ *       title: 'Essential',
+ *       description: 'These cookies are required for the site to function.',
+ *       required: true,
+ *       onByDefault: true,
+ *       permissionType: 'functionality',
+ *     },
+ *     {
+ *       id: 'analytics',
+ *       title: 'Analytics',
+ *       description: 'Helps us understand how visitors use the site.',
+ *       permissionType: 'analytics',
+ *       onAccept: () => console.log('Analytics accepted'),
+ *       onReject: () => console.log('Analytics rejected'),
+ *     },
+ *   ],
+ *   { bannerTitle: 'We value your privacy' }
+ * )
+ *
+ * consentManager.init()
+ * ```
+ */
+export class CookieConsentManager {
+  private readonly defaultConsentTypes: ConsentType[] = []
+  private readonly userConsentTypes: ConsentType[]
+  private readonly defaultConfigs: ResolvedCookieConsentManagerConfigs = DEFAULT_CONFIGS
+  private readonly userConfigs: CookieConsentManagerConfigs
+
+  private banner: HTMLElement | null = null
+  private modal: HTMLElement | null = null
+
+  /**
+   * @param userConsentTypes The consent types (cookie categories) to present to the user.
+   * @param userConfigs Optional configuration overrides. Anything omitted falls back to the library defaults.
+   */
+  constructor(userConsentTypes: ConsentType[], userConfigs: CookieConsentManagerConfigs = {}) {
     this.userConsentTypes = userConsentTypes
-
-    this.defaultConfigs = {
-      // Core information
-      prefix: 'cookieConsent', // the name of the cookie consent system
-      consentTypePrefix: 'consentType', // the name of the consent type
-      setName: 'isSet', // the value when consent is set
-      positiveValue: 'true', //  the value when consent is accepted/granted
-      negativeValue: 'false', // the value when consent is rejected/denied
-      versionName: 'version', // the label of the version
-      version: 2.2, // the version number
-
-      // EVENT NAMES
-      cookieConsentAcceptEventName: 'cookie_consent_accept', // this is the name of the event that fires when consent is accepted
-      cookieConsentRejectEventName: 'cookie_consent_reject', // this is the name of the event that fires when consent is rejected
-      cookieConsentUpdateEventName: 'cookie_consent_update', // this is the name of the event that fires when consent is updated - this is the name you should use on GTM > Triggers > Custom Event
-
-      // MODAL
-
-      modalId: 'cookie-consent-manager-modal',
-
-      modalTitle: 'Customize the cookies',
-
-      // Center the modal vertically
-      // https://getbootstrap.com/docs/5.3/components/modal/#vertically-centered
-      centered: true,
-
-      // When modals become too long for the user’s viewport or device, they scroll independent of the page itself.
-      // https://getbootstrap.com/docs/5.3/components/modal/#scrolling-long-content
-      scrollable: true,
-
-      // For modals that simply appear rather than fade in to view, remove the .fade class from your modal markup.
-      // https://getbootstrap.com/docs/5.3/components/modal/#remove-animation
-      animation: true,
-
-      // When backdrop is set to static, the modal will not close when clicking outside of it.
-      // https://getbootstrap.com/docs/5.3/components/modal/#static-backdrop
-      staticBackground: true,
-
-      showCloseButtonOnModal: false,
-
-      useLocalStorage: true, // not implemented yet
-
-      // CONTENT
-      acceptAllButtonText: 'Accept all',
-      acceptAllButtonAccessibleText: 'Accept all cookies',
-      rejectAllButtonText: 'Reject all',
-      rejectAllButtonAccessibleText: 'Reject all cookies',
-      customizeButtonText: 'Customize',
-      customizeButtonAccessibleText: 'Customize cookies',
-      saveButtonText: 'Save',
-      saveButtonAccessibleText: 'Save preferences',
-
-      // BANNER
-      bannerTitle: 'We respect your privacy',
-      bannerText: 'We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. You can find more information on our <a href="/cookie-policy">Cookie Policy</a>.',
-      showRejectAllButtonOnBanner: true,
-      freezeScrollingOnBanner: true,
-
-      // CONFIRMATION TOAST
-      showToast: true,
-      toastText: 'Cookie consent saved successfully',
-      toastPosition: 'bottom-left', // top-left|top-center|top-right|middle-left|middle-center|middle-right|bottom-left|bottom-center|bottom-right
-      toastContainerId: 'toast-container',
-      toastId: 'toast-' + Date.now(),
-      toastBackgroundClass: 'text-bg-success',
-      toastShowCloseButton: true,
-      toastEscapeHTML: true,
-      toastAnimation: true,
-      toastAutohide: true,
-      toastDelay: 3500,
-    }
     this.userConfigs = userConfigs
-
-    // HTML ELEMENTS
-    this.banner = null
-    this.modal = null
   }
 
   // +-------------------------------------+
   // | INITIALIZE                          |
   // +-------------------------------------+
 
-  init() {
-    // check if Bootstrap exists before anything else
+  /**
+   * Boots up the consent manager: sets the default (denied) consent state,
+   * then shows the banner (first visit) or silently re-applies the user's
+   * previously stored consent (returning visit).
+   */
+  init(): void {
     if (!this.bootstrapExists()) {
       console.error('BOOTSTRAP COOKIE CONSENT MANAGER: Bootstrap JS is not found. Make sure Bootstrap JS is loaded BEFORE loading this script. For more information, visit https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager')
       return
@@ -121,50 +157,40 @@ class cookieConsentManager {
   // | CONSTANTS                           |
   // +-------------------------------------+
 
-  getPrefix() {
-    const configs = this.getConfigs()
-
-    const { prefix } = configs || {}
+  getPrefix(): string {
+    const { prefix } = this.getConfigs()
 
     if (!prefix) {
       console.warn(`The 'prefix' value is not found or it's empty. Make sure you pass a prefix value (or remove to set the default value)`)
     }
 
-    return prefix + '_'
+    return `${prefix}_`
   }
 
-  getConsentTypePrefix() {
+  getConsentTypePrefix(): string {
     const prefix = this.getPrefix()
-
-    const configs = this.getConfigs()
-
-    const { consentTypePrefix } = configs || {}
+    const { consentTypePrefix } = this.getConfigs()
 
     if (!consentTypePrefix) {
       console.warn(`The 'consentTypePrefix' value is not found or it's empty. Make sure you pass a consentTypePrefix value (or remove to set the default value)`)
     }
 
-    return prefix + consentTypePrefix + '_'
+    return `${prefix}${consentTypePrefix}_`
   }
 
-  getConsentSetName() {
+  getConsentSetName(): string {
     const prefix = this.getPrefix()
-
-    const configs = this.getConfigs()
-
-    const { setName } = configs || {}
+    const { setName } = this.getConfigs()
 
     if (!setName) {
       console.warn(`The 'setName' value is not found or it's empty. Make sure you pass a setName value (or remove to set the default value)`)
     }
 
-    return prefix + setName
+    return `${prefix}${setName}`
   }
 
-  getPositiveValue() {
-    const configs = this.getConfigs()
-
-    const { positiveValue } = configs || {}
+  getPositiveValue(): string {
+    const { positiveValue } = this.getConfigs()
 
     if (!positiveValue) {
       console.warn(`The 'positiveValue' value is not found or it's empty. Make sure you pass a positiveValue value (or remove to set the default value)`)
@@ -173,10 +199,8 @@ class cookieConsentManager {
     return positiveValue
   }
 
-  getNegativeValue() {
-    const configs = this.getConfigs()
-
-    const { negativeValue } = configs || {}
+  getNegativeValue(): string {
+    const { negativeValue } = this.getConfigs()
 
     if (!negativeValue) {
       console.warn(`The 'negativeValue' value is not found or it's empty. Make sure you pass a negativeValue value (or remove to set the default value)`)
@@ -185,10 +209,8 @@ class cookieConsentManager {
     return negativeValue
   }
 
-  getVersion() {
-    const configs = this.getConfigs()
-
-    const { version } = configs || {}
+  getVersion(): number {
+    const { version } = this.getConfigs()
 
     if (!version) {
       console.warn(`The 'version' value is not found or it's empty. Make sure you pass a version value (or remove to set the default value)`)
@@ -197,117 +219,100 @@ class cookieConsentManager {
     return version
   }
 
-  getVersionName() {
+  getVersionName(): string {
     const prefix = this.getPrefix()
-
-    const configs = this.getConfigs()
-
-    const { versionName } = configs || {}
+    const { versionName } = this.getConfigs()
 
     if (!versionName) {
       console.warn(`The 'versionName' value is not found or it's empty. Make sure you pass a versionName value (or remove to set the default value)`)
     }
 
-    return prefix + versionName
+    return `${prefix}${versionName}`
   }
 
   // +-------------------------------------+
   // | CONSENTS                            |
   // +-------------------------------------+
 
-  getDefaultConsentTypes() {
+  getDefaultConsentTypes(): ConsentType[] {
     return this.defaultConsentTypes
   }
 
-  getUserConsentTypes() {
+  getUserConsentTypes(): ConsentType[] {
     return this.userConsentTypes
   }
 
-  getConsentTypes() {
+  getConsentTypes(): ConsentType[] {
     const defaultConsentTypes = this.getDefaultConsentTypes()
     const userConsentTypes = this.getUserConsentTypes()
 
-    const consentTypes = [...defaultConsentTypes, ...userConsentTypes]
-
-    return consentTypes
+    return [...defaultConsentTypes, ...userConsentTypes]
   }
 
-  getEnabledConsentTypes() {
+  getEnabledConsentTypes(): ConsentType[] {
     const consentTypes = this.getConsentTypes()
 
-    if (!consentTypes) {
-      return
-    }
-
-    const enabledConsentTypes = consentTypes.filter(consentType => {
+    return consentTypes.filter(consentType => {
       // not false allows us to not pass enabled at all
       // unless it's enabled:false explicitly, it will show up
       return consentType.enabled !== false
     })
-
-    return enabledConsentTypes
   }
 
-  getRequiredConsentTypes() {
+  getRequiredConsentTypes(): ConsentType[] {
     const consentTypes = this.getConsentTypes()
 
-    if (!consentTypes) {
-      return
-    }
-
-    const requiredConsentTypes = consentTypes.filter(consentType => {
-      // not false allows us to not pass enabled at all
-      // unless it's enabled:false explicitly, it will show up
+    return consentTypes.filter(consentType => {
       return consentType.required === true
     })
-
-    return requiredConsentTypes
   }
 
-  isConsentSet() {
+  isConsentSet(): boolean {
     const consentSetName = this.getConsentSetName()
     const positiveValue = this.getPositiveValue()
 
     try {
       // we need configs to decide if user wants to use localStorage (default) or cookies
-      const configs = this.getConfigs()
+      const { useLocalStorage } = this.getConfigs()
 
-      if (!configs?.useLocalStorage) {
+      if (!useLocalStorage) {
         console.log('You are opting to use cookies instead of local storage')
-      } else {
-        // Gets the item from the localStorage
-        const consentValue = localStorage.getItem(consentSetName)
-
-        // Validate if the value stored matches what it should be
-        // In this case, even if the name exists but has a different value, we return false
-        // This makes sure if the value has changed, or tampered with, we correct it
-        return consentValue === positiveValue
+        return false
       }
+
+      // Gets the item from the localStorage
+      const consentValue = localStorage.getItem(consentSetName)
+
+      // Validate if the value stored matches what it should be
+      // In this case, even if the name exists but has a different value, we return false
+      // This makes sure if the value has changed, or tampered with, we correct it
+      return consentValue === positiveValue
     } catch (error) {
       console.error(error)
+      return false
     }
   }
 
-  setConsent_acceptAll() {
+  setConsent_acceptAll(): void {
     try {
       const enabledConsentTypes = this.getEnabledConsentTypes()
 
-      if (!enabledConsentTypes || enabledConsentTypes?.length === 0) {
+      if (!enabledConsentTypes || enabledConsentTypes.length === 0) {
         return
       }
 
       enabledConsentTypes.forEach(type => {
         // verify that the type has an id key
-        if (typeof type.id === 'undefined' || !type?.id) {
+        if (!type?.id) {
           console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
 
-          // Returning in a forEach skips the current itiration and goes to the next one
+          // Returning in a forEach skips the current iteration and goes to the next one
           return
         }
 
         const prefix = this.getConsentTypePrefix()
 
-        const name = prefix + type?.id
+        const name = prefix + type.id
         const value = this.getPositiveValue() // set everything to the default set value (usually true)
 
         localStorage.setItem(name, value)
@@ -330,21 +335,21 @@ class cookieConsentManager {
     }
   }
 
-  setConsent_rejectAll() {
+  setConsent_rejectAll(): void {
     try {
       const enabledConsentTypes = this.getEnabledConsentTypes()
 
-      if (!enabledConsentTypes || enabledConsentTypes?.length === 0) {
+      if (!enabledConsentTypes || enabledConsentTypes.length === 0) {
         console.warn(`requiredConsentTypes is null or empty. If this is intentional, you can ignore this warning.`)
         return
       }
 
       enabledConsentTypes.forEach(type => {
         // verify that the type has an id key
-        if (typeof type.id === 'undefined' || !type?.id) {
+        if (!type?.id) {
           console.warn(`Consent type required an "id" property but either it was not provided, or it's empty. This type was skipped completely and nothing was set for this type.`)
 
-          // Returning in a forEach skips the current itiration and goes to the next one
+          // Returning in a forEach skips the current iteration and goes to the next one
           return
         }
 
@@ -352,8 +357,8 @@ class cookieConsentManager {
         const positiveValue = this.getPositiveValue()
         const negativeValue = this.getNegativeValue()
 
-        const name = prefix + type?.id
-        const value = type?.required ? positiveValue : negativeValue
+        const name = prefix + type.id
+        const value = type.required ? positiveValue : negativeValue
 
         localStorage.setItem(name, value)
 
@@ -367,13 +372,11 @@ class cookieConsentManager {
               console.warn(`Property onReject on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onReject}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
             }
           }
-        } else {
-          if (type.onAccept) {
-            if (typeof type.onAccept === 'function') {
-              type.onAccept()
-            } else {
-              console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
-            }
+        } else if (type.onAccept) {
+          if (typeof type.onAccept === 'function') {
+            type.onAccept()
+          } else {
+            console.warn(`Property onAccept on cookie consent type with id "${type.id}" expected a function but received a ${typeof type.onAccept}. Review and make sure you pass a function if you want a callback to run on accepting this cookie consent type.`)
           }
         }
       })
@@ -387,10 +390,8 @@ class cookieConsentManager {
     }
   }
 
-  setConsent_saveCustomized() {
-    const configs = this.getConfigs()
-
-    const { modalId } = configs || {}
+  setConsent_saveCustomized(): void {
+    const { modalId } = this.getConfigs()
 
     try {
       // get the modal from the DOM
@@ -403,7 +404,7 @@ class cookieConsentManager {
       }
 
       // get all the check boxes
-      const checkboxes = modal.querySelectorAll('input.form-check-input')
+      const checkboxes = modal.querySelectorAll<HTMLInputElement>('input.form-check-input')
 
       // make sure it's not empty
       if (!checkboxes || checkboxes.length === 0) {
@@ -418,8 +419,8 @@ class cookieConsentManager {
 
         const prefix = this.getConsentTypePrefix()
 
-        const id = checkbox?.id
-        const checkboxIsChecked = checkbox?.checked
+        const id = checkbox.id
+        const checkboxIsChecked = checkbox.checked
         const name = prefix + id
         const value = checkboxIsChecked ? this.getPositiveValue() : this.getNegativeValue()
 
@@ -427,7 +428,7 @@ class cookieConsentManager {
 
         // 2. handle the onAccept and onReject callbacks
 
-        const type = enabledConsentTypes.find(type => type.id === id)
+        const type = enabledConsentTypes.find(consentType => consentType.id === id)
 
         if (!type) {
           // jump to next iteration
@@ -460,8 +461,8 @@ class cookieConsentManager {
     }
   }
 
-  setConsentSet() {
-    // Set an item to show that conset is set
+  setConsentSet(): void {
+    // Set an item to show that consent is set
     const setName = this.getConsentSetName()
     const setPositiveValue = this.getPositiveValue()
     localStorage.setItem(setName, setPositiveValue)
@@ -471,42 +472,27 @@ class cookieConsentManager {
   // | CONFIGS                             |
   // +-------------------------------------+
 
-  getDefaultConfigs() {
+  getDefaultConfigs(): ResolvedCookieConsentManagerConfigs {
     return this.defaultConfigs
   }
 
-  getUserConfigs() {
+  getUserConfigs(): CookieConsentManagerConfigs {
     return this.userConfigs
   }
 
-  getConfigs() {
+  getConfigs(): ResolvedCookieConsentManagerConfigs {
     const defaultConfigs = this.getDefaultConfigs()
     const userConfigs = this.getUserConfigs()
 
-    const configs = { ...defaultConfigs, ...userConfigs }
-
-    return configs
+    return { ...defaultConfigs, ...userConfigs }
   }
 
   // +-------------------------------------+
   // | BANNER                              |
   // +-------------------------------------+
 
-  createBannerHTML() {
-    const configs = this.getConfigs()
-
-    // prettier-ignore
-    const {
-      bannerTitle,
-      bannerText,
-      acceptAllButtonText,
-      acceptAllButtonAccessibleText,
-      rejectAllButtonText,
-      rejectAllButtonAccessibleText,
-      customizeButtonText,
-      customizeButtonAccessibleText,
-      showRejectAllButtonOnBanner 
-    } = configs || {}
+  private createBannerHTML(): HTMLElement {
+    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText, showRejectAllButtonOnBanner } = this.getConfigs()
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
@@ -574,8 +560,8 @@ class cookieConsentManager {
     return cookieBannerOuterDiv
   }
 
-  showBanner() {
-    // if modal has been modified before, we remove it from DOM and re-set it back to null
+  showBanner(): void {
+    // if banner has been created before, we remove it from DOM and re-set it back to null
     if (this.banner !== null) {
       this.banner.remove()
       this.banner = null
@@ -594,15 +580,15 @@ class cookieConsentManager {
     customizeButton?.addEventListener('click', () => this.handleCustomizeButtonClick())
 
     // Checks if disabling should happen or not inside the function
-    this.disableScrollingonBody()
+    this.disableScrollingOnBody()
   }
 
   // +-------------------------------------+
   // | MODAL                               |
   // +-------------------------------------+
 
-  createModalHTML() {
-    // if modal has been modified before, we remove it from DOM and re-set it back to null
+  private createModalHTML(): HTMLElement {
+    // if modal has been created before, we remove it from DOM and re-set it back to null
     if (this.modal !== null) {
       this.modal.remove()
       this.modal = null
@@ -610,30 +596,14 @@ class cookieConsentManager {
 
     const enabledConsentTypes = this.getEnabledConsentTypes()
 
-    const configs = this.getConfigs()
-
-    // prettier-ignore
-    const { 
-      modalId,
-      modalTitle,
-      centered,
-      scrollable,
-      animation,
-      staticBackground,
-      acceptAllButtonText,
-      acceptAllButtonAccessibleText,
-      rejectAllButtonText,
-      rejectAllButtonAccessibleText,
-      saveButtonText,
-      saveButtonAccessibleText
-    } = configs || {}
+    const { modalId, modalTitle, centered, scrollable, animation, staticBackground, showCloseButtonOnModal, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, saveButtonText, saveButtonAccessibleText } = this.getConfigs()
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
     const useAccessibleText_save = saveButtonText !== saveButtonAccessibleText
 
     // Below, we add class names to this array based on conditions
-    const modalDialogClasses = []
+    const modalDialogClasses: string[] = []
 
     if (centered) {
       modalDialogClasses.push('modal-dialog-centered')
@@ -644,9 +614,9 @@ class cookieConsentManager {
     }
 
     // Create a div element to push all the modal HTML into it
-    this.modal = document.createElement('div')
+    const modal = document.createElement('div')
 
-    this.modal.innerHTML = `
+    modal.innerHTML = `
       <div class="modal ${animation ? 'fade' : ''}" tabindex="-1" ${staticBackground ? 'data-bs-backdrop="static"' : ''} id="${modalId}">
         <div class="modal-dialog ${modalDialogClasses.join(' ')}">
           <div class="modal-content">
@@ -654,14 +624,13 @@ class cookieConsentManager {
               <p class="modal-title fw-bolder">${modalTitle}</p>
               ${
                 // display the X close button conditionally. it's set to false by default
-                this.showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''
+                showCloseButtonOnModal ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''
               }
             </div>
             <div class="modal-body">
-              ${
-                enabledConsentTypes
+              ${enabledConsentTypes
                 .map(consentType => {
-                  const {id, title, description, required, onByDefault} = consentType || {}
+                  const { id, title, description, required, onByDefault } = consentType
                   return `
                   <div class="cookie-consent-type">
                     <div class="d-flex gap-3">
@@ -687,9 +656,7 @@ class cookieConsentManager {
                   </div>
                   `
                 })
-                .join(`<hr class="p-0 my-3">`)
-                // prettier-ignore
-              }
+                .join(`<hr class="p-0 my-3">`)}
             </div> <!-- .modal-body -->
 
             <div class="modal-footer">
@@ -729,13 +696,11 @@ class cookieConsentManager {
         </div>
       </div>
     `
-    return this.modal
+    return modal
   }
 
-  showModal() {
-    const configs = this.getConfigs()
-
-    const { modalId } = configs || {}
+  showModal(): void {
+    const { modalId } = this.getConfigs()
 
     // This creates and returns the modal's HTML
     this.modal = this.createModalHTML()
@@ -748,7 +713,16 @@ class cookieConsentManager {
     rejectAllButton?.addEventListener('click', () => this.handleRejectAllButtonClick())
     saveButton?.addEventListener('click', () => this.handleSaveButtonClick())
 
-    const modalAsBSModalObject = new bootstrap.Modal(this.modal.querySelector(`#${modalId}`))
+    const modalElement = this.modal.querySelector(`#${modalId}`)
+
+    if (!modalElement || !bootstrap) {
+      console.warn('Unable to initialize the Bootstrap modal: either the modal element or the global `bootstrap` object is missing.')
+      return
+    }
+
+    const modalAsBSModalObject = new bootstrap.Modal(modalElement)
+
+    document.body.append(this.modal)
 
     modalAsBSModalObject.show()
   }
@@ -757,23 +731,8 @@ class cookieConsentManager {
   // | TOAST                               |
   // +-------------------------------------+
 
-  showToast() {
-    const configs = this.getConfigs()
-
-    // prettier-ignore
-    const {
-      showToast,
-      toastText,
-      toastPosition,
-      toastContainerId,
-      toastId,
-      toastBackgroundClass,
-      toastShowCloseButton,
-      toastEscapeHTML,
-      toastAnimation,
-      toastAutohide,
-      toastDelay
-    } = configs || {}
+  showToast(): void {
+    const { showToast, toastText, toastPosition, toastContainerId, toastId, toastBackgroundClass, toastShowCloseButton, toastEscapeHTML, toastAnimation, toastAutohide, toastDelay } = this.getConfigs()
 
     // do nothing if showToast isn't set to true
     if (!showToast) {
@@ -847,6 +806,11 @@ class cookieConsentManager {
 
     toastContainer.appendChild(toastWrapper)
 
+    if (!bootstrap) {
+      console.warn('Unable to show the confirmation toast: the global `bootstrap` object is missing.')
+      return
+    }
+
     // Initialize and show toast
     const toast = new bootstrap.Toast(toastWrapper, {
       animation: toastAnimation,
@@ -860,7 +824,7 @@ class cookieConsentManager {
       toastWrapper.remove()
 
       // remove the container from DOM if there is no toast inside it
-      if (toastContainer.innerHTML === '') {
+      if (toastContainer?.innerHTML === '') {
         toastContainer.remove()
       }
     })
@@ -870,46 +834,46 @@ class cookieConsentManager {
   // | OTHER FUNCTIONS                     |
   // +-------------------------------------+
 
-  bootstrapExists() {
+  private bootstrapExists(): boolean {
     return typeof bootstrap !== 'undefined'
   }
 
-  pushToDataLayer(obj) {
+  private pushToDataLayer(obj: Record<string, unknown>): void {
     window.dataLayer = window.dataLayer || []
 
     window.dataLayer.push(obj)
   }
 
-  gtag() {
+  private gtag(...args: unknown[]): void {
     window.dataLayer = window.dataLayer || []
 
-    dataLayer.push(arguments)
+    window.dataLayer.push(args)
   }
 
-  escapeHTML(text) {
+  private escapeHTML(text: string): string {
     return text.replace(
       /[&<>'"]/g,
       tag =>
-        ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          "'": '&#39;',
-          '"': '&quot;',
-        }[tag])
+        (
+          {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;',
+          } as Record<string, string>
+        )[tag] ?? tag
     )
   }
 
-  enableScrollingOnBody() {
+  private enableScrollingOnBody(): void {
     if (document.body.classList.contains('overflow-hidden')) {
       document.body.classList.remove('overflow-hidden')
     }
   }
 
-  disableScrollingonBody() {
-    const configs = this.getConfigs()
-
-    const { freezeScrollingOnBanner } = configs || {}
+  private disableScrollingOnBody(): void {
+    const { freezeScrollingOnBanner } = this.getConfigs()
 
     // Disable scrolling only if freezeScrollingOnBanner is set to true
     if (freezeScrollingOnBanner) {
@@ -921,35 +885,33 @@ class cookieConsentManager {
   // | VERSION                             |
   // +-------------------------------------+
 
-  getVersionFromLocalStorage() {
+  getVersionFromLocalStorage(): string | null {
     const currentVersionName = this.getVersionName()
 
     return localStorage.getItem(currentVersionName)
   }
 
-  verifyVersionFromLocalStorage() {
+  verifyVersionFromLocalStorage(): boolean {
     const currentVersion = this.getVersion()
-    const versionName = this.getVersionFromLocalStorage()
+    const storedVersion = this.getVersionFromLocalStorage()
 
     // we convert to Number just in case
-    return Number(versionName) === Number(currentVersion)
+    return Number(storedVersion) === Number(currentVersion)
   }
 
-  setVersion() {
+  setVersion(): void {
     // Set the version number
     const versionName = this.getVersionName()
     const versionNumber = this.getVersion()
-    localStorage.setItem(versionName, versionNumber)
+    localStorage.setItem(versionName, String(versionNumber))
   }
 
   // +-------------------------------------+
   // | COOKIE CONSENT EVENT NAMES          |
   // +-------------------------------------+
 
-  getCookieConsentAcceptEventName() {
-    const configs = this.getConfigs()
-
-    const { cookieConsentAcceptEventName } = configs || {}
+  getCookieConsentAcceptEventName(): string {
+    const { cookieConsentAcceptEventName } = this.getConfigs()
 
     if (!cookieConsentAcceptEventName) {
       console.warn('cookieConsentAcceptEventName in getCookieConsentAcceptEventName is empty')
@@ -958,10 +920,8 @@ class cookieConsentManager {
     return cookieConsentAcceptEventName
   }
 
-  getCookieConsentRejectEventName() {
-    const configs = this.getConfigs()
-
-    const { cookieConsentRejectEventName } = configs || {}
+  getCookieConsentRejectEventName(): string {
+    const { cookieConsentRejectEventName } = this.getConfigs()
 
     if (!cookieConsentRejectEventName) {
       console.warn('cookieConsentRejectEventName in getCookieConsentRejectEventName is empty')
@@ -970,10 +930,8 @@ class cookieConsentManager {
     return cookieConsentRejectEventName
   }
 
-  fireCookieConsentUpdateEvent() {
-    const configs = this.getConfigs()
-
-    const { cookieConsentUpdateEventName } = configs || {}
+  fireCookieConsentUpdateEvent(): void {
+    const { cookieConsentUpdateEventName } = this.getConfigs()
 
     if (!cookieConsentUpdateEventName) {
       console.warn('cookieConsentUpdateEventName in fireCookieConsentUpdateEvent is empty. No event pushed to dataLayer')
@@ -983,7 +941,7 @@ class cookieConsentManager {
     this.pushToDataLayer({ event: cookieConsentUpdateEventName })
   }
 
-  fireCookieConsentIndividualEvents() {
+  fireCookieConsentIndividualEvents(): void {
     // we need the prefix so that we concatenate it with the id so we look for it in the localStorage
     const prefix = this.getConsentTypePrefix()
 
@@ -1000,7 +958,7 @@ class cookieConsentManager {
       const eventName = localStorage.getItem(localStorageName) === positiveValue ? cookieConsentAcceptEventName : cookieConsentRejectEventName
 
       this.pushToDataLayer({
-        event: eventName + '_' + type?.id,
+        event: `${eventName}_${type.id}`,
       })
     })
   }
@@ -1009,7 +967,7 @@ class cookieConsentManager {
   // | Update GTAG Consent                 |
   // +-------------------------------------+
 
-  setConsent_default() {
+  setConsent_default(): void {
     this.gtag('consent', 'default', {
       functionality_storage: 'granted',
       security_storage: 'granted',
@@ -1018,10 +976,10 @@ class cookieConsentManager {
       ad_user_data: 'denied',
       ad_personalization: 'denied',
       personalization_storage: 'denied',
-    })
+    } satisfies GtagConsentPayload)
   }
 
-  updateConsent_allGranted() {
+  updateConsent_allGranted(): void {
     // Update consent to all granted
     this.gtag('consent', 'update', {
       ad_personalization: 'granted',
@@ -1031,11 +989,11 @@ class cookieConsentManager {
       functionality_storage: 'granted',
       personalization_storage: 'granted',
       security_storage: 'granted',
-    })
+    } satisfies GtagConsentPayload)
   }
 
-  updateConsent_allDenied() {
-    // Update consent to all granted
+  updateConsent_allDenied(): void {
+    // Update consent to all denied
     this.gtag('consent', 'update', {
       ad_personalization: 'denied',
       ad_storage: 'denied',
@@ -1044,17 +1002,17 @@ class cookieConsentManager {
       functionality_storage: 'granted', // they do not need permission, they can always stay on
       personalization_storage: 'denied',
       security_storage: 'granted', // they do not need permission, they can always stay on
-    })
+    } satisfies GtagConsentPayload)
   }
 
-  updateConsent_fromLocalStorage() {
+  updateConsent_fromLocalStorage(): void {
     // we need the prefix so that we concatenate it with the id so we look for it in the localStorage
     const prefix = this.getConsentTypePrefix()
 
     const consentTypes = this.getEnabledConsentTypes()
 
     // we are going to use this for all the permissions passed into the gtag function
-    const object = {}
+    const payload: GtagConsentPayload = {}
 
     // look inside the localStorage items to see if the item matches the permission types or not
     // if they match AND it's set to positive_value, then we set it as 'granted'. if not, 'denied'
@@ -1062,37 +1020,38 @@ class cookieConsentManager {
     const positiveValue = this.getPositiveValue()
     consentTypes.forEach(type => {
       const localStorageName = prefix + type.id
+      const isGranted = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
 
       switch (type.permissionType) {
         case 'ad':
-          object.ad_personalization = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
-          object.ad_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
-          object.ad_user_data = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          payload.ad_personalization = isGranted
+          payload.ad_storage = isGranted
+          payload.ad_user_data = isGranted
           break
         case 'analytics':
-          object.analytics_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          payload.analytics_storage = isGranted
           break
         case 'functionality':
-          object.functionality_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          payload.functionality_storage = isGranted
           break
         case 'personalization':
-          object.personalization_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          payload.personalization_storage = isGranted
           break
         case 'security':
-          object.security_storage = localStorage.getItem(localStorageName) === positiveValue ? 'granted' : 'denied'
+          payload.security_storage = isGranted
           break
       }
     })
 
     // Update consent based on the consents in localStorage
-    this.gtag('consent', 'update', object)
+    this.gtag('consent', 'update', payload)
   }
 
   // +-------------------------------------+
   // | BUTTON CLICK HANDLERS               |
   // +-------------------------------------+
 
-  handleAcceptAllButtonClick() {
+  handleAcceptAllButtonClick(): void {
     try {
       this.setConsent_acceptAll()
 
@@ -1124,7 +1083,7 @@ class cookieConsentManager {
     }
   }
 
-  handleRejectAllButtonClick() {
+  handleRejectAllButtonClick(): void {
     try {
       this.setConsent_rejectAll()
 
@@ -1156,7 +1115,7 @@ class cookieConsentManager {
     }
   }
 
-  handleSaveButtonClick() {
+  handleSaveButtonClick(): void {
     try {
       this.setConsent_saveCustomized()
 
@@ -1185,7 +1144,7 @@ class cookieConsentManager {
     }
   }
 
-  handleCustomizeButtonClick() {
+  handleCustomizeButtonClick(): void {
     try {
       // remove cookieBanner from DOM and reset it to null
       if (this.banner) {

@@ -1,23 +1,56 @@
 {
   "name": "bootstrap-cookie-consent-manager",
-  "version": "1.0.0",
-  "description": "A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built using **Bootstrap CSS**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.",
-  "main": "firing.js",
+  "version": "3.0.0",
+  "description": "A lightweight, fully customizable, and user-friendly Cookie Consent Manager built with Bootstrap 5 and TypeScript. Free and privacy-first, with full type definitions included.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/index.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "minify": "minify assets/js/cookieConsentManager.js > assets/js/cookieConsentManager.min.js"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager.git"
   },
-  "keywords": [],
+  "keywords": [
+    "cookie-consent",
+    "cookie-consent-manager",
+    "gdpr",
+    "ccpa",
+    "bootstrap",
+    "bootstrap5",
+    "google-consent-mode",
+    "gtm",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager/issues"
   },
   "homepage": "https://github.com/ashkan-ahmadi/bootstrap-cookie-consent-manager#readme",
+  "peerDependencies": {
+    "bootstrap": "^5.3.0"
+  },
   "devDependencies": {
-    "minify": "^14.0.0"
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
   }
 }

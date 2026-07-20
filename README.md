@@ -1,8 +1,8 @@
 # Bootstrap Cookie Consent Manager
 
-A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built using **Bootstrap CSS**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.
+A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** built with **Bootstrap 5** and **TypeScript**. This tool helps you easily manage cookie preferences on your website—**completely free and privacy-first**.
 
-👉 This is 100% hand-coded by me. There is **no AI involved** whatsoever. 👈
+👉 This is 100% hand-coded by me (rewritten in TypeScript with an AI pair). There is **no AI slop involved**. 👈
 
 ## In action
 
@@ -12,15 +12,18 @@ A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** 
 
 ## Features
 
+- Written in **TypeScript** with full type definitions (`.d.ts`) included — great autocomplete and compile-time safety for your configuration and consent types
+- Ships as ESM, CommonJS, and a browser-ready global (IIFE) bundle, so it works with npm/bundlers **or** a plain `<script>` tag
 - Easy to integrate with any website using Bootstrap
 - Fully responsive and mobile-friendly
 - Customizable design and text to match your brand
 - Fully whitelabel (no logo or credit anywhere)
 - Open source. Clone, fork, modify as you please
-- Zero dependency usable with vanilla JS, React, or any other framework
+- Zero runtime dependencies (Bootstrap JS is a peer dependency) — usable with vanilla JS, React, or any other framework
 - Enables user consent management for essential, analytics, and marketing cookies
 - Saves preferences in localStorage (no server needed)
 - Compliant with GDPR/CCPA principles
+- Integrates with Google Consent Mode v2 / Google Tag Manager out of the box
 
 ---
 
@@ -28,34 +31,63 @@ A lightweight, fully customizable, and user-friendly **Cookie Consent Manager** 
 
 IMPORTANT: Since this library takes advantage of Bootstrap's built-in classes and functions, you need to make sure you load Bootstrap's JS file first.
 
-### 1. Load the script
+### 1. Install (or download)
 
-You first need to load the script in the `<head>` element **before loading Google Tag Manager (GTM)**.
+If your project uses npm/a bundler (recommended, gives you full TypeScript types):
 
-```html
-<script src="path/to/cookieConsentManager.min.js"></script>
+```bash
+npm install bootstrap-cookie-consent-manager bootstrap
 ```
 
-### 2. Configure
+If you don't use a bundler, you can instead drop in the pre-built browser bundle from this repo's `dist/index.global.js` (or a CDN like unpkg/jsDelivr once published) via a plain `<script>` tag — see the "Plain `<script>` tag (no bundler)" example below.
 
-Then, you need to pass your consent types and configuration into the script (see sections below). This needs load AFTER the script above Example:
+### 2. Configure and initialize
+
+**With a bundler (ESM/TypeScript):**
+
+```ts
+import { CookieConsentManager } from 'bootstrap-cookie-consent-manager'
+import type { ConsentType, CookieConsentManagerConfigs } from 'bootstrap-cookie-consent-manager'
+
+const cookieConfigs: CookieConsentManagerConfigs = {
+  // all customization goes here - see Customization Parameters
+}
+
+const cookieConsents: ConsentType[] = [
+  // all consent types go here - see Consent Types
+]
+
+const cookieConsent = new CookieConsentManager(cookieConsents, cookieConfigs)
+
+cookieConsent.init()
+```
+
+**Plain `<script>` tag (no bundler):**
+
+The browser bundle exposes everything under the `BootstrapCookieConsentManager` global.
 
 ```html
-<script type="module">
-  // Ensure cookieConsentManager is defined and it's a class
-  if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
-    const cookieConfigs = {
-      // all customization goes here - see Customization Parameters
-    }
+<!-- 1. Load Bootstrap JS first -->
+<script src="path/to/bootstrap.bundle.min.js"></script>
 
-    const cookieConsents = [
-      // all consent types go here - see Consent Types
-    ]
+<!-- 2. Load the Cookie Consent Manager global bundle -->
+<script src="path/to/dist/index.global.js"></script>
 
-    const cookieConsent = new cookieConsentManager(cookieConsents, cookieConfigs)
+<!-- 3. Configure and initialize (load before GTM) -->
+<script>
+  const { CookieConsentManager } = BootstrapCookieConsentManager
 
-    cookieConsent.init()
+  const cookieConfigs = {
+    // all customization goes here - see Customization Parameters
   }
+
+  const cookieConsents = [
+    // all consent types go here - see Consent Types
+  ]
+
+  const cookieConsent = new CookieConsentManager(cookieConsents, cookieConfigs)
+
+  cookieConsent.init()
 </script>
 ```
 
@@ -84,26 +116,25 @@ Load GTM (don't forget to replace `YOUR_GTM_IDENTIFIER_HERE` with your GTM ident
   <script src="path/to/bootstrap-bundle.min.js"></script>
 
   <!-- 2. Then load the Bootstrap Cookie Consent Manager library -->
-  <script src="path/to/cookieConsentManager.min.js"></script>
+  <script src="path/to/dist/index.global.js"></script>
 
-  <!-- 3. Run the scrpipt to customize and initialize the library -->
+  <!-- 3. Run the script to customize and initialize the library -->
   <script>
-    // Ensure cookieConsentManager is defined and it's a class
-    if (typeof cookieConsentManager !== 'undefined' && typeof cookieConsentManager === 'function') {
-      const cookieConfigs = {
-        rejectAllButtonText: 'Reject non-essentials',
-        rejectAllButtonAccessibleText: 'Reject non-essentials cookies',
-        // all customization goes here - see Customization Parameters
-      }
+    const { CookieConsentManager } = BootstrapCookieConsentManager
 
-      const cookieConsents = [
-        // all consent types go here - see Consent Types
-      ]
-
-      const cookieConsent = new cookieConsentManager(cookieConsents, cookieConfigs)
-
-      cookieConsent.init()
+    const cookieConfigs = {
+      rejectAllButtonText: 'Reject non-essentials',
+      rejectAllButtonAccessibleText: 'Reject non-essentials cookies',
+      // all customization goes here - see Customization Parameters
     }
+
+    const cookieConsents = [
+      // all consent types go here - see Consent Types
+    ]
+
+    const cookieConsent = new CookieConsentManager(cookieConsents, cookieConfigs)
+
+    cookieConsent.init()
   </script>
 
   <!-- 4. Load Google Tag Manager -->
@@ -216,6 +247,20 @@ Has to match one of these:
 | `functionality`   | any essential tag which is crucial to the performance and functionality of the platform | no                        | `functionality_storage`                                | language selector or privacy settings                    |
 | `personalization` | any script that relies on the user's browsing history or previous behavior              | yes                       | `personalization_storage`                              | Recommended Products based on Previous Visit             |
 | `security`        | any anti-fraud security-related script                                                  | no                        | `security_storage`                                     | CloudFlare                                               |
+
+## Development
+
+The library is written in TypeScript under `src/` and built with [tsup](https://tsup.egoist.dev/).
+
+```bash
+npm install       # install dependencies
+npm run build     # type-check + build ESM (dist/index.js), CJS (dist/index.cjs),
+                   # a browser global (dist/index.global.js), and .d.ts declarations
+npm run dev        # rebuild on file changes
+npm run typecheck # run `tsc --noEmit` only
+```
+
+To try the demo locally, run `npm run build` and then open `index.html` with any static file server (e.g. `npx http-server .`) — it imports the library straight from `./dist`.
 
 ## Support
 
