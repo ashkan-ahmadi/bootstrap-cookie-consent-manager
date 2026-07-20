@@ -107,6 +107,12 @@ export interface CookieConsentManagerConfigs {
   staticBackground?: boolean
   /** Show the "X" close button on the modal header. */
   showCloseButtonOnModal?: boolean
+  /** CSS class(es) applied to the modal footer's "Accept all" button. @defaultValue `'btn btn-outline-primary me-sm-2'` */
+  modalAcceptAllButtonClass?: string
+  /** CSS class(es) applied to the modal footer's "Reject all" button. @defaultValue `'btn btn-outline-primary me-sm-2'` */
+  modalRejectAllButtonClass?: string
+  /** CSS class(es) applied to the modal footer's "Save" button. @defaultValue `'btn btn-primary'` */
+  modalSaveButtonClass?: string
 
   /** @remarks Not implemented yet. Consents are always stored in `localStorage` regardless of this value. */
   useLocalStorage?: boolean
@@ -114,10 +120,16 @@ export interface CookieConsentManagerConfigs {
   // Content
   acceptAllButtonText?: string
   acceptAllButtonAccessibleText?: string
+  /** CSS class(es) applied to the banner's "Accept all" button. @defaultValue `'btn btn-primary'` */
+  acceptAllButtonClass?: string
   rejectAllButtonText?: string
   rejectAllButtonAccessibleText?: string
+  /** CSS class(es) applied to the banner's "Reject all" button. @defaultValue `'btn btn-outline-primary'` */
+  rejectAllButtonClass?: string
   customizeButtonText?: string
   customizeButtonAccessibleText?: string
+  /** CSS class(es) applied to the banner's "Customize" button. @defaultValue `'btn btn-outline-primary'` */
+  customizeButtonClass?: string
   saveButtonText?: string
   saveButtonAccessibleText?: string
 

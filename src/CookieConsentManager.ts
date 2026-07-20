@@ -24,16 +24,22 @@ const DEFAULT_CONFIGS: ResolvedCookieConsentManagerConfigs = {
   animation: true,
   staticBackground: true,
   showCloseButtonOnModal: false,
+  modalAcceptAllButtonClass: 'btn btn-outline-primary me-sm-2',
+  modalRejectAllButtonClass: 'btn btn-outline-primary me-sm-2',
+  modalSaveButtonClass: 'btn btn-primary',
 
   useLocalStorage: true,
 
   // Content
   acceptAllButtonText: 'Accept all',
   acceptAllButtonAccessibleText: 'Accept all cookies',
+  acceptAllButtonClass: 'btn btn-primary',
   rejectAllButtonText: 'Reject all',
   rejectAllButtonAccessibleText: 'Reject all cookies',
+  rejectAllButtonClass: 'btn btn-outline-primary',
   customizeButtonText: 'Customize',
   customizeButtonAccessibleText: 'Customize cookies',
+  customizeButtonClass: 'btn btn-outline-primary',
   saveButtonText: 'Save',
   saveButtonAccessibleText: 'Save preferences',
 
@@ -492,7 +498,7 @@ export class CookieConsentManager {
   // +-------------------------------------+
 
   private createBannerHTML(): HTMLElement {
-    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, customizeButtonText, customizeButtonAccessibleText, showRejectAllButtonOnBanner } = this.getConfigs()
+    const { bannerTitle, bannerText, acceptAllButtonText, acceptAllButtonAccessibleText, acceptAllButtonClass, rejectAllButtonText, rejectAllButtonAccessibleText, rejectAllButtonClass, customizeButtonText, customizeButtonAccessibleText, customizeButtonClass, showRejectAllButtonOnBanner } = this.getConfigs()
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
@@ -520,7 +526,7 @@ export class CookieConsentManager {
             <div class="row xxl-block flex-column g-1">
               <button 
                 type="button" 
-                class="btn btn-primary" 
+                class="${acceptAllButtonClass}" 
                 data-cookie-button-function="accept-all-cookies" 
                 ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
                 >
@@ -531,7 +537,7 @@ export class CookieConsentManager {
                   ? `
                 <button 
                   type="button" 
-                  class="btn btn-outline-primary" 
+                  class="${rejectAllButtonClass}" 
                   data-cookie-button-function="reject-all-cookies" 
                   ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
                   >
@@ -542,7 +548,7 @@ export class CookieConsentManager {
               }
               <button 
                 type="button" 
-                class="btn btn-outline-primary" 
+                class="${customizeButtonClass}" 
                 data-cookie-button-function="customize-cookies" 
                 ${useAccessibleText_customize ? `aria-label="${customizeButtonAccessibleText}"` : ''}
                 >
@@ -596,7 +602,7 @@ export class CookieConsentManager {
 
     const enabledConsentTypes = this.getEnabledConsentTypes()
 
-    const { modalId, modalTitle, centered, scrollable, animation, staticBackground, showCloseButtonOnModal, acceptAllButtonText, acceptAllButtonAccessibleText, rejectAllButtonText, rejectAllButtonAccessibleText, saveButtonText, saveButtonAccessibleText } = this.getConfigs()
+    const { modalId, modalTitle, centered, scrollable, animation, staticBackground, showCloseButtonOnModal, acceptAllButtonText, acceptAllButtonAccessibleText, modalAcceptAllButtonClass, rejectAllButtonText, rejectAllButtonAccessibleText, modalRejectAllButtonClass, saveButtonText, saveButtonAccessibleText, modalSaveButtonClass } = this.getConfigs()
 
     const useAccessibleText_acceptAll = acceptAllButtonText !== acceptAllButtonAccessibleText
     const useAccessibleText_rejectAll = rejectAllButtonText !== rejectAllButtonAccessibleText
@@ -663,7 +669,7 @@ export class CookieConsentManager {
               <div class="d-grid gap-2 col-12 mx-auto d-sm-block text-sm-end">
                 <button
                   type="button" 
-                  class="btn btn-outline-primary me-sm-2" 
+                  class="${modalAcceptAllButtonClass}" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="accept-all-cookies"
                   ${useAccessibleText_acceptAll ? `aria-label="${acceptAllButtonAccessibleText}"` : ''}
@@ -673,7 +679,7 @@ export class CookieConsentManager {
 
                 <button
                   type="button" 
-                  class="btn btn-outline-primary me-sm-2" 
+                  class="${modalRejectAllButtonClass}" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="reject-all-cookies"
                   ${useAccessibleText_rejectAll ? `aria-label="${rejectAllButtonAccessibleText}"` : ''}
@@ -683,7 +689,7 @@ export class CookieConsentManager {
                 
                 <button
                   type="button" 
-                  class="btn btn-primary" 
+                  class="${modalSaveButtonClass}" 
                   data-bs-dismiss="modal" 
                   data-cookie-button-function="save-cookies"
                   ${useAccessibleText_save ? `aria-label="${saveButtonAccessibleText}"` : ''}
@@ -855,13 +861,13 @@ export class CookieConsentManager {
       /[&<>'"]/g,
       tag =>
         (
-          {
+          ({
             '&': '&amp;',
             '<': '&lt;',
             '>': '&gt;',
             "'": '&#39;',
             '"': '&quot;',
-          } as Record<string, string>
+          }) as Record<string, string>
         )[tag] ?? tag
     )
   }

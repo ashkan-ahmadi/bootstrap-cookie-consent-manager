@@ -31,6 +31,12 @@ const configs = {
   customizeButtonAccessibleText: 'Customize cookies', // string
   saveButtonText: 'Save', // string
   saveButtonAccessibleText: 'Save cookies', // string
+  acceptAllButtonClass: 'btn btn-primary',
+  rejectAllButtonClass: 'btn btn-primary',
+  customizeButtonClass: 'btn btn-outline-dark',
+  modalAcceptAllButtonClass: 'btn btn-outline-dark',
+  modalRejectAllButtonClass: 'btn btn-outline-dark',
+  modalSaveButtonClass: 'btn btn-primary',
 
   // useLocalStorage: true, // true(default)|false
 
