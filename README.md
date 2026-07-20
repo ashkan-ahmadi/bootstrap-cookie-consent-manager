@@ -254,6 +254,30 @@ Has to match one of these:
 | `personalization` | any script that relies on the user's browsing history or previous behavior              | yes                       | `personalization_storage`                              | Recommended Products based on Previous Visit             |
 | `security`        | any anti-fraud security-related script                                                  | no                        | `security_storage`                                     | CloudFlare                                               |
 
+## Changelog
+
+### 2.3
+
+2026-07-20
+
+- Add `acceptAllButtonClass`, `rejectAllButtonClass`, and `customizeButtonClass` config options to override the CSS classes of the banner's "Accept all", "Reject all", and "Customize" buttons (defaults unchanged: `btn btn-primary` / `btn btn-outline-primary` / `btn btn-outline-primary`)
+- Add `modalAcceptAllButtonClass`, `modalRejectAllButtonClass`, and `modalSaveButtonClass` config options to override the CSS classes of the modal's "Accept all", "Reject all", and "Save" buttons (defaults unchanged: `btn btn-outline-primary me-sm-2` / `btn btn-outline-primary me-sm-2` / `btn btn-primary`)
+
+### 2.2
+
+2026-07-19
+
+- Rewrote the library from vanilla JavaScript to TypeScript, with full type definitions for `ConsentType`, `CookieConsentManagerConfigs`, and related types
+- Now built and shipped as ESM (`dist/index.js`), CommonJS (`dist/index.cjs`), and a browser-ready global bundle (`dist/index.global.js`), plus `.d.ts` declarations, so the library can be `npm install`ed or dropped in via a plain `<script>` tag
+- Renamed the exported class from `cookieConsentManager` to `CookieConsentManager` (PascalCase); all method names and config keys are unchanged
+- Fixed a bug where the customization modal's HTML was built but never attached to the DOM, so clicking "Customize" would silently fail to show the modal
+
+## 2.1
+
+2025-06-07
+
+- Modify `toastAutohide` to have default value of `true`
+
 ## Development
 
 The library is written in TypeScript under `src/` and built with [tsup](https://tsup.egoist.dev/).
