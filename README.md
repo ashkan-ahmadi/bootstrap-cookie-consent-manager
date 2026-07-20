@@ -272,7 +272,7 @@ Has to match one of these:
 - Renamed the exported class from `cookieConsentManager` to `CookieConsentManager` (PascalCase); all method names and config keys are unchanged
 - Fixed a bug where the customization modal's HTML was built but never attached to the DOM, so clicking "Customize" would silently fail to show the modal
 
-## 2.1
+### 2.1
 
 2025-06-07
 
